@@ -1,0 +1,16 @@
+upload form => 
+1. unique id
+2. mp3 file
+3. password confirmation
+
+
+fine-tuning replace search engine
+
+
+main features ==>>
+1. music, playlist, artists and spotify like system
+2. live streaming and recorded videos
+3. forming groups and chats including personal and group chats
+4. create and upload music
+5. reach graphs and liking all over the world
+6. AI chat bot to teach music and google search for yt videos

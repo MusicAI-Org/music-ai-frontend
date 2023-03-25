@@ -1,0 +1,103 @@
+html {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #16c299;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar {
+  /* display: none; */
+}
+::-webkit-scrollbar-corner {
+  background-color: grey;
+}
+
+/* glassmorphic button styles */
+.glassmorphic-button {
+  backdrop-filter: blur(3px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  background-color: rgba(17, 25, 40, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.125);
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 8vh;
+}
+
+/* music create button */
+
+/* $green: #a2ccb6
+$light-peach: #ffecd9
+$peach: #ee786e
+$sand: #fceeb5
+$white: #fff */
+
+.musicButton {
+  /* -webkit-appearance: none; */
+  /* background: -webkit-gradient(to right, #a2ccb6 0%, #fceeb5 50%, #ffecd9 100%); */
+  background: linear-gradient(to right, #a2ccb6 0%, #fceeb5 50%, #ffecd9 100%);
+  background-size: 500%;
+  border: none;
+  border-radius: 5rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  color: #fff;
+  cursor: pointer;
+  font: 1em Raleway, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  height: 40px;
+  letter-spacing: 0.05em;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 10rem;
+}
+
+/* .musicButton:hover {
+  animation-name: gradient;
+  -webkit-animation-name: gradient;
+  animation-duration: 2s;
+  -webkit-animation-duration: s;
+  animation-iteration-count: 1;
+  -webkit-animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  -webkit-animation-fill-mode: forwards;
+} */
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  100% {
+    background-position: 100%;
+  }
+}
