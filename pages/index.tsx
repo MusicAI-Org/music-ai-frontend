@@ -11,7 +11,7 @@ import {
 import Header from "../components/utils/Header";
 import Start from "./start";
 import Helmet from "../components/utils/Helmet";
-import MusicBar from "../components/Page-Components/Global/components/MusicBar";
+// import MusicBar from "../components/Page-Components/Global/components/MusicBar";
 
 // import Start from "./start";
 /**
@@ -33,7 +33,7 @@ export default function Index(): JSX.Element {
           <Header />
         </HeaderContainer>
         <Container>
-          <MusicBar />
+          {/* <MusicBar /> */}
           <Helmet />
           <Start />
         </Container>

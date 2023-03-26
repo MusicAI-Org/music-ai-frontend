@@ -22,12 +22,15 @@ const EditDOB = () => {
       width="100%"
       color={theme.colors.white}
     >
-      <FormLabel color={theme.colors.gray}>DATE OF BIRTH</FormLabel>
+      <FormLabel color={theme.colors.ci}>DATE OF BIRTH</FormLabel>
       <Input
         placeholder="Select Date and Time"
         size="md"
         type="datetime-local"
         style={styles.input}
+        _placeholder={{
+          color: theme.colors.ciTrans15,
+        }}
       />
     </Flex>
   );

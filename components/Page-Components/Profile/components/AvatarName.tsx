@@ -16,7 +16,7 @@ const AvatarName = () => {
       position={"relative"}
       border="none"
     >
-      <Text fontSize="1.5rem" color={theme.colors.white}>
+      <Text fontSize="1.3rem" color={theme.colors.white}>
         Paarth#2608
       </Text>
       <Text fontSize="1rem" color={theme.colors.gray}>

@@ -3,7 +3,7 @@ import { Button, Divider, Flex, FormLabel, useTheme } from "@chakra-ui/react";
 import { StyledContainer } from "./styles/pageStyles";
 import AvatarImage from "./components/AvatarImage";
 import AvatarName from "./components/AvatarName";
-import EditProfile from "./components/EditProfile";
+import StableDiffusionInfo from "./components/StableDiffusionInfo";
 import EditName from "./components/Editables/EditName";
 import EditDOB from "./components/Editables/DobEdit";
 import EditPhoneNumber from "./components/Editables/PhoneNumberEdit";
@@ -11,6 +11,7 @@ import { ColorPicker } from "chakra-color-picker";
 import EditAddress from "./components/Editables/AddressEdit";
 import EditAvatarName from "./components/Editables/AvatarNameEdit";
 import EditGenre from "./components/Editables/GenreEdit";
+import GenerateProfilePic from "./components/Editables/GenerateProfilePic";
 // import {
 //   RecentlyPlayedAndMostPopularDiv,
 // } from "./styles/componentStyles";
@@ -56,7 +57,7 @@ const ProfilePage = () => {
           overflow="hidden"
         >
           {/* banner div */}
-          <Flex height={"20%"} width={"100%"} backgroundColor={bannerColor}>
+          <Flex height={"15%"} width={"100%"} backgroundColor={bannerColor}>
             <Flex justify="center" align="center" w="100%" h="100%">
               <ColorPicker onChange={colorChangeHandler} />
             </Flex>
@@ -64,7 +65,7 @@ const ProfilePage = () => {
           {/* main div */}
           <Flex
             flexDirection={"column"}
-            height={"80%"}
+            height={"100%"}
             width={"100%"}
             padding={theme.space[4]}
             background={theme.colors.bgBoxDarker}
@@ -95,12 +96,12 @@ const ProfilePage = () => {
                 alignItems={"flex-start"}
                 justifyContent={"flex-end"}
               >
-                <EditProfile />
+                <StableDiffusionInfo />
               </Flex>
             </Flex>
             {/* Info div*/}
             <Flex
-              height={"80%"}
+              height={"100%"}
               width={"100%"}
               flexDirection={"column"}
               alignItems="flex-start"
@@ -109,6 +110,7 @@ const ProfilePage = () => {
               background={theme.colors.bgBox}
               borderRadius={theme.borderRadius.md}
             >
+              <GenerateProfilePic />
               <EditName />
               <EditDOB />
               <EditPhoneNumber />

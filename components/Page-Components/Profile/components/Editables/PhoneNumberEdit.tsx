@@ -68,7 +68,7 @@ const EditPhoneNumber = () => {
       height="30%"
       width="100%"
     >
-      <FormLabel color={theme.colors.gray}>PHONE NUMBER</FormLabel>
+      <FormLabel color={theme.colors.ci}>PHONE NUMBER</FormLabel>
       <Editable
         textAlign="center"
         defaultValue="+91-99973*****"
@@ -103,6 +103,9 @@ const EditPhoneNumber = () => {
           }}
           type="tel"
           placeholder="Phone number"
+          _placeholder={{
+            color: theme.colors.ciTrans15,
+          }}
         />
 
         <EditableControls />

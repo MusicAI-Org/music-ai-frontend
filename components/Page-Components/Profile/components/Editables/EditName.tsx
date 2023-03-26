@@ -67,7 +67,7 @@ const EditName = () => {
       height="30%"
       width="100%"
     >
-      <FormLabel color={theme.colors.gray}>NAME</FormLabel>
+      <FormLabel color={theme.colors.ci}>NAME</FormLabel>
       <Editable
         textAlign="center"
         defaultValue="Paarth Jain"
@@ -98,6 +98,9 @@ const EditName = () => {
             height: "100%",
             width: "70%",
             fontSize: theme.fontSizes.sm,
+          }}
+          _placeholder={{
+            color: theme.colors.ciTrans15,
           }}
         />
         <EditableControls />

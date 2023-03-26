@@ -45,6 +45,7 @@ const AvatarImage = () => {
         backgroundSize="cover"
         backgroundRepeat="no-repeat"
         backgroundPosition="center"
+        cursor="pointer"
         {...props}
         ref={ref}
       />
@@ -61,6 +62,7 @@ const AvatarImage = () => {
       position={"relative"}
       border="none"
       transform={"translateY(-50%)"}
+      cursor="pointer"
     >
       <Avatar
         name="Paarth Jain"
