@@ -2,13 +2,28 @@ import React from "react";
 import { Flex, FormLabel, IconButton, Input } from "@chakra-ui/react";
 import { useTheme } from "@chakra-ui/react";
 import { AiOutlineArrowRight } from "react-icons/ai";
+import { stableDiffusionApi } from "../../../../../pages/api/stable-diffusion";
 
-const GenerateProfilePic = () => {
+const GenerateProfilePic = (props: any) => {
   const theme = useTheme();
   const [value, setValue] = React.useState("");
+  const [imageURL, setImageURL] = React.useState("");
+  // const initialRef = React.useRef<HTMLInputElement>(null);
+
   const handleChange = (event: {
     target: { value: React.SetStateAction<string> };
   }) => setValue(event.target.value);
+
+  const handleGenerate = async () => {
+    try {
+      const data = await stableDiffusionApi(value);
+      setImageURL(data.image);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  props.setProfilePic(imageURL);
 
   return (
     <Flex
@@ -52,6 +67,7 @@ const GenerateProfilePic = () => {
             color: theme.colors.gray,
             margin: `${theme.space[3]} 0`,
           }}
+          onClick={handleGenerate}
         />
       </Flex>
     </Flex>

@@ -4,6 +4,7 @@ import {
   Button,
   FormControl,
   FormLabel,
+  Image,
   Input,
   Modal,
   ModalBody,
@@ -16,21 +17,37 @@ import {
   useDisclosure,
   useTheme,
 } from "@chakra-ui/react";
-// import { FaPlay } from "react-icons/fa";
-// import Link from "next/link";
+import { stableDiffusionApi } from "../../../../pages/api/stable-diffusion";
 
 const StableDiffusionInfo = () => {
   const theme = useTheme();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const initialRef = React.useRef(null);
-  const finalRef = React.useRef(null);
+  const initialRef = React.useRef<HTMLInputElement | null>(null);
+  const finalRef = React.useRef<HTMLInputElement | null>(null);
   const style = {
     height: "5vh",
     width: "100%",
-    fontSize: theme.fontSizes.h3,
+    fontSize: theme.fontSizes.h4,
     background: theme.colors.transparent,
   };
+
+  const [imageURL, setImageURL] = React.useState(
+    "https://replicate.delivery/pbxt/dDcDXi1JnXoxOVa2L31PGYAVe9xRCLQcQAoAJeqO0lcSa6rQA/out-0.png"
+  );
+
+  const handleGenerate = async () => {
+    try {
+      const data = await stableDiffusionApi(
+        initialRef.current?.value ||
+          "an-astronaut-riding-a-horse-on-mars-artstation-hd-dramatic-lighting-detailed"
+      );
+      setImageURL(data.image);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <>
       <Button style={style} onClick={onOpen}>
@@ -69,14 +86,23 @@ const StableDiffusionInfo = () => {
             the image is done in a smooth and consistent manner. This means that
             the generated images will not change dramatically from one step to
             the next, and the process will not suddenly diverge or fail.
-            <br />
-            <br />
-            In other words, stable diffusion ensures that the generated images
-            are of high quality and realistic, without any sudden glitches or
-            unexpected changes. This is achieved by carefully controlling the
-            way that information is passed through the AI system, allowing it to
-            gradually build up a coherent image over time.
           </Text>
+          <ModalHeader
+            style={{
+              color: theme.colors.ci,
+              fontSize: theme.fontSizes.h1,
+            }}
+          >
+            Preview Image
+          </ModalHeader>
+          <Image
+            src={imageURL}
+            style={{
+              borderRadius: theme.borderRadius.md,
+              width: "100%",
+              height: "50vh",
+            }}
+          />
           <ModalHeader
             style={{
               color: theme.colors.ci,
@@ -104,6 +130,7 @@ const StableDiffusionInfo = () => {
               </FormLabel>
               <Input
                 ref={initialRef}
+                // value={init}
                 placeholder="eg.an astronaut riding a dog on mars artstation hd dramatic lighting detailed"
                 _placeholder={{
                   color: theme.colors.ciTrans15,
@@ -134,6 +161,7 @@ const StableDiffusionInfo = () => {
               style={{
                 marginRight: theme.space[3],
               }}
+              onClick={handleGenerate}
             >
               Generate
             </Button>

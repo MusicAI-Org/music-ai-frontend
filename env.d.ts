@@ -6,5 +6,6 @@ declare namespace NodeJS {
     NEXT_PUBLIC_AUTH0_CLIENT_ID: string;
     NEXT_PUBLIC_AUTH0_AUDIENCE: string;
     NEXT_PUBLIC_SERVER_URL: string;
+    STABLE_DIFFUSION_API: string;
   }
 }

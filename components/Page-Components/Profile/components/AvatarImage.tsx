@@ -11,14 +11,16 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 
-const AvatarImage = () => {
+const AvatarImage = (props: any) => {
   const theme = useTheme();
   const style = {
     backgroundColor: theme.colors.ci,
     borderRadius: theme.borderRadius.half,
   };
 
-  const [bgImg, setBgImg] = useState("https://bit.ly/broken-link");
+  const [bgImg, setBgImg] = useState(
+    "https://replicate.delivery/pbxt/dDcDXi1JnXoxOVa2L31PGYAVe9xRCLQcQAoAJeqO0lcSa6rQA/out-0.png"
+  );
 
   const bgImgHandler = (e: any) => {
     const file = e.target.files?.[0];
@@ -30,21 +32,22 @@ const AvatarImage = () => {
       reader.readAsDataURL(file);
     }
   };
+
   const PreviewImage = forwardRef<BoxProps, typeof Box>((props, ref) => {
     return (
       <Box
-        bg="white"
         top="0"
-        height="100%"
-        width="100%"
-        position="absolute"
-        borderWidth="1px"
-        borderStyle="solid"
+        bg="white"
         rounded="sm"
+        width="100%"
+        height="100%"
+        borderWidth="1px"
+        position="absolute"
+        borderStyle="solid"
         borderColor="gray.400"
         backgroundSize="cover"
-        backgroundRepeat="no-repeat"
         backgroundPosition="center"
+        backgroundRepeat="no-repeat"
         cursor="pointer"
         {...props}
         ref={ref}
@@ -74,7 +77,10 @@ const AvatarImage = () => {
           cursor: "pointer",
         }}
       >
-        <PreviewImage style={style} backgroundImage={bgImg} />
+        <PreviewImage
+          style={style}
+          backgroundImage={props.profilePic == "" ? bgImg : props.profilePic}
+        />
         <Input
           type="file"
           position="absolute"

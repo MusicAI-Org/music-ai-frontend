@@ -30,6 +30,7 @@ import GenerateProfilePic from "./components/Editables/GenerateProfilePic";
 const ProfilePage = () => {
   const theme = useTheme();
   const [bannerColor, setBannerColor] = useState(theme.colors.ci);
+  const [profilePicDiffusion, setProfilePicDiffusion] = useState("");
 
   const colorChangeHandler = (val: any) => {
     setBannerColor(val);
@@ -85,7 +86,8 @@ const ProfilePage = () => {
                 justifyContent="space-between"
               >
                 {/* Image div */}
-                <AvatarImage />
+                <AvatarImage profilePic={profilePicDiffusion} />
+
                 {/* Name div */}
                 <AvatarName />
               </Flex>
@@ -110,7 +112,7 @@ const ProfilePage = () => {
               background={theme.colors.bgBox}
               borderRadius={theme.borderRadius.md}
             >
-              <GenerateProfilePic />
+              <GenerateProfilePic setProfilePic={setProfilePicDiffusion} />
               <EditName />
               <EditDOB />
               <EditPhoneNumber />
