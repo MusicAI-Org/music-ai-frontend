@@ -63,22 +63,23 @@ export const Credentials = styled.div`
   justify-content: center;
 `;
 export const CredentialsContainer = styled.div`
-  height: 75vh;
-  width: 65vw;
+  height: 100vh;
+  width: 100%;
   display: flex;
+  // flex-direction: column;
   align-items: center;
   justify-content: center;
-  border-radius: ${({ theme }) => theme.borderRadius.lg};
-  background-color: rgba(255, 255, 255, 0.09);
-  border: 2px solid ${({ theme }) => theme.color.ci};
 `;
 
-export const ImageCarousal = styled.div`
-  height: 100%;
-  width: 45%;
-  background-color: ${({ theme }) => theme.color.bgBox};
+export const LoginSignupContainer = styled.div`
+  height: 50vh;
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  align-items: space-evenly;
+  justify-content: space-evenly;
 `;
-export const LoginContainer = styled.div`
+export const ImageCarousal = styled.div`
   height: 100%;
   width: 55%;
   background-color: ${({ theme }) => theme.color.dangerBg};

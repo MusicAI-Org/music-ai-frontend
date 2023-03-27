@@ -2,7 +2,7 @@ import React from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Button, useTheme } from "@chakra-ui/react";
 
-const LoginButton = () => {
+const SignUpButton = () => {
   const theme = useTheme();
   const { loginWithRedirect } = useAuth0();
 
@@ -18,9 +18,9 @@ const LoginButton = () => {
       }}
       onClick={() => loginWithRedirect()}
     >
-      Log In
+      Sign Up
     </Button>
   );
 };
 
-export default LoginButton;
+export default SignUpButton;
