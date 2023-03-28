@@ -1,5 +1,5 @@
 import React from "react";
-import { Flex, FormLabel, IconButton, Input } from "@chakra-ui/react";
+import { Flex, FormLabel, IconButton, Input, Spinner } from "@chakra-ui/react";
 import { useTheme } from "@chakra-ui/react";
 import { AiOutlineArrowRight } from "react-icons/ai";
 import { stableDiffusionApi } from "../../../../../pages/api/stable-diffusion";
@@ -8,18 +8,21 @@ const GenerateProfilePic = (props: any) => {
   const theme = useTheme();
   const [value, setValue] = React.useState("");
   const [imageURL, setImageURL] = React.useState("");
-  // const initialRef = React.useRef<HTMLInputElement>(null);
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const handleChange = (event: {
     target: { value: React.SetStateAction<string> };
   }) => setValue(event.target.value);
 
   const handleGenerate = async () => {
+    setIsLoading(true);
     try {
       const data = await stableDiffusionApi(value);
       setImageURL(data.image);
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -68,6 +71,16 @@ const GenerateProfilePic = (props: any) => {
             margin: `${theme.space[3]} 0`,
           }}
           onClick={handleGenerate}
+          isLoading={isLoading}
+          spinner={
+            <Spinner
+              thickness="2px"
+              speed="0.65s"
+              emptyColor={theme.colors.gray}
+              color={theme.colors.ci}
+              size="md"
+            />
+          }
         />
       </Flex>
     </Flex>

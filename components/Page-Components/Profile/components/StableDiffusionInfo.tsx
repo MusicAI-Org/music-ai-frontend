@@ -13,6 +13,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Spinner,
   Text,
   useDisclosure,
   useTheme,
@@ -22,6 +23,7 @@ import { stableDiffusionApi } from "../../../../pages/api/stable-diffusion";
 const StableDiffusionInfo = () => {
   const theme = useTheme();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const initialRef = React.useRef<HTMLInputElement | null>(null);
   const finalRef = React.useRef<HTMLInputElement | null>(null);
@@ -37,6 +39,7 @@ const StableDiffusionInfo = () => {
   );
 
   const handleGenerate = async () => {
+    setIsLoading(true);
     try {
       const data = await stableDiffusionApi(
         initialRef.current?.value ||
@@ -45,6 +48,8 @@ const StableDiffusionInfo = () => {
       setImageURL(data.image);
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -160,12 +165,22 @@ const StableDiffusionInfo = () => {
               colorScheme="blue"
               style={{
                 marginRight: theme.space[3],
+                background: "transparent",
               }}
               onClick={handleGenerate}
+              isLoading={isLoading}
+              spinner={
+                <Spinner
+                  thickness="2px"
+                  speed="0.65s"
+                  emptyColor={theme.colors.gray}
+                  color={theme.colors.ci}
+                  size="md"
+                />
+              }
             >
               Generate
             </Button>
-            <Button onClick={onClose}>Close</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

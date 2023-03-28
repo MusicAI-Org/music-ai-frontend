@@ -18,7 +18,6 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "sourceMap": true,
-    "strict": true,
     "target": "es2018",
     "incremental": true,
     "typeRoots": ["./node_modules/@types", "./components/types", "../@types"]
