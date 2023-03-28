@@ -17,7 +17,10 @@ const GenerateProfilePic = (props: any) => {
   const handleGenerate = async () => {
     setIsLoading(true);
     try {
-      const data = await stableDiffusionApi(value);
+      const data = await stableDiffusionApi(
+        value ||
+          "an-astronaut-riding-a-horse-on-mars-artstation-hd-dramatic-lighting-detailed"
+      );
       setImageURL(data.image);
     } catch (error) {
       console.error(error);
