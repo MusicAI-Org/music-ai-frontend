@@ -1,7 +1,8 @@
 import React from "react";
-import { Flex } from "@chakra-ui/react";
+import dynamic from "next/dynamic";
+import { Flex, useTheme } from "@chakra-ui/react";
 import { StyledContainer } from "../Profile/styles/pageStyles";
-// import Globe from "react-globe.gl";
+const Globe = dynamic(import("react-globe.gl"), { ssr: false });
 
 /**
  * Home Page of the Application
@@ -9,7 +10,7 @@ import { StyledContainer } from "../Profile/styles/pageStyles";
  */
 
 const CommunityPage = (): JSX.Element => {
-  // const theme = useTheme();
+  const theme = useTheme();
 
   return (
     <StyledContainer color="">
@@ -21,12 +22,12 @@ const CommunityPage = (): JSX.Element => {
         height={"100%"}
         overflow={"hidden"}
       >
-        {/* <Globe
+        <Globe
           globeImageUrl="//unpkg.com/three-globe/example/img/earth-night.jpg"
           showAtmosphere
           atmosphereAltitude={0.25}
           atmosphereColor={theme.colors.gray[500]}
-        /> */}
+        />
       </Flex>
     </StyledContainer>
   );

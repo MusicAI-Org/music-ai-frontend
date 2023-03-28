@@ -19,7 +19,7 @@ const AvatarImage = (props: any) => {
   };
 
   const [bgImg, setBgImg] = useState(
-    "https://replicate.delivery/pbxt/dDcDXi1JnXoxOVa2L31PGYAVe9xRCLQcQAoAJeqO0lcSa6rQA/out-0.png"
+    "https://res.cloudinary.com/dcogm6vx9/image/upload/v1680028333/default_issvjy.png"
   );
 
   const bgImgHandler = (e: any) => {
