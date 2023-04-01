@@ -19,10 +19,16 @@ import { MdGroup } from "react-icons/md";
  * @return {JSX.Element}
  */
 
-const CommunityGroupTile = (): JSX.Element => {
+const UserCommunity = ({
+  _id,
+  name,
+  members,
+  description,
+  imageUrl,
+  imageAlt,
+}: any): JSX.Element => {
   const theme = useTheme();
   const [show, setShow] = React.useState(false);
-
   const handleToggle = () => setShow(!show);
 
   const styles = {
@@ -72,15 +78,6 @@ const CommunityGroupTile = (): JSX.Element => {
       backgroundColor: theme.colors.transparent,
     },
   };
-  const property = {
-    groupName: "Group 1",
-    groupDescription:
-      "Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.",
-    imageUrl: "/playlistImgs/img1.jpg",
-    imageAlt: "Rear view of modern home with pool",
-    usersJoined: 34,
-    rating: 4,
-  };
 
   return (
     <Box
@@ -100,8 +97,8 @@ const CommunityGroupTile = (): JSX.Element => {
         justifyContent={"center"}
       >
         <Image
-          src={property.imageUrl}
-          alt={property.imageAlt}
+          src={imageUrl}
+          alt={imageAlt}
           height="150px"
           width="150px"
           borderRadius={"50%"}
@@ -112,7 +109,7 @@ const CommunityGroupTile = (): JSX.Element => {
         {/* name */}
         <Box display="flex" alignItems="center" justifyContent="space-between">
           <Badge variant="outline" style={styles.badgeStyles}>
-            {property.groupName}
+            {name}
           </Badge>
           {/* Joining btn */}
           <Flex
@@ -123,7 +120,7 @@ const CommunityGroupTile = (): JSX.Element => {
             padding={theme.space[3]}
           >
             <IoEyeSharp style={styles.lastIcons} />
-            <Text style={styles.text}>234</Text>
+            <Text style={styles.text}>{members}</Text>
           </Flex>
           <Flex style={styles.stars}>
             {4}
@@ -138,7 +135,7 @@ const CommunityGroupTile = (): JSX.Element => {
         >
           {/* description */}
           <Collapse startingHeight={20} in={show} style={styles.paragraph}>
-            {property.groupDescription}
+            {description}
           </Collapse>
           <Button
             size="sm"
@@ -156,13 +153,13 @@ const CommunityGroupTile = (): JSX.Element => {
       </Box>
       {/* button box */}
       <Flex>
-        <Link href={"/"}>
+        <Link href={`/community/${_id}`}>
           <Button rightIcon={<MdGroup />} style={styles.joinGroupBtn}>
-            Join Community
+            Enter
           </Button>
         </Link>
       </Flex>
     </Box>
   );
 };
-export default CommunityGroupTile;
+export default UserCommunity;

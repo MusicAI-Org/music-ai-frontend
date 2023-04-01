@@ -1,5 +1,6 @@
 import React from "react";
-import CommunityPage from "../../components/Page-Components/Friends/FriendsPage";
+import Head from "next/head";
+import { useRouter } from "next/router";
 import {
   Container,
   HeaderContainer,
@@ -7,17 +8,20 @@ import {
 } from "../../components/Page-Components/Global/styles/styles";
 import Header from "../../components/utils/Header";
 import Helmet from "../../components/utils/Helmet";
-import Head from "next/head";
+import CommunityPage from "../../components/Page-Components/Community/CommunityPage";
 
 /**
  * Home Page of the Application
  * @return {JSX.Element}
  */
-const Community = (): JSX.Element => {
+const MusicGroups = (): JSX.Element => {
+  const { query } = useRouter();
+  console.log(query.id);
   return (
     <>
       <Head>
-        <title>Friends</title>
+        {/* community name here */}
+        <title>Join Communities</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <PageContainer>
@@ -32,4 +36,4 @@ const Community = (): JSX.Element => {
     </>
   );
 };
-export default Community;
+export default MusicGroups;

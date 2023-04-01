@@ -21,7 +21,7 @@
     "target": "es2018",
     "incremental": true,
     "typeRoots": ["./node_modules/@types", "./components/types", "../@types"],
-    "strict": false
+    "strict": true
   },
   "include": ["next-env.d.ts", "env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]
