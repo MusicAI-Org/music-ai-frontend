@@ -1,7 +1,7 @@
 // eslint-disable-next-line require-jsdoc
 export async function createCommunity({ name, description, user, url }: any) {
   const response = await fetch(
-    `http://localhost:8000/api/community/features/create`,
+    `https://music-ai-backend.onrender.com/api/community/features/create`,
     {
       method: "POST",
       headers: {
@@ -22,7 +22,7 @@ export async function createCommunity({ name, description, user, url }: any) {
 // eslint-disable-next-line require-jsdoc
 export async function getCommunityDataOfUser(_id: any) {
   const response = await fetch(
-    `http://localhost:8000/api/community/features/data-user/${_id}`,
+    `https://music-ai-backend.onrender.com/api/community/features/data-user/${_id}`,
     {
       method: "GET",
       headers: {
