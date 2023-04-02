@@ -2,7 +2,7 @@ import { FiHome } from "react-icons/fi";
 import { BiCast } from "react-icons/bi";
 import { MdGroups } from "react-icons/md";
 import { ImMusic } from "react-icons/im";
-import { FaRobot, FaGlobe } from "react-icons/fa";
+import { FaRobot, FaGlobe, FaUserFriends } from "react-icons/fa";
 import { BsYoutube } from "react-icons/bs";
 import { IoAnalyticsSharp } from "react-icons/io5";
 import { RiSecurePaymentFill } from "react-icons/ri";
@@ -38,6 +38,15 @@ export const NavLinks = [
   {
     id: "4",
     navSize: "small",
+    icon: FaUserFriends,
+    title: "Friends",
+    description: "Chat with your friends",
+    active: false,
+    route: "/friends",
+  },
+  {
+    id: "5",
+    navSize: "small",
     icon: ImMusic,
     title: "Music Creation",
     description: "Create/Upload Personalized Music",
@@ -45,7 +54,7 @@ export const NavLinks = [
     route: "/create-music",
   },
   {
-    id: "5",
+    id: "6",
     navSize: "small",
     icon: IoAnalyticsSharp,
     title: "Analytics",
@@ -54,16 +63,16 @@ export const NavLinks = [
     route: "/analytics",
   },
   {
-    id: "6",
+    id: "7",
     navSize: "small",
     icon: FaGlobe,
     title: "Community",
     description: "See people all over the globe",
     active: false,
-    route: "/friends",
+    route: "/globe",
   },
   {
-    id: "7",
+    id: "8",
     navSize: "small",
     icon: FaRobot,
     title: "Learn Music",
@@ -72,7 +81,7 @@ export const NavLinks = [
     route: "/learn-music",
   },
   {
-    id: "8",
+    id: "9",
     navSize: "small",
     icon: BsYoutube,
     title: "Youtube Music Search",
@@ -81,7 +90,7 @@ export const NavLinks = [
     route: "/search-music",
   },
   {
-    id: "9",
+    id: "10",
     navSize: "small",
     icon: RiSecurePaymentFill,
     title: "Payments",

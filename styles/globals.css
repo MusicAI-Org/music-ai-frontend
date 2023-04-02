@@ -34,7 +34,7 @@ a {
   /* display: none; */
 }
 ::-webkit-scrollbar-corner {
-  background-color: grey;
+  background-color: transparent;
 }
 
 /* glassmorphic button styles */

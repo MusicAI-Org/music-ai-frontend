@@ -41,6 +41,7 @@
     "react-player": "^2.11.2",
     "react-wavify": "^1.5.7",
     "recharts": "^2.1.12",
+    "socket.io-client": "^4.6.1",
     "styled-components": "^5.3.5",
     "swiper": "^8.2.4",
     "tone": "^14.7.77"

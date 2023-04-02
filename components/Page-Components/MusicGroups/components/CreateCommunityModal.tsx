@@ -43,7 +43,7 @@ const CreateCommunityModal = () => {
         name: nameRef.current?.value,
         description: descRef.current?.value,
         user: {
-          _id: "63e69f992307b30011108376", //  demo id
+          _id: "63e69e20084d5200111c5e1d", //  demo id
         },
         url: urlRef.current?.value,
       });

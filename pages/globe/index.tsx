@@ -1,4 +1,5 @@
 import React from "react";
+import CommunityPage from "../../components/Page-Components/Global/FriendsPage";
 import {
   Container,
   HeaderContainer,
@@ -7,17 +8,16 @@ import {
 import Header from "../../components/utils/Header";
 import Helmet from "../../components/utils/Helmet";
 import Head from "next/head";
-import FriendsContainer from "../../components/Page-Components/Friends";
 
 /**
  * Home Page of the Application
  * @return {JSX.Element}
  */
-const Friends = (): JSX.Element => {
+const Community = (): JSX.Element => {
   return (
     <>
       <Head>
-        <title>Friends</title>
+        <title>World Map</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <PageContainer>
@@ -26,10 +26,10 @@ const Friends = (): JSX.Element => {
         </HeaderContainer>
         <Container>
           <Helmet />
-          <FriendsContainer />
+          <CommunityPage />
         </Container>
       </PageContainer>
     </>
   );
 };
-export default Friends;
+export default Community;
