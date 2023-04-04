@@ -1,12 +1,3 @@
-upload form => 
-1. unique id
-2. mp3 file
-3. password confirmation
-
-
-fine-tuning replace search engine
-
-
 main features ==>>
 1. music, playlist, artists and spotify like system
 2. live streaming and recorded videos
@@ -14,3 +5,13 @@ main features ==>>
 4. create and upload music
 5. reach graphs and liking all over the world
 6. AI chat bot to teach music and google search for yt videos
+
+
+
+things to be done ===>
+1. correct the authenticated system
+2. fetch the api correctly for static and dynamic data
+3. socketio for comments
+4. socketio for personal chat
+5. socketio for group chat
+6. webrtc for video calling

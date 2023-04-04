@@ -3,11 +3,12 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
-import { Avatar, Flex, Input, useTheme } from "@chakra-ui/react";
+import { Avatar, Button, Flex, Input, useTheme } from "@chakra-ui/react";
 import { RiSearch2Line } from "react-icons/ri";
-import { AiTwotoneSetting } from "react-icons/ai";
 import { IoMdNotifications } from "react-icons/io";
 import Link from "next/link";
+import { useAuth0 } from "@auth0/auth0-react";
+import { useRouter } from "next/router";
 
 const Container = styled.div`
   background-color: #fafafa;
@@ -19,6 +20,8 @@ const Container = styled.div`
   width: 100%;
 `;
 const TopBar = () => {
+  const { logout, user } = useAuth0();
+  const router = useRouter();
   const [active, setActive] = useState(false);
   const [placeholder, setPlaceholder] = useState("Search and ask chatGPT...");
 
@@ -44,15 +47,21 @@ const TopBar = () => {
       color: theme.colors.gray[900],
     },
   };
-  const variants = {
-    rotate: { rotate: 360, transition: { duration: 5 } },
-  };
 
   const handler = (e: React.MouseEvent<HTMLElement>) => {
     (e.target as HTMLInputElement).nodeName === "INPUT"
       ? setActive(true)
       : setActive(false);
   };
+
+  console.log("user", user);
+
+  useEffect(() => {
+    if (user?.email === "" && user?.sub === "") {
+      router.push("/credentials");
+    }
+  }, [user, router]);
+
   return (
     <Container
       style={{
@@ -101,7 +110,7 @@ const TopBar = () => {
         alignItems="center"
         justifyContent="space-between"
         margin={`0 ${theme.space[9]}`}
-        width="10%"
+        width="20%"
       >
         <Link href={"/profile"}>
           <Avatar
@@ -119,15 +128,19 @@ const TopBar = () => {
         <motion.div whileHover={{ scale: 1.1 }}>
           <IoMdNotifications size={24} style={style} />
         </motion.div>
-        <Link href={"/settings"}>
-          <motion.div
-            initial={{ rotate: 0 }}
-            variants={variants}
-            whileTap={{ rotate: 360 }}
-          >
-            <AiTwotoneSetting size={24} style={style} />
-          </motion.div>
-        </Link>
+        <Button
+          style={{
+            height: "4vh",
+            width: "50%",
+            fontSize: theme.fontSizes.h3,
+            background: theme.colors.transparent,
+            padding: theme.space[6],
+            margin: theme.space[5],
+          }}
+          onClick={() => logout()}
+        >
+          Logout
+        </Button>
       </Flex>
     </Container>
   );
