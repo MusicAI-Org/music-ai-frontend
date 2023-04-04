@@ -2,9 +2,8 @@
 import { Flex, useTheme } from "@chakra-ui/react";
 import * as React from "react";
 import TextContainer from "../../../../utils/Texts/TextContainer";
-import FriendsList from "./FriendsList";
 
-const FriendsActivity = () => {
+const CreateModel = () => {
   const theme = useTheme();
   return (
     <Flex
@@ -18,10 +17,9 @@ const FriendsActivity = () => {
       padding={theme.space[1]}
       marginBottom={theme.space[4]}
     >
-      <TextContainer text="Friends Activity" size="2rem" />
-      <FriendsList />
+      <TextContainer text="Create a Role" size="1.5rem" />
     </Flex>
   );
 };
 
-export default FriendsActivity;
+export default CreateModel;

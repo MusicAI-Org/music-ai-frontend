@@ -8,11 +8,14 @@ import StreamingPage from "../../components/Page-Components/Streaming/StreamingP
 import Header from "../../components/utils/Header";
 import Helmet from "../../components/utils/Helmet";
 import Head from "next/head";
+import { useAuth0 } from "@auth0/auth0-react";
+import Credential from "../credentials";
 /**
  * Home Page of the Application
  * @return {JSX.Element}
  */
 const Stream = (): JSX.Element => {
+  const { user } = useAuth0();
   return (
     <>
       <Head>
@@ -20,13 +23,19 @@ const Stream = (): JSX.Element => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <PageContainer>
-        <HeaderContainer>
-          <Header />
-        </HeaderContainer>
-        <Container>
-          <Helmet />
-          <StreamingPage />
-        </Container>
+        {user ? (
+          <>
+            <HeaderContainer>
+              <Header />
+            </HeaderContainer>
+            <Container>
+              <Helmet />
+              <StreamingPage />
+            </Container>
+          </>
+        ) : (
+          <Credential />
+        )}
       </PageContainer>
     </>
   );

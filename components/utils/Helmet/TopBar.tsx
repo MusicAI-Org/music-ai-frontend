@@ -8,7 +8,6 @@ import { RiSearch2Line } from "react-icons/ri";
 import { IoMdNotifications } from "react-icons/io";
 import Link from "next/link";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useRouter } from "next/router";
 
 const Container = styled.div`
   background-color: #fafafa;
@@ -21,7 +20,6 @@ const Container = styled.div`
 `;
 const TopBar = () => {
   const { logout, user } = useAuth0();
-  const router = useRouter();
   const [active, setActive] = useState(false);
   const [placeholder, setPlaceholder] = useState("Search and ask chatGPT...");
 
@@ -53,14 +51,6 @@ const TopBar = () => {
       ? setActive(true)
       : setActive(false);
   };
-
-  console.log("user", user);
-
-  useEffect(() => {
-    if (user?.email === "" && user?.sub === "") {
-      router.push("/credentials");
-    }
-  }, [user, router]);
 
   return (
     <Container
@@ -113,17 +103,26 @@ const TopBar = () => {
         width="20%"
       >
         <Link href={"/profile"}>
-          <Avatar
-            name="Oshigaki Kisame"
-            src="https://bit.ly/broken-link"
-            style={{
-              width: "2rem",
-              height: "2rem",
-              borderRadius: "50%",
-              padding: theme.space[6],
-              cursor: "pointer",
-            }}
-          />
+          <Flex
+            display="inline-block"
+            borderRadius="50%"
+            overflow="hidden"
+            width="50px"
+            height="50px"
+          >
+            <Avatar
+              name={user?.given_name}
+              src={user?.picture}
+              style={{
+                width: "100%",
+                height: "100%",
+                borderRadius: "50%",
+                cursor: "pointer",
+                zIndex: 0,
+                objectFit: "cover",
+              }}
+            />
+          </Flex>
         </Link>
         <motion.div whileHover={{ scale: 1.1 }}>
           <IoMdNotifications size={24} style={style} />

@@ -8,12 +8,15 @@ import MusicGroupsComponent from "../../components/Page-Components/MusicGroups";
 import Header from "../../components/utils/Header";
 import Helmet from "../../components/utils/Helmet";
 import Head from "next/head";
+import { useAuth0 } from "@auth0/auth0-react";
+import Credential from "../credentials";
 
 /**
  * Home Page of the Application
  * @return {JSX.Element}
  */
 const MusicGroups = (): JSX.Element => {
+  const { user } = useAuth0();
   return (
     <>
       <Head>
@@ -21,13 +24,19 @@ const MusicGroups = (): JSX.Element => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <PageContainer>
-        <HeaderContainer>
-          <Header />
-        </HeaderContainer>
-        <Container>
-          <Helmet />
-          <MusicGroupsComponent />
-        </Container>
+        {user ? (
+          <>
+            <HeaderContainer>
+              <Header />
+            </HeaderContainer>
+            <Container>
+              <Helmet />
+              <MusicGroupsComponent />
+            </Container>
+          </>
+        ) : (
+          <Credential />
+        )}
       </PageContainer>
     </>
   );

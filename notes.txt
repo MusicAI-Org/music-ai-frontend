@@ -15,3 +15,16 @@ things to be done ===>
 4. socketio for personal chat
 5. socketio for group chat
 6. webrtc for video calling
+
+
+
+fields in the form ===>
+name
+dob
+avatarName
+password
+genre
+avatarImg
+phoneNumber
+address
+coordinates

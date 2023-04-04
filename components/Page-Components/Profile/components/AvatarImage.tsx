@@ -10,17 +10,17 @@ import {
   useTheme,
 } from "@chakra-ui/react";
 import { useState } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const AvatarImage = (props: any) => {
   const theme = useTheme();
+  const { user } = useAuth0();
   const style = {
     backgroundColor: theme.colors.ci,
     borderRadius: theme.borderRadius.half,
   };
 
-  const [bgImg, setBgImg] = useState(
-    "https://res.cloudinary.com/dcogm6vx9/image/upload/v1680028333/default_issvjy.png"
-  );
+  const [bgImg, setBgImg] = useState(user?.picture);
 
   const bgImgHandler = (e: any) => {
     const file = e.target.files?.[0];

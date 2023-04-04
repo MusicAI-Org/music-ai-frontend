@@ -9,12 +9,15 @@ import {
 import Header from "../../components/utils/Header";
 import Helmet from "../../components/utils/Helmet";
 import CommunityPage from "../../components/Page-Components/Community/CommunityPage";
+import { useAuth0 } from "@auth0/auth0-react";
+import Credential from "../credentials";
 
 /**
  * Home Page of the Application
  * @return {JSX.Element}
  */
 const MusicGroups = (): JSX.Element => {
+  const { user } = useAuth0();
   const { query } = useRouter();
   console.log(query.id);
   return (
@@ -25,13 +28,19 @@ const MusicGroups = (): JSX.Element => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <PageContainer>
-        <HeaderContainer>
-          <Header />
-        </HeaderContainer>
-        <Container>
-          <Helmet />
-          <CommunityPage />
-        </Container>
+        {user ? (
+          <>
+            <HeaderContainer>
+              <Header />
+            </HeaderContainer>
+            <Container>
+              <Helmet />
+              <CommunityPage />
+            </Container>
+          </>
+        ) : (
+          <Credential />
+        )}
       </PageContainer>
     </>
   );

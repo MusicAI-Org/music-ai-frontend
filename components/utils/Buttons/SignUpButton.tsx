@@ -16,7 +16,9 @@ const SignUpButton = () => {
         padding: theme.space[6],
         margin: theme.space[5],
       }}
-      onClick={() => loginWithRedirect()}
+      onClick={() =>
+        loginWithRedirect({ authorizationParams: { screen_hint: "signup" } })
+      }
     >
       Sign Up
     </Button>

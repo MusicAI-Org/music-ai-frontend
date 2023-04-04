@@ -7,6 +7,7 @@ import Footer from "../../components/utils/Footer/Footer";
 import PlaylistDivContainer from "../../components/Page-Components/Start/PlaylistDivContainer";
 import RecentlyPlayedDivContainer from "../../components/Page-Components/Start/RecentlyPlayedDivContainer";
 import UpgradeFavArtists from "../../components/Page-Components/Start/UpgradeFavArtists";
+import VerifyAccountToast from "../../components/utils/Toast/VerifyAccountToast";
 import { useAuth0 } from "@auth0/auth0-react";
 
 /**
@@ -21,9 +22,8 @@ type Props = {
 };
 
 const Start = (props: Props) => {
-  const { user } = useAuth0();
-  console.log(user);
   const theme = useTheme();
+  const { user } = useAuth0();
   return (
     <StyledContainer color="">
       <Flex
@@ -62,6 +62,7 @@ const Start = (props: Props) => {
           <UpgradeFavArtists />
         </Flex>
       </Flex>
+      {!user?.email_verified && <VerifyAccountToast />}
       <Footer />
     </StyledContainer>
   );

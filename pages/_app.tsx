@@ -30,9 +30,10 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
       domain="https://dev-7f4yx0bakz5k5j0r.us.auth0.com"
       clientId="Cavwde1ooT9MRQwdv5wUHqOXrrofhPhc"
       authorizationParams={{
-        // audience: "http://localhost:8000/",
         redirect_uri: win,
       }}
+      useRefreshTokens={true}
+      cacheLocation="localstorage"
     >
       <ChakraThemeProvider>
         <ThemeProvider>

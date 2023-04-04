@@ -9,6 +9,7 @@ export const StyledContainer = styled.div<{ color: string }>`
   // padding-top: 1rem;
   backgroundcolor: ${(props) => props.color || "white"};
   overflow-y: scroll;
+  position: relative;
 `;
 export const PlaylistAndRecentlyContainer = styled.div`
   display: "flex",

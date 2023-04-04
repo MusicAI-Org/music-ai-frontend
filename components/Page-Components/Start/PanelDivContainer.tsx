@@ -6,6 +6,7 @@ import SmallText from "../../utils/Texts/SmallText";
 import { Flex } from "@chakra-ui/react";
 import { useTheme } from "@chakra-ui/react";
 import FriendsActivity from "./components/FriendsListContainer/FriendsActivity";
+// import CreateModel from "./components/CreateModel.tsx";
 
 /**
  * Home Page of the Application
@@ -25,6 +26,9 @@ const PanelDivContainer = () => {
       p={0}
       mr={"1rem"}
     >
+      {/* friend activity here */}
+      <FriendsActivity />
+      {/* <CreateModel /> */}
       <Flex
         flexDirection="column"
         alignItems="flex-start"
@@ -63,8 +67,6 @@ const PanelDivContainer = () => {
         </Flex>
         <Slider />
       </Flex>
-      {/* friend activity here */}
-      <FriendsActivity />
     </Flex>
   );
 };
