@@ -21,6 +21,7 @@ import Footer from "../../utils/Footer/Footer";
 import useGeoLocation from "../../utils/useGeolocation";
 import TextContainer from "../../utils/Texts/TextContainer";
 import { createModel } from "../../../pages/api/create-model-api";
+import { useRouter } from "next/router";
 
 const initialValues = {
   Name: "",
@@ -38,6 +39,7 @@ const initialValues = {
 
 const CreateRoleContainer = (): JSX.Element => {
   const { user } = useAuth0();
+  const router = useRouter();
   const theme = useTheme();
   const location = useGeoLocation();
   const [latitude, setLatitude] = useState("");
@@ -106,7 +108,7 @@ const CreateRoleContainer = (): JSX.Element => {
       AvatarImageURL: Yup.string().required("*Required"),
       Address: Yup.string().required("*Required"),
     }),
-    onSubmit: async (values, actions) => {
+    onSubmit: async (values) => {
       console.log("values ", values);
       setIsLoading(true);
       try {
@@ -137,6 +139,7 @@ const CreateRoleContainer = (): JSX.Element => {
         console.error(error);
       } finally {
         setIsLoading(false);
+        router.push("/");
       }
     },
   });

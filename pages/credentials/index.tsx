@@ -1,5 +1,4 @@
 import { Flex, Text, useTheme } from "@chakra-ui/react";
-import Head from "next/head";
 import React from "react";
 import ImageCarousal from "../../components/Page-Components/Credentials";
 import {
@@ -26,10 +25,6 @@ const Credential = (): JSX.Element => {
   };
   return (
     <>
-      <Head>
-        <title>Authenticate</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
       <PageContainer>
         {!user ? (
           <>

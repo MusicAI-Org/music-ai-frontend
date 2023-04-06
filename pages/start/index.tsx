@@ -1,3 +1,4 @@
+/* eslint-disable require-jsdoc */
 import React from "react";
 import ContentDivContainer from "../../components/Page-Components/Start/ContentDivContainer";
 import { Flex, useTheme } from "@chakra-ui/react";
@@ -9,19 +10,23 @@ import RecentlyPlayedDivContainer from "../../components/Page-Components/Start/R
 import UpgradeFavArtists from "../../components/Page-Components/Start/UpgradeFavArtists";
 import VerifyAccountToast from "../../components/utils/Toast/VerifyAccountToast";
 import { useAuth0 } from "@auth0/auth0-react";
+import useSWR from "swr";
 
 /**
  * Home Page of the Application
  * @return {JSX.Element}
  */
-type Props = {
-  display?: string;
-  flexDirection?: string;
-  alignItems?: string;
-  justifyContent?: string;
-};
 
-const Start = (props: Props) => {
+const Start = () => {
+  const fetcher = (...args: [RequestInfo, RequestInit]) =>
+    fetch(...args).then((res) => res.json());
+  // error, isLoading
+  const { data } = useSWR(
+    `https://music-ai-backend.onrender.com/api/music/basicMusic/getBasicMusic`,
+    fetcher
+  );
+  console.log(data);
+
   const theme = useTheme();
   const { user } = useAuth0();
   return (
