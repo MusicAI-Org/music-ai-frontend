@@ -20,6 +20,7 @@ const Container = styled.div`
 `;
 const TopBar = () => {
   const { logout, user } = useAuth0();
+  console.log(user?.picture);
   const [active, setActive] = useState(false);
   const [placeholder, setPlaceholder] = useState("Search and ask chatGPT...");
 

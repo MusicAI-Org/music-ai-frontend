@@ -10,6 +10,7 @@ import Helmet from "../../components/utils/Helmet";
 import Head from "next/head";
 import { useAuth0 } from "@auth0/auth0-react";
 import Credential from "../credentials";
+import CreateRoleContainer from "../../components/Page-Components/CreateRole";
 
 /**
  * Home Page of the Application
@@ -31,6 +32,7 @@ const CreateRole = (): JSX.Element => {
             </HeaderContainer>
             <Container>
               <Helmet />
+              <CreateRoleContainer />
             </Container>
           </>
         ) : (

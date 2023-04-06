@@ -21,10 +21,11 @@ things to be done ===>
 fields in the form ===>
 name
 dob
-avatarName
+phoneNumber
 password
 genre
+
+avatarName
 avatarImg
-phoneNumber
 address
 coordinates

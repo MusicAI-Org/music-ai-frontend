@@ -41,7 +41,7 @@ const VerifyAccountToast = () => {
           <TextContainer
             text={"Please verify your account to access more features!"}
             align={"center"}
-            size={"1.5rem"}
+            size={"1.1rem"}
           />
         </Flex>
       )}
