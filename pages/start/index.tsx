@@ -10,7 +10,8 @@ import RecentlyPlayedDivContainer from "../../components/Page-Components/Start/R
 import UpgradeFavArtists from "../../components/Page-Components/Start/UpgradeFavArtists";
 import VerifyAccountToast from "../../components/utils/Toast/VerifyAccountToast";
 import { useAuth0 } from "@auth0/auth0-react";
-import useSWR from "swr";
+import useFriends from "../../swr/useFriends";
+import useUser from "../../swr/useUser";
 
 /**
  * Home Page of the Application
@@ -18,17 +19,11 @@ import useSWR from "swr";
  */
 
 const Start = () => {
-  const fetcher = (...args: [RequestInfo, RequestInit]) =>
-    fetch(...args).then((res) => res.json());
-  // error, isLoading
-  const { data } = useSWR(
-    `https://music-ai-backend.onrender.com/api/music/basicMusic/getBasicMusic`,
-    fetcher
-  );
-  console.log(data);
-
   const theme = useTheme();
   const { user } = useAuth0();
+  const { user: model } = useUser({ email: "jain.paarth2608@gmail.com" });
+  const { friends } = useFriends({ id: model?.fullUserPopulatedDetails?._id });
+  console.log("friends", friends);
   return (
     <StyledContainer color="">
       <Flex
