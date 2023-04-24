@@ -5,6 +5,16 @@ interface Props {
 }
 
 const useUser = ({ email }: Props) => {
+  if (email == "") {
+    return {
+      user: null,
+      isLoading: false,
+      error: null,
+      isValidating: false,
+      mutate: null,
+      revalidate: null,
+    };
+  }
   const fetcher = async (...args: [RequestInfo, RequestInit]) => {
     const res = await fetch(args[0], {
       method: "POST",

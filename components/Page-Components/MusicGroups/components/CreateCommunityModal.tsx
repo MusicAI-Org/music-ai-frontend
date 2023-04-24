@@ -13,16 +13,14 @@ import {
   ModalHeader,
   ModalOverlay,
   Spinner,
-  useDisclosure,
   useTheme,
 } from "@chakra-ui/react";
 import { createCommunity } from "../../../../pages/api/community-api";
-import { useRouter } from "next/router";
+// import { useRouter } from "next/router";
 
-const CreateCommunityModal = () => {
-  const router = useRouter();
+const CreateCommunityModal = ({ isOpen, onOpen, onClose }: any) => {
+  // const router = useRouter();
   const theme = useTheme();
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const [isLoading, setIsLoading] = React.useState(false);
 
   const nameRef = React.useRef<HTMLInputElement | null>(null);
@@ -43,14 +41,14 @@ const CreateCommunityModal = () => {
         name: nameRef.current?.value,
         description: descRef.current?.value,
         user: {
-          _id: "63e69e20084d5200111c5e1d", //  demo id
+          _id: "642f27fc50b98ea7378f843d", //  demo id
         },
         url: urlRef.current?.value,
       });
       console.log(data);
 
       // redirect the user to page
-      router.push(`/community/${data.community._id}`);
+      // router.push(`/community/${data.community._id}`);
       // setImageURL(data.image);
     } catch (error) {
       console.error(error);

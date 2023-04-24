@@ -38,7 +38,7 @@ const Slider = () => {
     );
   }
 
-  if (error || data.error) {
+  if (error || data?.error) {
     return (
       <Flex
         alignItems="center"
@@ -47,7 +47,7 @@ const Slider = () => {
         height={"100vh"}
       >
         <TextContainer
-          text={data.error || "Error loading data"}
+          text={data?.error || "Error loading data"}
           color={theme.colors.danger}
           size="1.2rem"
           align="center"

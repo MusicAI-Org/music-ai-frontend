@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import {
@@ -6,6 +7,7 @@ import {
   SimpleGrid,
   Spinner,
   Text,
+  useDisclosure,
   useTheme,
 } from "@chakra-ui/react";
 import Footer from "../../utils/Footer/Footer";
@@ -18,6 +20,7 @@ import {
   getCommunityDataOfUser,
 } from "../../../pages/api/community-api";
 import UserCommunity from "../Community/UserCommunity";
+import useAllCommunity from "../../../swr/community/useAllCommunity";
 
 /**
  * Home Page of the Application
@@ -34,21 +37,21 @@ interface UserData {
     imgAlt?: string;
   }[];
 }
-interface CommunityData {
-  _id: string;
-  name: string;
-  members: Array<string>;
-  description: string;
-  imgUrl: string;
-  imgAlt?: string;
-}
+// interface CommunityData {
+//   _id: string;
+//   name: string;
+//   members: Array<string>;
+//   description: string;
+//   imgUrl: string;
+//   imgAlt?: string;
+// }
 // interface MusicGroupsComponentProps {
 //   data: UserData;
 // }
 // eslint-disable-next-line react/prop-types
 const MusicGroupsComponent = (): JSX.Element => {
   const theme = useTheme();
-  const [pageData, setPageData] = useState<CommunityData[]>([]);
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [isLoadingPageData, setLoadingPageData] = useState(false);
 
   const [userData, setUserData] = useState<UserData>();
@@ -58,11 +61,53 @@ const MusicGroupsComponent = (): JSX.Element => {
   const [showUserCommunities, setShowUserCommunities] = useState(false);
   const style = {
     height: "5vh",
-    width: "60%",
     fontSize: theme.fontSizes.h4,
     background: theme.colors.transparent,
-    marginRight: theme.space[6],
   };
+
+  const {
+    communities,
+    isLoading: isLoadingAllCommunities,
+    error: errorAllCommunities,
+  } = useAllCommunity();
+
+  console.log("comm", communities);
+
+  if (isLoadingAllCommunities) {
+    return (
+      <Flex
+        alignItems="center"
+        justifyContent="center"
+        width={"100%"}
+        height={"100vh"}
+      >
+        <Spinner
+          thickness="2px"
+          speed="0.65s"
+          emptyColor={theme.colors.gray}
+          color={theme.colors.ci}
+          size="md"
+        />
+      </Flex>
+    );
+  }
+  if (errorAllCommunities) {
+    return (
+      <Flex
+        alignItems="center"
+        justifyContent="center"
+        width={"100%"}
+        height={"100vh"}
+      >
+        <TextContainer
+          text={communities.error || "Error loading data"}
+          color={theme.colors.danger}
+          size="1.2rem"
+          align="center"
+        />
+      </Flex>
+    );
+  }
 
   const handleGenerate = async () => {
     setIsLoading(true);
@@ -82,26 +127,6 @@ const MusicGroupsComponent = (): JSX.Element => {
       setIsLoading(false);
     }
   };
-
-  const getData = async () => {
-    setLoadingPageData(true);
-    try {
-      const data = await getAllCommunities();
-      setPageData(data.communities);
-    } catch (error) {
-      console.error(error);
-      setShowErrorMessage(true);
-      setTimeout(() => {
-        setShowErrorMessage(false);
-      }, 2000); // hide the error message after 2 seconds
-    } finally {
-      setLoadingPageData(false);
-    }
-  };
-
-  useEffect(() => {
-    getData();
-  }, []);
 
   return (
     <StyledContainer color={""}>
@@ -135,6 +160,7 @@ const MusicGroupsComponent = (): JSX.Element => {
               <Button
                 style={style}
                 onClick={() => setShowUserCommunities(false)}
+                marginRight={theme.space[6]}
               >
                 Go Back
               </Button>
@@ -177,7 +203,7 @@ const MusicGroupsComponent = (): JSX.Element => {
           )}
         </Flex>
       ) : (
-        <>
+        <Flex width="100%">
           {isLoadingPageData ? (
             <Flex
               height={"100vh"}
@@ -199,7 +225,7 @@ const MusicGroupsComponent = (): JSX.Element => {
               height={"fit-content"}
               width={"100%"}
               justifyContent={"flex-start"}
-              alignItems={"center"}
+              alignItems={"flex-start"}
               direction={"column"}
               padding={theme.space[4]}
               paddingLeft={theme.space[9]}
@@ -232,6 +258,8 @@ const MusicGroupsComponent = (): JSX.Element => {
                 >
                   <Button
                     style={style}
+                    width="60%"
+                    marginRight={theme.space[6]}
                     onClick={handleGenerate}
                     isLoading={isLoading}
                     spinner={
@@ -246,31 +274,53 @@ const MusicGroupsComponent = (): JSX.Element => {
                   >
                     Your Communities
                   </Button>
-                  <CreateCommunityModal />
+                  <CreateCommunityModal
+                    isOpen={isOpen}
+                    onOpen={onOpen}
+                    onClose={onClose}
+                  />
                 </Flex>
               </Flex>
-              <SimpleGrid
-                columns={[2, null, 3]}
-                spacing="20px"
-                height={"fit-content"}
-                marginTop={theme.space[4]}
-              >
-                {pageData !== undefined &&
-                  pageData.map((community: any) => (
-                    <CommunityGroupTile
-                      key={community._id}
-                      _id={community._id}
-                      name={community.name}
-                      members={community.members.length}
-                      description={community.description}
-                      imageUrl={community.imgUrl}
-                      imageAlt={community.imgAlt ? community.imgAlt : "image"}
-                    />
-                  ))}
-              </SimpleGrid>
+              {communities.communities.length != 0 ? (
+                <SimpleGrid
+                  columns={[2, null, 3]}
+                  spacing="20px"
+                  height={"fit-content"}
+                  marginTop={theme.space[4]}
+                >
+                  {communities !== undefined &&
+                    communities?.communities?.map((community: any) => (
+                      <CommunityGroupTile
+                        key={community._id}
+                        _id={community._id}
+                        name={community.name}
+                        members={community.members.length}
+                        description={community.description}
+                        imageUrl={community.imgUrl}
+                        imageAlt={community.imgAlt ? community.imgAlt : "image"}
+                      />
+                    ))}
+                </SimpleGrid>
+              ) : (
+                <Flex
+                  direction="column"
+                  alignItems="center"
+                  justifyContent="space-between"
+                  width={"20%"}
+                  height={"10vh"}
+                  margin="auto"
+                >
+                  <TextContainer
+                    text={"No Communities found"}
+                    color={theme.colors.danger}
+                    size="1.2rem"
+                    align="center"
+                  />
+                </Flex>
+              )}
             </Flex>
           )}
-        </>
+        </Flex>
       )}
 
       <Footer />

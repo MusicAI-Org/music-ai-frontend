@@ -5,10 +5,30 @@ type Props = {
   name?: string;
   songName?: string;
   time?: string;
-  movieName?: string;
+  yearOfJoining?: string;
+  avatarImg: string;
 };
-const Card = ({ name, songName, time, movieName }: Props) => {
+const Card = ({ name, songName, yearOfJoining, avatarImg }: Props) => {
   const theme = useTheme();
+
+  const styles = {
+    width: "30%",
+    height: "100%",
+    top: "0",
+    right: "0",
+    background: "rgba(255, 255, 255, 0.2)",
+    borderRadius: "16px",
+    boxShadow: " 0 4px 30px rgba(0, 0, 0, 0.1)",
+    backdropFilter: "blur(5px)",
+    "-webkit-backdrop-filter": "blur(5px)",
+    border: "1px solid rgba(255, 255, 255, 0.3)",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    margin: theme.space[2],
+    color: theme.colors.white,
+    fontSize: theme.fontSizes.md,
+  };
   return (
     <Box
       display={"flex"}
@@ -23,31 +43,35 @@ const Card = ({ name, songName, time, movieName }: Props) => {
       overflow="hidden"
     >
       <Image
-        width="17%"
+        width="20%"
         height="100%"
         borderRadius={theme.borderRadius.half}
-        src="/playlistImgs/img1.jpg"
+        src={avatarImg || "/playlistImgs/img1.jpg"}
         alt="Woman paying for a purchase"
       />
       <Flex
         direction={"column"}
-        width="60%"
+        width="80%"
         alignItems="flex-start"
-        justifyContent={"space-around"}
+        justifyContent={"space-between"}
         marginLeft={theme.space[4]}
       >
         <Flex alignItems="center" justifyContent="space-between" width="100%">
           <Text
             fontWeight="bold"
-            textTransform="uppercase"
             fontSize="lg"
             letterSpacing="wide"
-            color={theme.colors.gray}
+            color={theme.colors.ci}
+            width={"70%"}
           >
             {name}
           </Text>
-          <Text fontSize={theme.fontSizes.sm} color={theme.colors.gray}>
-            {time}
+          <Text
+            fontSize={theme.fontSizes.sm}
+            color={theme.colors.gray}
+            style={styles}
+          >
+            {yearOfJoining}
           </Text>
         </Flex>
 

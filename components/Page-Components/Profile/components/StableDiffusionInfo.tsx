@@ -18,12 +18,12 @@ import {
   useDisclosure,
   useTheme,
 } from "@chakra-ui/react";
-import { stableDiffusionApi } from "../../../../pages/api/stable-diffusion";
+import useAvatar from "../../../../swr/useAvatar";
 
 const StableDiffusionInfo = () => {
   const theme = useTheme();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [isLoading, setIsLoading] = React.useState(false);
+  // const [isLoading, setIsLoading] = React.useState(false);
 
   const initialRef = React.useRef<HTMLInputElement | null>(null);
   const finalRef = React.useRef<HTMLInputElement | null>(null);
@@ -38,18 +38,19 @@ const StableDiffusionInfo = () => {
     "https://res.cloudinary.com/dcogm6vx9/image/upload/v1680028333/default_issvjy.png"
   );
 
+  const { image, isLoading } = useAvatar({
+    value:
+      initialRef.current?.value ||
+      "an-astronaut-riding-a-horse-on-mars-artstation-hd-dramatic-lighting-detailed",
+  });
+  console.log(image);
+
   const handleGenerate = async () => {
-    setIsLoading(true);
+    // setIsLoading(true);
     try {
-      const data = await stableDiffusionApi(
-        initialRef.current?.value ||
-          "an-astronaut-riding-a-horse-on-mars-artstation-hd-dramatic-lighting-detailed"
-      );
-      setImageURL(data.image);
+      setImageURL(image.image);
     } catch (error) {
       console.error(error);
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -181,6 +182,7 @@ const StableDiffusionInfo = () => {
             >
               Generate
             </Button>
+            {/* <Text>{image?.detail == "Not Found" && "Some Error has occured"}</Text> */}
           </ModalFooter>
         </ModalContent>
       </Modal>
