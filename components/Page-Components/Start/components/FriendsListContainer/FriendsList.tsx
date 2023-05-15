@@ -1,5 +1,5 @@
 /* eslint-disable require-jsdoc */
-import { Container, useTheme } from "@chakra-ui/react";
+import { Container, Flex, Spinner, useTheme } from "@chakra-ui/react";
 import * as React from "react";
 import Card from "./Card";
 import useFriends from "../../../../../swr/useFriends";
@@ -19,9 +19,28 @@ const FriendsList = () => {
   const theme = useTheme();
   const { user } = useAuth0();
   const { user: model } = useUser({ email: user?.email || "" });
-  const { friends } = useFriends({
+  const { friends, isLoading } = useFriends({
     id: model?.fullUserPopulatedDetails?._id,
   });
+
+  if (isLoading) {
+    return (
+      <Flex
+        alignItems="center"
+        justifyContent="center"
+        width={"100%"}
+        height={"100vh"}
+      >
+        <Spinner
+          thickness="2px"
+          speed="0.65s"
+          emptyColor={theme.colors.gray}
+          color={theme.colors.ci}
+          size="md"
+        />
+      </Flex>
+    );
+  }
   console.log("friends", friends);
   return (
     <Container

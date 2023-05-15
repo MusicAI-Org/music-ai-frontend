@@ -29,3 +29,12 @@ avatarName
 avatarImg
 address
 coordinates
+
+
+
+
+how to get the users for music ai => book named "make"
+
+
+idea => there is user whose voice i'll record for some portion and then using ai to let the user, sing the song by using his/her 
+voice, but not actually singing
