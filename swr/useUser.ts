@@ -27,8 +27,8 @@ const useUser = ({ email }: Props) => {
   };
 
   const { data, error, isValidating, mutate, isLoading } = useSWR(
-    // `https://music-ai-backend.onrender.com/api/auth/getModel`,
-    `http://localhost:8000/api/auth/getModel`,
+    `https://music-ai-backend.onrender.com/api/auth/getModel`,
+    // `http://localhost:8000/api/auth/getModel`,
     fetcher
   );
 
