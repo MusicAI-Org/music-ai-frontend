@@ -59,7 +59,6 @@ const StableDiffusionInfo = () => {
       <Button style={style} onClick={onOpen}>
         What is AI Generated Image?
       </Button>
-      ;
       <Modal
         initialFocusRef={initialRef}
         finalFocusRef={finalRef}

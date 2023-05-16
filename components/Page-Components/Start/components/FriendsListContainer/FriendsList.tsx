@@ -5,6 +5,7 @@ import Card from "./Card";
 import useFriends from "../../../../../swr/useFriends";
 import { useAuth0 } from "@auth0/auth0-react";
 import useUser from "../../../../../swr/useUser";
+import TextContainer from "../../../../utils/Texts/TextContainer";
 
 interface Friend {
   _id: string;
@@ -19,7 +20,7 @@ const FriendsList = () => {
   const theme = useTheme();
   const { user } = useAuth0();
   const { user: model } = useUser({ email: user?.email || "" });
-  const { friends, isLoading } = useFriends({
+  const { friends, isLoading, error } = useFriends({
     id: model?.fullUserPopulatedDetails?._id,
   });
 
@@ -37,6 +38,24 @@ const FriendsList = () => {
           emptyColor={theme.colors.gray}
           color={theme.colors.ci}
           size="md"
+        />
+      </Flex>
+    );
+  }
+
+  if (error || friends?.error) {
+    return (
+      <Flex
+        alignItems="center"
+        justifyContent="center"
+        width={"100%"}
+        height={"100vh"}
+      >
+        <TextContainer
+          text={friends?.error || "Error loading data"}
+          color={theme.colors.danger}
+          size="1.2rem"
+          align="center"
         />
       </Flex>
     );

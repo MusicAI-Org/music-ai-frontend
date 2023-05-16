@@ -1,28 +1,18 @@
 import React from "react";
-import { Box, Image, useTheme } from "@chakra-ui/react";
+import { Box, Image, Text, useTheme } from "@chakra-ui/react";
 
 type Props = {
+  src?: string;
   name?: string;
   songName?: string;
   time?: string;
-  movieName?: string;
 };
-const Card = ({ name, songName, time, movieName }: Props) => {
+const Card = ({ src, name, songName, time }: Props) => {
   const theme = useTheme();
-  // const style = {
-  //   position: "absolute",
-  //   bottom: "0",
-  //   height: "10vh",
-  //   width: "100%",
-  //   zIndex: "1",
-  //   "backdrop-filter": "blur(3px) saturate(180%)",
-  //   "-webkit-backdrop-filter": "blur3px) saturate(180%)",
-  //   "background-color": "rgba(154, 156, 159, 0.5)",
-  //   // "border-radius": `${theme.borderRadius.md}`,
-  // };
   return (
     <Box
       display={"flex"}
+      flexDirection={"column"}
       alignItems={"flex-start"}
       justifyContent={"space-between"}
       w="100%"
@@ -31,16 +21,21 @@ const Card = ({ name, songName, time, movieName }: Props) => {
       padding={0}
       cursor="pointer"
       position={"relative"}
-      // overflow="hidden"
     >
       <Image
         width="100%"
         height="90%"
         borderRadius={theme.borderRadius.sm}
-        src="https://picsum.photos/id/237/250/250"
+        src={src}
         alt="Woman paying for a purchase"
       />
-      {/* <Flex style={style}></Flex> */}
+      <Text
+        backgroundColor={theme.colors.bgBoxLighter}
+        padding={"2%"}
+        borderRadius={theme.borderRadius.sm}
+      >
+        {name}
+      </Text>
     </Box>
   );
 };

@@ -79,7 +79,7 @@ const ContentDivContainer = (props: Props) => {
         alignItems={"flex-start"}
         justifyContent={"center"}
         width={"100%"}
-        height={"42vh"}
+        height={"50vh"}
         marginTop={"1rem"}
         paddingTop={"1rem"}
       >
@@ -87,13 +87,14 @@ const ContentDivContainer = (props: Props) => {
         <Flex
           padding={0}
           margin={0}
-          flexDirection={"row"}
+          marginBottom={"2%"}
           alignItems={"center"}
           justifyContent={"space-between"}
           width={"100%"}
         >
           <TicketList />
         </Flex>
+        <CustomButton text="See More" justifyContent="flex-end" />
       </Flex>
     </Flex>
   );

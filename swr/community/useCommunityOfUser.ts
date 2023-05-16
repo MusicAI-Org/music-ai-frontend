@@ -4,7 +4,8 @@ const useCommunityOfUser = () => {
   const fetcher = (...args: [RequestInfo, RequestInit]) =>
     fetch(...args).then((res) => res.json());
   const { data, error, isValidating, mutate, isLoading } = useSWR(
-    `https://music-ai-backend.onrender.com/api/community/features/data`,
+    // `https://music-ai-backend.onrender.com/api/community/features/data`,
+    `http://localhost:8000/api/community/features/data`,
     fetcher
   );
 
