@@ -6,13 +6,33 @@ import Link from "next/link";
 
 const Upgrade = () => {
   const theme = useTheme();
+
+  const styles = {
+    width: "fit-content",
+    height: "10%",
+    top: "0",
+    right: "0",
+    background: "rgba(255, 255, 255, 0.2)",
+    borderRadius: "6px",
+    boxShadow: " 0 4px 30px rgba(0, 0, 0, 0.3)",
+    backdropFilter: "blur(5px)",
+    "-webkit-backdrop-filter": "blur(5px)",
+    // border: "1px solid rgba(255, 255, 255, 0.3)",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    margin: theme.space[2],
+    padding: theme.space[2],
+    color: theme.colors.white,
+    fontSize: theme.fontSizes.xl,
+  };
   return (
-    <Link href={"/payments"}>
+    <Link href={"/create-music"}>
       <Flex
         margin={theme.space[0]}
-        alignItems="flex-start"
+        alignItems="center"
         justifyContent="center"
-        height={"40%"}
+        height={"100%"}
         width={"100%"}
         padding={theme.space[8]}
         position={"relative"}
@@ -34,6 +54,9 @@ const Upgrade = () => {
           }}
           size={44}
         />
+        <Flex style={styles} position={"absolute"}>
+          {"Create your Music"}
+        </Flex>
       </Flex>
     </Link>
   );

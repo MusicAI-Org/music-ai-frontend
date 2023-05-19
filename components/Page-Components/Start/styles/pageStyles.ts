@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 
 export const StyledContainer = styled.div<{ color: string }>`
-  height: 90vh;
+  height: fit-content;
   width: 100%;
   flexdirection: column;
   alignitems: center;

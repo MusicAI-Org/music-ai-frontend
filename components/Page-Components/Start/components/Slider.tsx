@@ -13,11 +13,12 @@ import { Autoplay, Pagination, Navigation } from "swiper";
 import useBasicData from "../../../../swr/useBasicData";
 import { Flex, Image, Spinner, useTheme } from "@chakra-ui/react";
 import TextContainer from "../../../utils/Texts/TextContainer";
+import Link from "next/link";
 
 const Slider = () => {
   const theme = useTheme();
   const { data, error, isLoading } = useBasicData();
-  console.log(data);
+  console.log("ghefbasdkfgb", data);
 
   if (isLoading) {
     return (
@@ -76,17 +77,33 @@ const Slider = () => {
       className="mySwiper"
     >
       {data?.mostPopularData?.map(
-        (pop: { snippet: { thumbnails: { high: any } } }) => (
-          <SwiperSlide>
-            <Image
-              src={
-                pop
-                  ? pop.snippet.thumbnails.high.url
-                  : "https://i.ytimg.com/vi/1ZQ2wZQZQwQ/maxresdefault.jpg"
-              }
-              height="100%"
-              width="100%"
-            />
+        (pop: {
+          snippet: { thumbnails: { high: any }; title: string };
+          id: string;
+        }) => (
+          <SwiperSlide
+            style={{
+              cursor: "pointer",
+            }}
+          >
+            <Link
+              href={{
+                pathname: `/video/${pop.id}`,
+                query: {
+                  name: pop.snippet.title,
+                },
+              }}
+            >
+              <Image
+                src={
+                  pop
+                    ? pop.snippet.thumbnails.high.url
+                    : "https://i.ytimg.com/vi/1ZQ2wZQZQwQ/maxresdefault.jpg"
+                }
+                height="100%"
+                width="100%"
+              />
+            </Link>
           </SwiperSlide>
         )
       )}

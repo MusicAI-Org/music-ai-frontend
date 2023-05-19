@@ -1,7 +1,6 @@
 import React from "react";
 import { Flex } from "@chakra-ui/react";
 import Upgrade from "./components/Upgrade";
-import FavouriteArtists from "./components/FavouriteArtists/FavouriteArtists";
 
 /**
  * Home Page of the Application
@@ -11,9 +10,9 @@ import FavouriteArtists from "./components/FavouriteArtists/FavouriteArtists";
 const UpgradeFavArtists = () => {
   // const theme = useTheme();
   return (
-    <Flex width={"97%"} height={"100vh"} direction={"column"}>
+    <Flex width={"97%"} height={"fit-content"} direction={"column"}>
       <Upgrade />
-      <FavouriteArtists />
+      {/* <FavouriteArtists /> */}
     </Flex>
   );
 };

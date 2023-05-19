@@ -2,8 +2,10 @@ import useSWR from "swr";
 
 const useGlobeData = (_id?: string) => {
   const endpoint = _id
-    ? "https://music-ai-backend.onrender.com/api/music/authMusic/globeAuthData"
-    : "https://music-ai-backend.onrender.com/api/music/basicMusic/allGlobeData";
+    ? // ? "https://music-ai-backend.onrender.com/api/music/authMusic/globeAuthData"
+      // : "https://music-ai-backend.onrender.com/api/music/basicMusic/allGlobeData";
+      "http://localhost:8000/api/music/authMusic/globeAuthData"
+    : "http://localhost:8000/api/music/basicMusic/allGlobeData";
 
   const fetcher = async (...args: [RequestInfo, RequestInit]) => {
     const res = await fetch(args[0], {

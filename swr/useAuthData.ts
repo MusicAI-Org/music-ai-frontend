@@ -1,11 +1,16 @@
 import useSWR from "swr";
 
-const useCommunityOfUser = () => {
+interface Props {
+  id: string;
+}
+
+const useAuthData = ({ id }: Props) => {
+  console.log("its hereeeee ", id);
   const fetcher = (...args: [RequestInfo, RequestInit]) =>
     fetch(...args).then((res) => res.json());
   const { data, error, isValidating, mutate, isLoading } = useSWR(
-    // `https://music-ai-backend.onrender.com/api/community/features/data`,
-    `http://localhost:8000/api/community/features/data`,
+    // `https://music-ai-backend.onrender.com/api/music/basicMusic/getBasicMusic`,
+    `http://localhost:8000/api/music/authMusic/getAuthMusic/${id}`,
     fetcher
   );
 
@@ -15,7 +20,7 @@ const useCommunityOfUser = () => {
   };
 
   return {
-    communities: data,
+    allTypeGenre: data,
     isLoading,
     error,
     isValidating,
@@ -24,4 +29,4 @@ const useCommunityOfUser = () => {
   };
 };
 
-export default useCommunityOfUser;
+export default useAuthData;

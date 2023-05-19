@@ -2,7 +2,7 @@
 import * as React from "react";
 import { Text, useTheme } from "@chakra-ui/react";
 type Props = {
-  text: string;
+  text: string | undefined;
   size?: string;
   color?: string;
   width?: string;

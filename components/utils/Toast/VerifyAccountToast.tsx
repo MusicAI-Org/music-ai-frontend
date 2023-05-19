@@ -20,6 +20,7 @@ const VerifyAccountToast = () => {
           left={"50%"}
           transform={"translate(-50%, 0%)"}
           borderRadius={theme.borderRadius.md}
+          border={`2px solid ${theme.colors.ci}`}
         >
           <ImCross
             size={15}

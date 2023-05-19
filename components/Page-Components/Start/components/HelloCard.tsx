@@ -4,10 +4,12 @@ import { Box, Button, Image, useTheme } from "@chakra-ui/react";
 import { FaPlay } from "react-icons/fa";
 import Link from "next/link";
 import { useAuth0 } from "@auth0/auth0-react";
+import useUser from "../../../../swr/useUser";
 
 const MultiActionAreaCard = () => {
   const theme = useTheme();
   const { user } = useAuth0();
+  const { user: model } = useUser({ email: user?.email || "" });
   const property = {
     imageUrl: "img2.png",
     imageAlt: "Rear view of modern home with pool",
@@ -44,7 +46,7 @@ const MultiActionAreaCard = () => {
 
       <Box p="6" position={"absolute"} top={"10px"} right={"10px"}>
         <Box fontSize={theme.fontSizes.h1} color={theme.colors.white}>
-          Hello, {user?.given_name}!
+          Hello, {model?.fullUserPopulatedDetails?.avatarName} !
         </Box>
         <Box fontSize={theme.fontSizes.h3} color={theme.colors.white}>
           Welcome back to the platform!

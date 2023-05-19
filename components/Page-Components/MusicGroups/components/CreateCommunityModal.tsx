@@ -62,7 +62,6 @@ const CreateCommunityModal = ({ isOpen, onOpen, onClose }: any) => {
       <Button style={style} onClick={onOpen}>
         Create Community
       </Button>
-      ;
       <Modal
         initialFocusRef={nameRef}
         finalFocusRef={finalRef}

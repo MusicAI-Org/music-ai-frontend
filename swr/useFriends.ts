@@ -7,8 +7,8 @@ const useFriends = ({ id }: Props) => {
   const fetcher = (...args: [RequestInfo, RequestInit]) =>
     fetch(...args).then((res) => res.json());
   const { data, error, isValidating, mutate, isLoading } = useSWR(
-    `https://music-ai-backend.onrender.com/api/auth/getfriendsdata/${id}`,
-    // `http://localhost:8000/api/auth/getfriendsdata/${id}`,
+    // `https://music-ai-backend.onrender.com/api/auth/getfriendsdata/${id}`,
+    `http://localhost:8000/api/auth/getfriendsdata/${id}`,
     fetcher
   );
 

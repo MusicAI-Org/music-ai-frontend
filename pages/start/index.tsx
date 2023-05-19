@@ -6,7 +6,6 @@ import PanelDivContainer from "../../components/Page-Components/Start/PanelDivCo
 import { StyledContainer } from "../../components/Page-Components/Start/styles/pageStyles";
 import Footer from "../../components/utils/Footer/Footer";
 import PlaylistDivContainer from "../../components/Page-Components/Start/PlaylistDivContainer";
-import RecentlyPlayedDivContainer from "../../components/Page-Components/Start/RecentlyPlayedDivContainer";
 import UpgradeFavArtists from "../../components/Page-Components/Start/UpgradeFavArtists";
 import VerifyAccountToast from "../../components/utils/Toast/VerifyAccountToast";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -25,7 +24,7 @@ const Start = () => {
         alignItems="flex-start"
         justifyContent="flex-start"
         width={"100%"}
-        height={"100vh"}
+        height={"fit-content"}
       >
         <ContentDivContainer />
         <PanelDivContainer />
@@ -34,7 +33,7 @@ const Start = () => {
         alignItems={"flex-start"}
         justifyContent={"flex-start"}
         width={"100%"}
-        height={"100vh"}
+        height={"fit-content"}
         backgroundColor={theme.colors.bgDark}
       >
         <Flex
@@ -42,17 +41,17 @@ const Start = () => {
           alignItems={"flex-start"}
           justifyContent={"flex-start"}
           width={"70%"}
-          height={"100vh"}
+          height={"fit-content"}
         >
           <PlaylistDivContainer />
-          <RecentlyPlayedDivContainer />
+          {/* <RecentlyPlayedDivContainer /> */}
         </Flex>
         <Flex
           direction={"column"}
           alignItems={"flex-start"}
           justifyContent={"flex-start"}
           width={"30%"}
-          height={"100vh"}
+          height={"fit-content"}
         >
           <UpgradeFavArtists />
         </Flex>

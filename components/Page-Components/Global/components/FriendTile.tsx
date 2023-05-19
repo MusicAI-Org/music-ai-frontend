@@ -4,11 +4,13 @@ import ColoredLine from "../../../utils/Line/ColoredLine";
 
 const FriendTile = ({
   name,
+  avatarName,
   status,
   location,
   img,
 }: {
   name: string;
+  avatarName: string;
   status: string;
   location: string;
   img: string;
@@ -18,7 +20,7 @@ const FriendTile = ({
   return (
     <Flex
       direction="column"
-      height="10vh"
+      height="fit-content"
       width="100%"
       alignItems={"center"}
       justifyContent={"space-between"}
@@ -53,13 +55,20 @@ const FriendTile = ({
               color={theme.colors.ci}
               width={"70%"}
             >
-              {name}
+              {avatarName}
             </Text>
             <Text fontSize={theme.fontSizes.sm} color={theme.colors.ci}>
               {status}
             </Text>
           </Flex>
-
+          <Text
+            fontSize={theme.fontSizes.md}
+            letterSpacing="wide"
+            color={theme.colors.warning}
+            width={"70%"}
+          >
+            @{name}
+          </Text>
           <Text
             my={1}
             display="block"

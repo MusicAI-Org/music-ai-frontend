@@ -49,16 +49,17 @@ const TicketList = () => {
   return (
     <>
       {data?.topAlbumsData
-        ?.slice(0, 4)
+        ?.slice(1, 5)
         .map(
           (pop: {
-            id: null | undefined;
+            id: string | undefined;
             snippet: {
               title: string | undefined;
               thumbnails: { high: any };
             };
           }) => (
             <Card
+              id={pop.id}
               key={pop.id}
               src={
                 pop

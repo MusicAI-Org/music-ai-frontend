@@ -7,7 +7,18 @@ import CircleIcon from "./CircleIcon";
  * @return {JSX.Element}
  */
 
-const YoutubeVideosTile = (): JSX.Element => {
+type Props = {
+  id?: string;
+  src?: string;
+  heading?: string;
+  description: string;
+};
+const YoutubeVideosTile = ({
+  id,
+  src,
+  heading,
+  description,
+}: Props): JSX.Element => {
   const theme = useTheme();
   const property = {
     imageUrl: "/playlistImgs/img1.jpg",

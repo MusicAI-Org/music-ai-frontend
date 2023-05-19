@@ -24,7 +24,7 @@ const FriendsPage = (): JSX.Element => {
     id: model?.fullUserPopulatedDetails?._id,
   });
   const getGlobeData = useGlobeData(model?.fullUserPopulatedDetails?._id);
-  console.log("ggwp ", getGlobeData.data);
+  // console.log("ggwp ", getGlobeData.data);
 
   const [activeButton, setActiveButton] = useState("viewAll");
 
@@ -50,6 +50,7 @@ const FriendsPage = (): JSX.Element => {
       </Flex>
     );
   }
+  console.log("hehe", getGlobeData?.data?.usersFriends);
 
   if (error || friends?.error) {
     return (
@@ -142,7 +143,7 @@ const FriendsPage = (): JSX.Element => {
           >
             View All
           </Button>
-          {model && friends.friends.length !== 0 && (
+          {model && friends?.friends?.length !== 0 && (
             <Button
               onClick={() => handleButtonClick("viewFriends")}
               style={{
@@ -177,10 +178,12 @@ const FriendsPage = (): JSX.Element => {
                   name: string;
                   address: string;
                   avatarImg: string;
+                  avatarName: string;
                 }) => (
                   <FriendTile
                     key={user._id}
                     name={user.name}
+                    avatarName={user.avatarName}
                     status={"Online"}
                     location={user.address}
                     img={user.avatarImg}
@@ -205,10 +208,12 @@ const FriendsPage = (): JSX.Element => {
                   name: string;
                   address: string;
                   avatarImg: string;
+                  avatarName: string;
                 }) => (
                   <FriendTile
                     key={user._id}
                     name={user.name}
+                    avatarName={user.avatarName}
                     status={"Online"}
                     location={user.address}
                     img={user.avatarImg}

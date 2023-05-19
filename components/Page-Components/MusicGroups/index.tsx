@@ -15,10 +15,7 @@ import TextContainer from "../../utils/Texts/TextContainer";
 import { StyledContainer } from "../Global/styles/styles";
 import CommunityGroupTile from "./components/CommunityGroupTile";
 import CreateCommunityModal from "./components/CreateCommunityModal";
-import {
-  getAllCommunities,
-  getCommunityDataOfUser,
-} from "../../../pages/api/community-api";
+import { getCommunityDataOfUser } from "../../../pages/api/community-api";
 import UserCommunity from "../Community/UserCommunity";
 import useAllCommunity from "../../../swr/community/useAllCommunity";
 
@@ -174,7 +171,7 @@ const MusicGroupsComponent = (): JSX.Element => {
             marginTop={theme.space[4]}
           >
             {userData !== undefined &&
-              userData.communities.map((community: any) => (
+              userData?.communities?.map((community: any) => (
                 <UserCommunity
                   key={community._id}
                   _id={community._id}
