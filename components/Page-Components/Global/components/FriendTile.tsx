@@ -1,6 +1,7 @@
 import React from "react";
 import { Flex, Image, Text, useTheme } from "@chakra-ui/react";
 import ColoredLine from "../../../utils/Line/ColoredLine";
+import { AiOutlineUserAdd } from "react-icons/ai";
 
 const FriendTile = ({
   name,
@@ -8,12 +9,14 @@ const FriendTile = ({
   status,
   location,
   img,
+  isFriend,
 }: {
   name: string;
   avatarName: string;
   status: string;
   location: string;
   img: string;
+  isFriend: boolean;
 }) => {
   const theme = useTheme();
 
@@ -58,7 +61,21 @@ const FriendTile = ({
               {avatarName}
             </Text>
             <Text fontSize={theme.fontSizes.sm} color={theme.colors.ci}>
-              {status}
+              {isFriend ? (
+                <AiOutlineUserAdd
+                  color={theme.colors.ci}
+                  style={{
+                    cursor: "pointer",
+                    fontSize: "1.5rem",
+                    // border: `1px solid ${theme.colors.ci}`,
+                    // borderRadius: theme.borderRadius.half,
+                    // // padding: theme.space[1],
+                    // margin: theme.space[3],
+                  }}
+                />
+              ) : (
+                status
+              )}
             </Text>
           </Flex>
           <Text

@@ -179,6 +179,7 @@ const FriendsPage = (): JSX.Element => {
                   address: string;
                   avatarImg: string;
                   avatarName: string;
+                  isFriend: boolean;
                 }) => (
                   <FriendTile
                     key={user._id}
@@ -187,6 +188,7 @@ const FriendsPage = (): JSX.Element => {
                     status={"Online"}
                     location={user.address}
                     img={user.avatarImg}
+                    isFriend={true}
                   />
                 )
               )}
@@ -209,6 +211,7 @@ const FriendsPage = (): JSX.Element => {
                   address: string;
                   avatarImg: string;
                   avatarName: string;
+                  isFriend: boolean;
                 }) => (
                   <FriendTile
                     key={user._id}
@@ -217,6 +220,7 @@ const FriendsPage = (): JSX.Element => {
                     status={"Online"}
                     location={user.address}
                     img={user.avatarImg}
+                    isFriend={false}
                   />
                 )
               )}

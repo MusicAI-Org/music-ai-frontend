@@ -153,7 +153,8 @@ const SearchMusic = (): JSX.Element => {
                   videoId: string;
                 };
                 snippet: {
-                  description: string;
+                  publishTime: string;
+                  channelTitle: string;
                   thumbnails: { high: any };
                   title: string;
                 };
@@ -162,8 +163,10 @@ const SearchMusic = (): JSX.Element => {
                   <YoutubeVideosTile
                     id={music?.id?.videoId}
                     key={music?.id?.videoId}
+                    videoId={music?.id?.videoId}
                     heading={music?.snippet?.title}
-                    description={music?.snippet?.description}
+                    channelTitle={music?.snippet?.channelTitle}
+                    publishTime={music?.snippet?.publishTime}
                     src={
                       music?.snippet?.thumbnails?.high?.url ||
                       "https://i.ytimg.com/vi/1ZQ2wZQZQwQ/maxresdefault.jpg"
@@ -199,7 +202,8 @@ const SearchMusic = (): JSX.Element => {
                     videoId: string;
                   };
                   snippet: {
-                    description: string;
+                    publishTime: string;
+                    channelTitle: string;
                     thumbnails: { high: any };
                     title: string;
                   };
@@ -208,8 +212,10 @@ const SearchMusic = (): JSX.Element => {
                     <YoutubeVideosTile
                       id={music?.id?.videoId}
                       key={music?.id?.videoId}
+                      videoId={music?.id?.videoId}
                       heading={music?.snippet?.title}
-                      description={music?.snippet?.description}
+                      channelTitle={music?.snippet?.channelTitle}
+                      publishTime={music?.snippet?.publishTime}
                       src={
                         music?.snippet?.thumbnails?.high?.url ||
                         "https://i.ytimg.com/vi/1ZQ2wZQZQwQ/maxresdefault.jpg"

@@ -13,6 +13,7 @@ import {
 } from "react-icons/fa";
 import { AiOutlineCopyright } from "react-icons/ai";
 import ColoredLine from "../Line/ColoredLine";
+import Link from "next/link";
 
 const Container = styled.div`
   background-color: #fafafa;
@@ -76,9 +77,39 @@ const Footer = () => {
             justifyContent={"center"}
             padding={theme.space[8]}
           >
-            <Flex fontSize={theme.fontSizes.xl}>About Us</Flex>
-            <Flex fontSize={theme.fontSizes.xl}>Analytics</Flex>
-            <Flex fontSize={theme.fontSizes.xl}>Docs</Flex>
+            <Link href="/about">
+              <Flex
+                fontSize={theme.fontSizes.xl}
+                style={{
+                  cursor: "pointer",
+                }}
+              >
+                About Us
+              </Flex>
+            </Link>
+            <Link href="/analytics">
+              <Flex
+                fontSize={theme.fontSizes.xl}
+                style={{
+                  cursor: "pointer",
+                }}
+              >
+                Analytics
+              </Flex>
+            </Link>
+            <Link
+              href="https://github.com/MusicAI-Org/music-ai-frontend"
+              target="_blank"
+            >
+              <Flex
+                fontSize={theme.fontSizes.xl}
+                style={{
+                  cursor: "pointer",
+                }}
+              >
+                Docs
+              </Flex>
+            </Link>
           </Flex>
         </Flex>
         <Flex width={"50%"} height={"100%"}></Flex>
@@ -94,13 +125,23 @@ const Footer = () => {
         <AiOutlineCopyright size={24} /> 2022 Music.AI &nbsp;&nbsp;&nbsp;
         <ColoredLine color={theme.colors.ciDark} />
         &nbsp;&nbsp;&nbsp; Developed By{" "}
-        <span
+        <Link
+          href="https://its-paarth7.vercel.app/"
+          // open to another chrome tab
+          target="_blank"
           style={{
-            color: theme.colors.ci,
+            cursor: "pointer",
           }}
         >
-          &nbsp;Paarth
-        </span>
+          <span
+            style={{
+              color: theme.colors.ci,
+              cursor: "pointer",
+            }}
+          >
+            &nbsp;Paarth
+          </span>
+        </Link>
       </Flex>
     </Container>
   );

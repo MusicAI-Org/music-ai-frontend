@@ -1,6 +1,7 @@
 import React from "react";
 import { Box, Flex, Image, Text, useTheme } from "@chakra-ui/react";
 import CircleIcon from "./CircleIcon";
+import Link from "next/link";
 
 /**
  * Home Page of the Application
@@ -10,91 +11,108 @@ import CircleIcon from "./CircleIcon";
 type Props = {
   id?: string;
   src?: string;
+  videoId: string;
   heading?: string;
-  description: string;
+  channelTitle?: string;
+  publishTime: string;
 };
 const YoutubeVideosTile = ({
   id,
   src,
+  videoId,
   heading,
-  description,
+  channelTitle,
+  publishTime,
 }: Props): JSX.Element => {
   const theme = useTheme();
-  const property = {
-    imageUrl: "/playlistImgs/img1.jpg",
-    imageAlt: "Rear view of modern home with pool",
-    vidName:
-      "How I created Music AI, connecting the music lovers across the globe!!!",
-    authorName: "Paarth Jain",
-    views: 34,
-    timeOfUpload: "1 day",
-  };
+
+  const givenTime = publishTime;
+  const currentTime = new Date(); // Current time
+
+  const givenDateTime = new Date(givenTime);
+  const timeDifference = currentTime.getTime() - givenDateTime.getTime();
+
+  // Convert the time difference to the desired format
+  const seconds = Math.floor(timeDifference / 1000);
+  const minutes = Math.floor(seconds / 60);
+  const hours = Math.floor(minutes / 60);
+  const days = Math.floor(hours / 24);
+
+  console.log(
+    `${days} days, ${hours % 24} hours, ${minutes % 60} minutes, ${
+      seconds % 60
+    } seconds ago`
+  );
 
   return (
-    <Box
-      maxW="sm"
-      borderWidth="1px"
-      borderRadius={theme.borderRadius.md}
-      overflow="hidden"
-      color={theme.colors.defaultNotification}
-      height="fit-content"
-      width="100%"
-      cursor="pointer"
+    <Link
+      href={{
+        pathname: `/video/${videoId}`,
+        query: { name: heading },
+      }}
     >
-      <Image
-        src={property.imageUrl}
-        alt={property.imageAlt}
-        height="200px"
+      <Box
+        maxW="sm"
+        borderWidth="1px"
+        borderRadius={theme.borderRadius.md}
+        overflow="hidden"
+        color={theme.colors.defaultNotification}
+        height="fit-content"
         width="100%"
-      />
+        cursor="pointer"
+      >
+        <Image src={src} alt={"alt_image"} height="50%" width="100%" />
 
-      <Box padding={theme.space[3]} position="relative">
-        {/* name */}
-        <Box
-          display="flex"
-          flexDirection={"column"}
-          alignItems="flex-start"
-          justifyContent="space-between"
-        >
-          <Text
-            fontWeight="bold"
-            letterSpacing="wide"
-            fontSize={theme.fontSizes.xl}
-            color={theme.colors.white}
-          >
-            {property.vidName}
-          </Text>
-
-          <Flex
-            height={"100%"}
-            width={"100%"}
+        <Box padding={theme.space[3]} position="relative">
+          {/* name */}
+          <Box
+            display="flex"
+            flexDirection={"column"}
             alignItems="flex-start"
-            justifyContent="flex-start"
-            padding={`${theme.space[3]} 0`}
+            justifyContent="space-between"
           >
             <Text
               fontWeight="bold"
               letterSpacing="wide"
-              fontSize={theme.fontSizes.lg}
-              color={theme.colors.ciDark}
+              fontSize={theme.fontSizes.xl}
+              color={theme.colors.white}
             >
-              {`@ ${property.authorName}`}
+              {heading}
             </Text>
-          </Flex>
-          <Flex>
-            <Text
-              fontWeight="bold"
-              letterSpacing="wide"
-              fontSize={theme.fontSizes.md}
-              color={theme.colors.ci}
+
+            <Flex
+              height={"100%"}
+              width={"100%"}
+              alignItems="flex-start"
+              justifyContent="flex-start"
+              padding={`${theme.space[3]} 0`}
             >
-              {`${property.views} views `} <CircleIcon />{" "}
-              {`${property.timeOfUpload} ago`}
-            </Text>
-          </Flex>
+              <Text
+                fontWeight="bold"
+                letterSpacing="wide"
+                fontSize={theme.fontSizes.lg}
+                color={theme.colors.ciDark}
+              >
+                {`@ ${channelTitle}`}
+              </Text>
+            </Flex>
+            <Flex>
+              <Text
+                fontWeight="bold"
+                letterSpacing="wide"
+                fontSize={theme.fontSizes.md}
+                color={theme.colors.ci}
+              >
+                <CircleIcon />{" "}
+                {`${days} days, ${hours % 24} hours, ${minutes % 60} minutes, ${
+                  seconds % 60
+                } seconds ago`}
+              </Text>
+            </Flex>
+          </Box>
         </Box>
       </Box>
-    </Box>
+    </Link>
   );
 };
 export default YoutubeVideosTile;
