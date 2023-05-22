@@ -19,7 +19,7 @@ import VideoStream from "../../components/Page-Components/Video";
 const VideoPage = (): JSX.Element => {
   const { user } = useAuth0();
   const { query } = useRouter();
-  console.log(query.id);
+  console.log(query);
   return (
     <>
       <Head>
@@ -35,7 +35,7 @@ const VideoPage = (): JSX.Element => {
             </HeaderContainer>
             <Container>
               <Helmet />
-              <VideoStream id={query.id} />
+              <VideoStream id={query.id} name={query.name} />
             </Container>
           </>
         ) : (

@@ -16,10 +16,10 @@ import {
   useTheme,
 } from "@chakra-ui/react";
 import { createCommunity } from "../../../../pages/api/community-api";
-// import { useRouter } from "next/router";
+import { useRouter } from "next/router";
 
-const CreateCommunityModal = ({ isOpen, onOpen, onClose }: any) => {
-  // const router = useRouter();
+const CreateCommunityModal = ({ id, isOpen, onOpen, onClose }: any) => {
+  const router = useRouter();
   const theme = useTheme();
   const [isLoading, setIsLoading] = React.useState(false);
 
@@ -37,18 +37,25 @@ const CreateCommunityModal = ({ isOpen, onOpen, onClose }: any) => {
   const onCreateCommunity = async () => {
     setIsLoading(true);
     try {
-      const data = await createCommunity({
-        name: nameRef.current?.value,
-        description: descRef.current?.value,
-        user: {
-          _id: "642f27fc50b98ea7378f843d", //  demo id
-        },
-        url: urlRef.current?.value,
-      });
-      console.log(data);
+      if (
+        nameRef.current?.value &&
+        descRef.current?.value &&
+        urlRef.current?.value &&
+        id
+      ) {
+        const data = await createCommunity({
+          name: nameRef.current?.value,
+          description: descRef.current?.value,
+          user: {
+            _id: id, //  demo id
+          },
+          url: urlRef.current?.value,
+        });
+        console.log(data);
+        router.push(`/community/${data.community._id}`);
+      }
 
       // redirect the user to page
-      // router.push(`/community/${data.community._id}`);
       // setImageURL(data.image);
     } catch (error) {
       console.error(error);

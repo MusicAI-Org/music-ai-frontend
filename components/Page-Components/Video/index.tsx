@@ -12,15 +12,15 @@ import Link from "next/link";
 
 type Props = {
   id?: any;
-  name?: string;
+  name?: any;
 };
 
-const VideoStream = ({ id }: Props): JSX.Element => {
+const VideoStream = ({ id, name }: Props): JSX.Element => {
   const theme = useTheme();
 
   const style = {
     height: "5%",
-    width: "20%",
+    width: "15%",
     fontSize: theme.fontSizes.h4,
     background: theme.colors.transparent,
     marginBottom: "2vh",
@@ -31,7 +31,7 @@ const VideoStream = ({ id }: Props): JSX.Element => {
         height={"100vh"}
         width={"100%"}
         flexDirection={"column"}
-        alignItems={"flex-end"}
+        alignItems={"flex-start"}
         justifyContent={"flex-start"}
         padding={theme.space[4]}
       >
@@ -48,6 +48,7 @@ const VideoStream = ({ id }: Props): JSX.Element => {
           alignItems={"flex-start"}
           justifyContent={"center"}
           paddingRight={theme.space[4]}
+          marginBottom={theme.space[5]}
         >
           <iframe
             width="90%"
@@ -56,8 +57,8 @@ const VideoStream = ({ id }: Props): JSX.Element => {
             allowFullScreen
           ></iframe>
         </Flex>
+        {/* <TextContainer text={name} size={theme.fontSizes.xl3} /> */}
       </Flex>
-      {/* <TextContainer text={name} size={theme.fontSizes.xl} /> */}
       <Footer />
     </StyledContainer>
   );

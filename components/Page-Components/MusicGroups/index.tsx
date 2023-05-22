@@ -15,9 +15,11 @@ import TextContainer from "../../utils/Texts/TextContainer";
 import { StyledContainer } from "../Global/styles/styles";
 import CommunityGroupTile from "./components/CommunityGroupTile";
 import CreateCommunityModal from "./components/CreateCommunityModal";
-import { getCommunityDataOfUser } from "../../../pages/api/community-api";
 import UserCommunity from "../Community/UserCommunity";
 import useAllCommunity from "../../../swr/community/useAllCommunity";
+import { useAuth0 } from "@auth0/auth0-react";
+import useUser from "../../../swr/useUser";
+import useCommunityOfUser from "../../../swr/community/useCommunityOfUser";
 
 /**
  * Home Page of the Application
@@ -56,6 +58,12 @@ const MusicGroupsComponent = (): JSX.Element => {
 
   const [showErrorMessage, setShowErrorMessage] = useState(false);
   const [showUserCommunities, setShowUserCommunities] = useState(false);
+
+  const { user } = useAuth0();
+  const { user: model } = useUser({ email: user?.email || "" });
+  const { communityData } = useCommunityOfUser({
+    _id: model?.fullUserPopulatedDetails?._id,
+  });
   const style = {
     height: "5vh",
     fontSize: theme.fontSizes.h4,
@@ -66,9 +74,11 @@ const MusicGroupsComponent = (): JSX.Element => {
     communities,
     isLoading: isLoadingAllCommunities,
     error: errorAllCommunities,
-  } = useAllCommunity();
+  } = useAllCommunity({
+    _id: model?.fullUserPopulatedDetails?._id,
+  });
 
-  console.log("comm", communities);
+  // console.log("comm", communities);
 
   if (isLoadingAllCommunities) {
     return (
@@ -109,13 +119,12 @@ const MusicGroupsComponent = (): JSX.Element => {
   const handleGenerate = async () => {
     setIsLoading(true);
     try {
-      const _id = "63e69e20084d5200111c5e1d";
-      const data = await getCommunityDataOfUser(_id);
-      console.log(data);
-      setUserData(data);
+      // const _id = "63e69e20084d5200111c5e1d";
+      console.log("mmm", communityData);
+      setUserData(communityData);
       setShowUserCommunities(true);
     } catch (error) {
-      console.error(error);
+      console.log(error);
       setShowErrorMessage(true);
       setTimeout(() => {
         setShowErrorMessage(false);
@@ -133,7 +142,7 @@ const MusicGroupsComponent = (): JSX.Element => {
           height={"fit-content"}
           width={"100%"}
           justifyContent={"flex-start"}
-          alignItems={"center"}
+          alignItems={"flex-start"}
           direction={"column"}
           padding={theme.space[4]}
           paddingLeft={theme.space[9]}
@@ -183,7 +192,7 @@ const MusicGroupsComponent = (): JSX.Element => {
                 />
               ))}
           </SimpleGrid>
-          {userData.communities.length === 0 && (
+          {userData?.communities?.length === 0 && (
             <Flex justifyContent={"center"} alignItems={"center"}>
               <TextContainer
                 align={"center"}
@@ -272,6 +281,7 @@ const MusicGroupsComponent = (): JSX.Element => {
                     Your Communities
                   </Button>
                   <CreateCommunityModal
+                    id={model?.fullUserPopulatedDetails?._id || ""}
                     isOpen={isOpen}
                     onOpen={onOpen}
                     onClose={onClose}

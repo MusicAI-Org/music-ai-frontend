@@ -1,11 +1,19 @@
 import useSWR from "swr";
 
-const useCommunityOfUser = () => {
-  const fetcher = (...args: [RequestInfo, RequestInit]) =>
-    fetch(...args).then((res) => res.json());
+const useCommunityOfUser = ({ _id }: any) => {
+  const fetcher = async (url: RequestInfo | URL) => {
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await response.json();
+    return data;
+  };
+
   const { data, error, isValidating, mutate, isLoading } = useSWR(
-    // `https://music-ai-backend.onrender.com/api/community/features/data`,
-    `http://localhost:8000/api/community/features/data`,
+    `http://localhost:8000/api/community/features/data-user/${_id}`,
     fetcher
   );
 
@@ -15,7 +23,7 @@ const useCommunityOfUser = () => {
   };
 
   return {
-    communities: data,
+    communityData: data,
     isLoading,
     error,
     isValidating,
