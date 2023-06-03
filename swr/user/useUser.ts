@@ -1,3 +1,4 @@
+import React from "react";
 import useSWR from "swr";
 
 interface Props {
@@ -5,7 +6,7 @@ interface Props {
 }
 
 const useUser = ({ email }: Props) => {
-  if (email == "") {
+  if (email === "") {
     return {
       user: null,
       isLoading: false,
@@ -15,27 +16,36 @@ const useUser = ({ email }: Props) => {
       revalidate: null,
     };
   }
+
   const fetcher = async (...args: [RequestInfo, RequestInit]) => {
     const res = await fetch(args[0], {
       method: "POST",
       headers: {
-        "Content-Type": "application/json", // Set the content type to JSON
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email }), // Pass the email as request body
+      body: JSON.stringify({ email }),
     });
     return await res.json();
   };
 
   const { data, error, isValidating, mutate, isLoading } = useSWR(
-    // `https://music-ai-backend.onrender.com/api/auth/getModel`,
-    `http://localhost:8000/api/auth/getModel`,
+    `https://music-ai-backend.onrender.com/api/auth/getModel`,
     fetcher
   );
 
   const revalidate = () => {
-    // Manually trigger revalidation using mutate function
     mutate();
   };
+
+  React.useEffect(() => {
+    const intervalId = setInterval(() => {
+      revalidate();
+    }, 5000); // Revalidate every 5 seconds
+
+    return () => {
+      clearInterval(intervalId); // Clear the interval on unmounting
+    };
+  }, []);
 
   return {
     user: data,

@@ -21,7 +21,7 @@ import Credential from "./credentials";
  */
 
 export default function Index(): JSX.Element {
-  const { user } = useAuth0();
+  const { user, isAuthenticated } = useAuth0();
   console.log(user);
   return (
     <>
@@ -30,7 +30,7 @@ export default function Index(): JSX.Element {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <PageContainer>
-        {user ? (
+        {user && isAuthenticated ? (
           <>
             <HeaderContainer>
               <Header />

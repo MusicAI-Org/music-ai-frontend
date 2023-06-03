@@ -10,7 +10,7 @@ import MessageBox from "./MessageBox";
  * Home Page of the Application
  * @return {JSX.Element}
  */
-const FriendsContainer = (): JSX.Element => {
+const MusicListeningContainer = (): JSX.Element => {
   const theme = useTheme();
   return (
     <StyledContainer color={""}>
@@ -24,7 +24,10 @@ const FriendsContainer = (): JSX.Element => {
         paddingLeft={theme.space[9]}
         marginBottom={theme.space[9]}
       >
-        <TextContainer text={"Friends"} size={theme.fontSizes.xl5} />
+        <TextContainer
+          text={"Listen To Your Friends"}
+          size={theme.fontSizes.xl5}
+        />
         <Flex
           width={"100%"}
           height={"85%"}
@@ -42,4 +45,4 @@ const FriendsContainer = (): JSX.Element => {
     </StyledContainer>
   );
 };
-export default FriendsContainer;
+export default MusicListeningContainer;

@@ -7,7 +7,7 @@ import {
 import Header from "../../components/utils/Header";
 import Helmet from "../../components/utils/Helmet";
 import Head from "next/head";
-import FriendsContainer from "../../components/Page-Components/Friends";
+import MusicListeningContainer from "../../components/Page-Components/MusicListen";
 import { useAuth0 } from "@auth0/auth0-react";
 import Credential from "../credentials";
 
@@ -15,12 +15,12 @@ import Credential from "../credentials";
  * Home Page of the Application
  * @return {JSX.Element}
  */
-const Friends = (): JSX.Element => {
+const Listen = (): JSX.Element => {
   const { user } = useAuth0();
   return (
     <>
       <Head>
-        <title>Friends</title>
+        <title>Listen</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <PageContainer>
@@ -31,7 +31,7 @@ const Friends = (): JSX.Element => {
             </HeaderContainer>
             <Container>
               <Helmet />
-              <FriendsContainer />
+              <MusicListeningContainer />
             </Container>
           </>
         ) : (
@@ -41,4 +41,4 @@ const Friends = (): JSX.Element => {
     </>
   );
 };
-export default Friends;
+export default Listen;

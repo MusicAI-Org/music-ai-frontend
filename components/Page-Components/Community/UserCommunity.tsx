@@ -77,6 +77,14 @@ const UserCommunity = ({
       borderRadius: 0,
       backgroundColor: theme.colors.transparent,
     },
+    leaveGroupBtn: {
+      height: "7vh",
+      width: "100%",
+      fontSize: theme.fontSizes.h3,
+      color: theme.colors.white,
+      borderRadius: 0,
+      backgroundColor: theme.colors.dangerBorder,
+    },
   };
 
   return (
@@ -156,6 +164,11 @@ const UserCommunity = ({
         <Link href={`/community/${_id}`}>
           <Button rightIcon={<MdGroup />} style={styles.joinGroupBtn}>
             Enter
+          </Button>
+        </Link>
+        <Link href={`/community/${_id}`}>
+          <Button rightIcon={<MdGroup />} style={styles.leaveGroupBtn}>
+            Delete
           </Button>
         </Link>
       </Flex>

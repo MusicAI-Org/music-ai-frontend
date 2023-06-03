@@ -4,7 +4,7 @@ import * as React from "react";
 import Card from "./Card";
 import useFriends from "../../../../../swr/useFriends";
 import { useAuth0 } from "@auth0/auth0-react";
-import useUser from "../../../../../swr/useUser";
+import useUser from "../../../../../swr/user/useUser";
 import TextContainer from "../../../../utils/Texts/TextContainer";
 import Link from "next/link";
 

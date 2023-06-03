@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Button,
   ButtonGroup,
@@ -14,8 +14,16 @@ import { TiTick } from "react-icons/ti";
 import { AiOutlineRollback } from "react-icons/ai";
 import { useTheme } from "@chakra-ui/react";
 
-const EditName = () => {
+interface Props {
+  name: string;
+}
+
+const EditName = (props: Props) => {
   const theme = useTheme();
+  const [name, setName] = useState(props.name);
+  const handleNameChange = (value: any) => {
+    setName(value);
+  };
   /* Here's a custom control */
   const EditableControls = () => {
     const {
@@ -70,9 +78,11 @@ const EditName = () => {
       <FormLabel color={theme.colors.ci}>NAME</FormLabel>
       <Editable
         textAlign="center"
-        defaultValue="Paarth Jain"
+        defaultValue={name}
         fontSize="xl"
         isPreviewFocusable={false}
+        // value={name}
+        onChange={handleNameChange}
         style={{
           display: "flex",
           height: "50%",

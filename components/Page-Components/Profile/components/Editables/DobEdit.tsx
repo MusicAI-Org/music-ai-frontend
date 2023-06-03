@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { Flex, FormLabel, Input } from "@chakra-ui/react";
 import { useTheme } from "@chakra-ui/react";
 
-const EditDOB = () => {
+interface Props {
+  dob: string;
+}
+const EditDOB = (props: Props) => {
   const theme = useTheme();
+  const [isDob, setDOB] = useState(props.dob);
+  const handleDOBChange = (value: React.SetStateAction<string>) => {
+    setDOB(value);
+  };
   const styles = {
     input: {
       height: "100%",
@@ -31,6 +38,8 @@ const EditDOB = () => {
         _placeholder={{
           color: theme.colors.ciTrans15,
         }}
+        onChange={(e) => handleDOBChange(e.target.value)}
+        value={isDob}
       />
     </Flex>
   );

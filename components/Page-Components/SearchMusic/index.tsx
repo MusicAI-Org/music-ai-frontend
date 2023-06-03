@@ -7,7 +7,7 @@ import ViewMoreButton from "./components/ViewMoreButton";
 import YoutubeMusicTile from "./components/YoutubeMusicTile";
 import YoutubeVideosTile from "./components/YoutubeVideosTile";
 import useBasicData from "../../../swr/useBasicData";
-import useUser from "../../../swr/useUser";
+import useUser from "../../../swr/user/useUser";
 import { useAuth0 } from "@auth0/auth0-react";
 import useAuthData from "../../../swr/useAuthData";
 

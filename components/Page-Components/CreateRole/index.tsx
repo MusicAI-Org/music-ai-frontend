@@ -20,7 +20,7 @@ import {
 import Footer from "../../utils/Footer/Footer";
 import useGeoLocation from "../../utils/useGeolocation";
 import TextContainer from "../../utils/Texts/TextContainer";
-import { createModel } from "../../../pages/api/create-model-api";
+import { createModel } from "../../../pages/api/user-api";
 import { useRouter } from "next/router";
 
 const initialValues = {

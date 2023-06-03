@@ -2,8 +2,11 @@ import React from "react";
 import { Flex, Image, Text, useTheme } from "@chakra-ui/react";
 import ColoredLine from "../../../utils/Line/ColoredLine";
 import { AiOutlineUserAdd } from "react-icons/ai";
+import { addFriends } from "../../../../pages/api/community-api";
 
 const FriendTile = ({
+  friendId,
+  userId,
   name,
   avatarName,
   status,
@@ -11,6 +14,8 @@ const FriendTile = ({
   img,
   isFriend,
 }: {
+  friendId: string;
+  userId: string;
   name: string;
   avatarName: string;
   status: string;
@@ -19,6 +24,13 @@ const FriendTile = ({
   isFriend: boolean;
 }) => {
   const theme = useTheme();
+
+  // call an api which has body of the id of user and friend
+  const addFriendHandler = async () => {
+    console.log("add friend");
+    const data = await addFriends({ user1Id: userId, user2Id: friendId });
+    console.log(data);
+  };
 
   return (
     <Flex
@@ -61,17 +73,14 @@ const FriendTile = ({
               {avatarName}
             </Text>
             <Text fontSize={theme.fontSizes.sm} color={theme.colors.ci}>
-              {isFriend ? (
+              {!isFriend ? (
                 <AiOutlineUserAdd
                   color={theme.colors.ci}
                   style={{
                     cursor: "pointer",
                     fontSize: "1.5rem",
-                    // border: `1px solid ${theme.colors.ci}`,
-                    // borderRadius: theme.borderRadius.half,
-                    // // padding: theme.space[1],
-                    // margin: theme.space[3],
                   }}
+                  onClick={addFriendHandler}
                 />
               ) : (
                 status

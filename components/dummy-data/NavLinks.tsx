@@ -2,7 +2,8 @@ import { FiHome } from "react-icons/fi";
 import { BiCast } from "react-icons/bi";
 import { MdGroups } from "react-icons/md";
 import { ImMusic } from "react-icons/im";
-import { FaRobot, FaGlobe, FaUserFriends } from "react-icons/fa";
+import { FaRobot, FaGlobe } from "react-icons/fa";
+import { HiShare } from "react-icons/hi";
 import { BsYoutube } from "react-icons/bs";
 import { IoAnalyticsSharp } from "react-icons/io5";
 import { RiSecurePaymentFill } from "react-icons/ri";
@@ -38,11 +39,11 @@ export const NavLinks = [
   {
     id: "4",
     navSize: "small",
-    icon: FaUserFriends,
-    title: "Friends",
-    description: "Chat with your friends",
+    icon: HiShare,
+    title: "Listen",
+    description: "Listen to your friends music",
     active: false,
-    route: "/friends",
+    route: "/listen",
   },
   {
     id: "5",

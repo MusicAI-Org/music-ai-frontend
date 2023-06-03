@@ -1,13 +1,18 @@
 import React, { useState } from "react";
 import dynamic from "next/dynamic";
-import { Button, Flex, Spinner, useTheme } from "@chakra-ui/react";
+import { Flex, Spinner, useTheme } from "@chakra-ui/react";
 import { StyledContainer } from "../Profile/styles/pageStyles";
-import useUser from "../../../swr/useUser";
+import useUser from "../../../swr/user/useUser";
 import { useAuth0 } from "@auth0/auth0-react";
 import useFriends from "../../../swr/useFriends";
 import TextContainer from "../../utils/Texts/TextContainer";
 import useGlobeData from "../../../swr/useGlobeData";
 import FriendTile from "./components/FriendTile";
+import SelectTab from "./components/SelectTab";
+import useNearByFetch from "../../../swr/filters/useNearByFetch";
+import useFavouriteMusicians from "../../../swr/filters/useFavouriteMusicians";
+import useGenreSpecific from "../../../swr/filters/useGenreSpecific";
+import useFriendsOfFriends from "../../../swr/filters/useFriendsOfFriends";
 const Globe = dynamic(import("react-globe.gl"), { ssr: false });
 
 /**
@@ -18,19 +23,25 @@ const Globe = dynamic(import("react-globe.gl"), { ssr: false });
 const FriendsPage = (): JSX.Element => {
   const theme = useTheme();
   const { user } = useAuth0();
+  const [selected, setSelected] = useState(0);
 
   const { user: model } = useUser({ email: user?.email || "" });
+  console.log("model", model);
   const { friends, isLoading, error } = useFriends({
     id: model?.fullUserPopulatedDetails?._id,
   });
   const getGlobeData = useGlobeData(model?.fullUserPopulatedDetails?._id);
-  // console.log("ggwp ", getGlobeData.data);
-
-  const [activeButton, setActiveButton] = useState("viewAll");
-
-  const handleButtonClick = (buttonName: string) => {
-    setActiveButton(buttonName);
-  };
+  const nearByFetch = useNearByFetch({
+    _id: model?.fullUserPopulatedDetails?._id,
+    location: model?.fullUserPopulatedDetails?.location,
+  });
+  const favouriteMusicians = useFavouriteMusicians(
+    model?.fullUserPopulatedDetails?._id
+  );
+  const genreSpecific = useGenreSpecific(model?.fullUserPopulatedDetails?._id);
+  const friendsOfFriends = useFriendsOfFriends(
+    model?.fullUserPopulatedDetails?._id
+  );
 
   if (isLoading) {
     return (
@@ -50,7 +61,7 @@ const FriendsPage = (): JSX.Element => {
       </Flex>
     );
   }
-  console.log("hehe", getGlobeData?.data?.usersFriends);
+  // console.log("hehe", getGlobeData?.data?.usersFriends);
 
   if (error || friends?.error) {
     return (
@@ -84,31 +95,66 @@ const FriendsPage = (): JSX.Element => {
           globeImageUrl="//unpkg.com/three-globe/example/img/earth-night.jpg"
           // map the users friends to the globe
           pointsData={
-            activeButton == "viewAll"
-              ? getGlobeData?.data?.usersNotFriends?.map(
-                  (friend: {
-                    location: { coordinates: any[] };
-                    name: any;
-                  }) => ({
-                    lat: friend.location.coordinates[1],
-                    lng: friend.location.coordinates[0],
-                    name: friend.name,
-                    color: "red",
-                    value: 1,
-                  })
-                )
-              : getGlobeData?.data?.usersFriends?.map(
-                  (friend: {
-                    location: { coordinates: any[] };
-                    name: any;
-                  }) => ({
-                    lat: friend.location.coordinates[1],
-                    lng: friend.location.coordinates[0],
-                    name: friend.name,
-                    color: "red",
-                    value: 1,
-                  })
-                ) || []
+            (selected === 0 &&
+              getGlobeData?.data?.usersNotFriends?.map(
+                (friend: { location: { coordinates: any[] }; name: any }) => ({
+                  lat: friend.location.coordinates[1],
+                  lng: friend.location.coordinates[0],
+                  name: friend.name,
+                  color: "red",
+                  value: 1,
+                })
+              )) ||
+            (selected === 1 &&
+              getGlobeData?.data?.usersFriends?.map(
+                (friend: { location: { coordinates: any[] }; name: any }) => ({
+                  lat: friend.location.coordinates[1],
+                  lng: friend.location.coordinates[0],
+                  name: friend.name,
+                  color: "red",
+                  value: 1,
+                })
+              )) ||
+            (selected === 2 &&
+              nearByFetch?.data?.nearByUsers?.map(
+                (friend: { location: { coordinates: any[] }; name: any }) => ({
+                  lat: friend.location.coordinates[1],
+                  lng: friend.location.coordinates[0],
+                  name: friend.name,
+                  color: "red",
+                  value: 1,
+                })
+              )) ||
+            (selected === 3 &&
+              favouriteMusicians?.data?.filteredUsers?.map(
+                (friend: { location: { coordinates: any[] }; name: any }) => ({
+                  lat: friend.location.coordinates[1],
+                  lng: friend.location.coordinates[0],
+                  name: friend.name,
+                  color: "red",
+                  value: 1,
+                })
+              )) ||
+            (selected === 4 &&
+              genreSpecific?.data?.filteredUsers?.map(
+                (friend: { location: { coordinates: any[] }; name: any }) => ({
+                  lat: friend.location.coordinates[1],
+                  lng: friend.location.coordinates[0],
+                  name: friend.name,
+                  color: "red",
+                  value: 1,
+                })
+              )) ||
+            (selected === 5 &&
+              friendsOfFriends?.data?.friendsOfFriends?.map(
+                (friend: { location: { coordinates: any[] }; name: any }) => ({
+                  lat: friend.location.coordinates[1],
+                  lng: friend.location.coordinates[0],
+                  name: friend.name,
+                  color: "red",
+                  value: 1,
+                })
+              ))
           }
         />
       </Flex>
@@ -120,49 +166,9 @@ const FriendsPage = (): JSX.Element => {
         height={"100%"}
         overflow={"hidden"}
       >
-        <Flex
-          alignItems="center"
-          justifyContent="center"
-          width={"100%"}
-          height={"30%"}
-          overflow={"hidden"}
-        >
-          <Button
-            onClick={() => handleButtonClick("viewAll")}
-            style={{
-              height: "4vh",
-              width: "30%",
-              fontSize: theme.fontSizes.h3,
-              background:
-                activeButton === "viewAll"
-                  ? theme.colors.ci[500]
-                  : theme.colors.transparent,
-              padding: theme.space[6],
-              margin: theme.space[5],
-            }}
-          >
-            View All
-          </Button>
-          {model && friends?.friends?.length !== 0 && (
-            <Button
-              onClick={() => handleButtonClick("viewFriends")}
-              style={{
-                height: "4vh",
-                width: "30%",
-                fontSize: theme.fontSizes.h3,
-                background:
-                  activeButton === "viewFriends"
-                    ? theme.colors.ci[500]
-                    : theme.colors.transparent,
-                padding: theme.space[6],
-                margin: theme.space[5],
-              }}
-            >
-              View Friends
-            </Button>
-          )}
-        </Flex>
-        {activeButton == "viewAll" && (
+        <SelectTab selected={selected} setSelected={setSelected} />
+
+        {selected == 0 && (
           <Flex
             flexDirection={"column"}
             alignItems="flex-start"
@@ -174,7 +180,7 @@ const FriendsPage = (): JSX.Element => {
             {getGlobeData?.data?.usersNotFriends?.length !== 0 &&
               getGlobeData?.data?.usersNotFriends?.map(
                 (user: {
-                  _id: React.Key | null | undefined;
+                  _id: string;
                   name: string;
                   address: string;
                   avatarImg: string;
@@ -183,18 +189,20 @@ const FriendsPage = (): JSX.Element => {
                 }) => (
                   <FriendTile
                     key={user._id}
+                    friendId={user._id}
+                    userId={model?.fullUserPopulatedDetails?._id}
                     name={user.name}
                     avatarName={user.avatarName}
                     status={"Online"}
                     location={user.address}
                     img={user.avatarImg}
-                    isFriend={true}
+                    isFriend={false}
                   />
                 )
               )}
           </Flex>
         )}
-        {activeButton == "viewFriends" && (
+        {selected === 1 && (
           <Flex
             flexDirection={"column"}
             alignItems="flex-start"
@@ -206,7 +214,7 @@ const FriendsPage = (): JSX.Element => {
             {getGlobeData?.data?.usersFriends?.length !== 0 &&
               getGlobeData?.data?.usersFriends?.map(
                 (user: {
-                  _id: React.Key | null | undefined;
+                  _id: string;
                   name: string;
                   address: string;
                   avatarImg: string;
@@ -215,6 +223,144 @@ const FriendsPage = (): JSX.Element => {
                 }) => (
                   <FriendTile
                     key={user._id}
+                    friendId={user._id}
+                    userId={model?.fullUserPopulatedDetails?._id}
+                    name={user.name}
+                    avatarName={user.avatarName}
+                    status={"Online"}
+                    location={user.address}
+                    img={user.avatarImg}
+                    isFriend={true}
+                  />
+                )
+              )}
+          </Flex>
+        )}
+        {selected === 2 && (
+          <Flex
+            flexDirection={"column"}
+            alignItems="flex-start"
+            justifyContent="flex-start"
+            width={"70%"}
+            height={"70%"}
+            overflow={"scroll"}
+          >
+            {nearByFetch?.data?.nearByUsers?.length !== 0 &&
+              nearByFetch?.data?.nearByUsers?.map(
+                (user: {
+                  _id: string;
+                  name: string;
+                  address: string;
+                  avatarImg: string;
+                  avatarName: string;
+                  isFriend: boolean;
+                }) => (
+                  <FriendTile
+                    key={user._id}
+                    friendId={user._id}
+                    userId={model?.fullUserPopulatedDetails?._id}
+                    name={user.name}
+                    avatarName={user.avatarName}
+                    status={"Online"}
+                    location={user.address}
+                    img={user.avatarImg}
+                    isFriend={false}
+                  />
+                )
+              )}
+          </Flex>
+        )}
+        {selected === 3 && (
+          <Flex
+            flexDirection={"column"}
+            alignItems="flex-start"
+            justifyContent="flex-start"
+            width={"70%"}
+            height={"70%"}
+            overflow={"scroll"}
+          >
+            {favouriteMusicians?.data?.filteredUsers?.length !== 0 &&
+              favouriteMusicians?.data?.filteredUsers?.map(
+                (user: {
+                  _id: string;
+                  name: string;
+                  address: string;
+                  avatarImg: string;
+                  avatarName: string;
+                  isFriend: boolean;
+                }) => (
+                  <FriendTile
+                    key={user._id}
+                    friendId={user._id}
+                    userId={model?.fullUserPopulatedDetails?._id}
+                    name={user.name}
+                    avatarName={user.avatarName}
+                    status={"Online"}
+                    location={user.address}
+                    img={user.avatarImg}
+                    isFriend={false}
+                  />
+                )
+              )}
+          </Flex>
+        )}
+        {selected === 4 && (
+          <Flex
+            flexDirection={"column"}
+            alignItems="flex-start"
+            justifyContent="flex-start"
+            width={"70%"}
+            height={"70%"}
+            overflow={"scroll"}
+          >
+            {genreSpecific?.data?.filteredUsers?.length !== 0 &&
+              genreSpecific?.data?.filteredUsers?.map(
+                (user: {
+                  _id: string;
+                  name: string;
+                  address: string;
+                  avatarImg: string;
+                  avatarName: string;
+                  isFriend: boolean;
+                }) => (
+                  <FriendTile
+                    key={user._id}
+                    friendId={user._id}
+                    userId={model?.fullUserPopulatedDetails?._id}
+                    name={user.name}
+                    avatarName={user.avatarName}
+                    status={"Online"}
+                    location={user.address}
+                    img={user.avatarImg}
+                    isFriend={false}
+                  />
+                )
+              )}
+          </Flex>
+        )}
+        {selected === 5 && (
+          <Flex
+            flexDirection={"column"}
+            alignItems="flex-start"
+            justifyContent="flex-start"
+            width={"70%"}
+            height={"70%"}
+            overflow={"scroll"}
+          >
+            {friendsOfFriends?.data?.friendsOfFriends?.length !== 0 &&
+              friendsOfFriends?.data?.friendsOfFriends?.map(
+                (user: {
+                  _id: string;
+                  name: string;
+                  address: string;
+                  avatarImg: string;
+                  avatarName: string;
+                  isFriend: boolean;
+                }) => (
+                  <FriendTile
+                    key={user._id}
+                    friendId={user._id}
+                    userId={model?.fullUserPopulatedDetails?._id}
                     name={user.name}
                     avatarName={user.avatarName}
                     status={"Online"}

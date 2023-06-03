@@ -27,8 +27,8 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
   </Head>;
   return (
     <Auth0Provider
-      domain="https://dev-7f4yx0bakz5k5j0r.us.auth0.com"
-      clientId="Cavwde1ooT9MRQwdv5wUHqOXrrofhPhc"
+      domain="https://dev-bfgxs0vf.us.auth0.com"
+      clientId="TNvhy3ptScIO50Ezqiyl1TFjztOsUN00"
       authorizationParams={{
         redirect_uri: win,
       }}

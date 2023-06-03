@@ -4,7 +4,7 @@ import { Box, Button, Image, useTheme } from "@chakra-ui/react";
 import { FaPlay } from "react-icons/fa";
 import Link from "next/link";
 import { useAuth0 } from "@auth0/auth0-react";
-import useUser from "../../../../swr/useUser";
+import useUser from "../../../../swr/user/useUser";
 
 const MultiActionAreaCard = () => {
   const theme = useTheme();

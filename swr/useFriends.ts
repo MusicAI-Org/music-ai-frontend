@@ -1,3 +1,4 @@
+import React from "react";
 import useSWR from "swr";
 
 interface Props {
@@ -8,7 +9,7 @@ const useFriends = ({ id }: Props) => {
     fetch(...args).then((res) => res.json());
   const { data, error, isValidating, mutate, isLoading } = useSWR(
     // `https://music-ai-backend.onrender.com/api/auth/getfriendsdata/${id}`,
-    `http://localhost:8000/api/auth/getfriendsdata/${id}`,
+    `https://music-ai-backend.onrender.com/api/auth/getfriendsdata/${id}`,
     fetcher
   );
 
@@ -16,6 +17,16 @@ const useFriends = ({ id }: Props) => {
     // Manually trigger revalidation using mutate function
     mutate();
   };
+
+  React.useEffect(() => {
+    const intervalId = setInterval(() => {
+      revalidate();
+    }, 5000); // Revalidate every 5 seconds
+
+    return () => {
+      clearInterval(intervalId); // Clear the interval on unmounting
+    };
+  }, []);
 
   return {
     friends: data,

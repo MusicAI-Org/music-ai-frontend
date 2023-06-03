@@ -18,7 +18,7 @@ import CreateCommunityModal from "./components/CreateCommunityModal";
 import UserCommunity from "../Community/UserCommunity";
 import useAllCommunity from "../../../swr/community/useAllCommunity";
 import { useAuth0 } from "@auth0/auth0-react";
-import useUser from "../../../swr/useUser";
+import useUser from "../../../swr/user/useUser";
 import useCommunityOfUser from "../../../swr/community/useCommunityOfUser";
 
 /**
@@ -107,7 +107,7 @@ const MusicGroupsComponent = (): JSX.Element => {
         height={"100vh"}
       >
         <TextContainer
-          text={communities.error || "Error loading data"}
+          text={communities?.error || "Error loading data"}
           color={theme.colors.danger}
           size="1.2rem"
           align="center"
@@ -288,7 +288,7 @@ const MusicGroupsComponent = (): JSX.Element => {
                   />
                 </Flex>
               </Flex>
-              {communities.communities.length != 0 ? (
+              {communities?.communities?.length != 0 ? (
                 <SimpleGrid
                   columns={[2, null, 3]}
                   spacing="20px"

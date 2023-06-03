@@ -20,32 +20,20 @@ export async function createCommunity({ name, description, user, url }: any) {
 }
 
 // eslint-disable-next-line require-jsdoc
-export async function getCommunityDataOfUser(_id: any) {
+export async function addFriends({ user1Id, user2Id }: any) {
   const response = await fetch(
-    `https://music-ai-backend.onrender.com/api/community/features/data-user/${_id}`,
+    `https://music-ai-backend.onrender.com/api/community/people/addFriend`,
     {
-      method: "GET",
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
+      body: JSON.stringify({
+        user1Id,
+        user2Id,
+      }),
     }
   );
   const data = await response.json();
-  return data;
-}
-
-// eslint-disable-next-line require-jsdoc
-export async function getAllCommunities() {
-  const response = await fetch(
-    `https://music-ai-backend.onrender.com/api/community/features/data`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
-  );
-  const data = await response.json();
-  console.log("data");
   return data;
 }
