@@ -1,7 +1,8 @@
 import useSWR from "swr";
 
 const useFavouriteMusicians = (_id: String) => {
-  const endpoint = "http://localhost:8000/api/community/people/likeBased";
+  const endpoint =
+    "https://music-ai-backend.onrender.com/api/community/people/likeBased";
 
   const fetcher = async (...args: [RequestInfo, RequestInit]) => {
     const res = await fetch(args[0], {

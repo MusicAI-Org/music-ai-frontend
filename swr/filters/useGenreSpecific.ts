@@ -1,7 +1,8 @@
 import useSWR from "swr";
 
 const useGenreSpecific = (_id: String) => {
-  const endpoint = "http://localhost:8000/api/community/people/genreBased";
+  const endpoint =
+    "https://music-ai-backend.onrender.com/api/community/people/genreBased";
 
   const fetcher = async (...args: [RequestInfo, RequestInit]) => {
     const res = await fetch(args[0], {

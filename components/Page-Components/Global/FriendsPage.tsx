@@ -175,7 +175,7 @@ const FriendsPage = (): JSX.Element => {
             justifyContent="flex-start"
             width={"70%"}
             height={"70%"}
-            overflow={"scroll"}
+            overflow={"auto"}
           >
             {getGlobeData?.data?.usersNotFriends?.length !== 0 &&
               getGlobeData?.data?.usersNotFriends?.map(
@@ -209,7 +209,7 @@ const FriendsPage = (): JSX.Element => {
             justifyContent="flex-start"
             width={"70%"}
             height={"70%"}
-            overflow={"scroll"}
+            overflow={"auto"}
           >
             {getGlobeData?.data?.usersFriends?.length !== 0 &&
               getGlobeData?.data?.usersFriends?.map(
@@ -243,7 +243,7 @@ const FriendsPage = (): JSX.Element => {
             justifyContent="flex-start"
             width={"70%"}
             height={"70%"}
-            overflow={"scroll"}
+            overflow={"auto"}
           >
             {nearByFetch?.data?.nearByUsers?.length !== 0 &&
               nearByFetch?.data?.nearByUsers?.map(
@@ -277,7 +277,7 @@ const FriendsPage = (): JSX.Element => {
             justifyContent="flex-start"
             width={"70%"}
             height={"70%"}
-            overflow={"scroll"}
+            overflow={"auto"}
           >
             {favouriteMusicians?.data?.filteredUsers?.length !== 0 &&
               favouriteMusicians?.data?.filteredUsers?.map(
@@ -311,7 +311,7 @@ const FriendsPage = (): JSX.Element => {
             justifyContent="flex-start"
             width={"70%"}
             height={"70%"}
-            overflow={"scroll"}
+            overflow={"auto"}
           >
             {genreSpecific?.data?.filteredUsers?.length !== 0 &&
               genreSpecific?.data?.filteredUsers?.map(
@@ -345,7 +345,7 @@ const FriendsPage = (): JSX.Element => {
             justifyContent="flex-start"
             width={"70%"}
             height={"70%"}
-            overflow={"scroll"}
+            overflow={"auto"}
           >
             {friendsOfFriends?.data?.friendsOfFriends?.length !== 0 &&
               friendsOfFriends?.data?.friendsOfFriends?.map(

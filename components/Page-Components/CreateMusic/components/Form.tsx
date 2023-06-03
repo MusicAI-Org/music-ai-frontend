@@ -111,7 +111,7 @@ const CustomForm = (props: Props): JSX.Element => {
         console.log([...formData.entries()]);
         // call post api
         const res = await fetch(
-          "http://localhost:8000/api/community/music/upload",
+          "https://music-ai-backend.onrender.com/api/community/music/upload",
           {
             method: "POST",
             body: formData,

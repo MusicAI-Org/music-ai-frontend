@@ -39,6 +39,7 @@ const FriendTile = ({
       width="100%"
       alignItems={"center"}
       justifyContent={"space-between"}
+      marginTop="2vh"
       marginBottom="2vh"
     >
       <Flex
@@ -53,6 +54,8 @@ const FriendTile = ({
             borderRadius={theme.borderRadius.half}
             src={img || "/playlistImgs/img1.jpg"}
             alt="Woman paying for a purchase"
+            height={"100%"}
+            width={"100%"}
           />
         </Flex>
         <Flex
@@ -107,7 +110,7 @@ const FriendTile = ({
           </Text>
         </Flex>
       </Flex>
-      <Flex alignItems="center" width="10%">
+      <Flex alignItems="center" width="10%" marginTop="1vh">
         <ColoredLine color={theme.colors.ciDark} />
       </Flex>
     </Flex>

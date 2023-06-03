@@ -1,7 +1,8 @@
 import useSWR from "swr";
 
 const useNearByFetch = (dat: any) => {
-  const endpoint = "http://localhost:8000/api/community/people/nearBy";
+  const endpoint =
+    "https://music-ai-backend.onrender.com/api/community/people/nearBy";
 
   const fetcher = async (...args: [RequestInfo, RequestInit]) => {
     const res = await fetch(args[0], {

@@ -2,7 +2,7 @@ import useSWR from "swr";
 
 const useFriendsOfFriends = (_id: String) => {
   const endpoint =
-    "http://localhost:8000/api/community/people/friendsOfFriends";
+    "https://music-ai-backend.onrender.com/api/community/people/friendsOfFriends";
 
   const fetcher = async (...args: [RequestInfo, RequestInit]) => {
     const res = await fetch(args[0], {

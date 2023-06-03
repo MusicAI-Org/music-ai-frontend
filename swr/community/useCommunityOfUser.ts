@@ -13,7 +13,7 @@ const useCommunityOfUser = ({ _id }: any) => {
   };
 
   const { data, error, isValidating, mutate, isLoading } = useSWR(
-    `http://localhost:8000/api/community/features/data-user/${_id}`,
+    `https://music-ai-backend.onrender.com/api/community/features/data-user/${_id}`,
     fetcher
   );
 
