@@ -2,7 +2,7 @@ import React from "react";
 import useSWR from "swr";
 
 const useGenreSpecific = (_id: String) => {
-  const endpoint = `${process.env.NEXT_PUBLIC_BACKEND_URL}/community/people/genreBased`;
+  const endpoint = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/community/people/genreBased`;
 
   const fetcher = async (...args: [RequestInfo, RequestInit]) => {
     const res = await fetch(args[0], {

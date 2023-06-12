@@ -2,7 +2,7 @@ import React from "react";
 import useSWR from "swr";
 
 const useFriendsOfFriends = (_id: String) => {
-  const endpoint = `${process.env.NEXT_PUBLIC_BACKEND_URL}/community/people/friendsOfFriends`;
+  const endpoint = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/community/people/friendsOfFriends`;
 
   const fetcher = async (...args: [RequestInfo, RequestInit]) => {
     const res = await fetch(args[0], {

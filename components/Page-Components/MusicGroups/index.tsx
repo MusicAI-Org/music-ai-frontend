@@ -116,7 +116,7 @@ const MusicGroupsComponent = (): JSX.Element => {
     setIsLoading(true);
     try {
       // const _id = "63e69e20084d5200111c5e1d";
-      console.log("mmm", communityData);
+      // console.log("mmm", communityData);
       setUserData(communityData);
       setShowUserCommunities(true);
     } catch (error) {
@@ -129,6 +129,8 @@ const MusicGroupsComponent = (): JSX.Element => {
       setIsLoading(false);
     }
   };
+
+  console.log("uucuuc", userData?.communities);
 
   return (
     <StyledContainer color={""}>
@@ -182,6 +184,9 @@ const MusicGroupsComponent = (): JSX.Element => {
                   _id={community._id}
                   name={community.name}
                   createdBy={community.createdBy._id}
+                  nextOwner={
+                    community.members.length > 1 ? community.members[1]._id : ""
+                  }
                   members={community.members.length}
                   description={community.description}
                   imageUrl={community.imgUrl}

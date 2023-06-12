@@ -65,6 +65,7 @@ const CustomForm = (props: Props): JSX.Element => {
   const [songName, setSongName] = useState("");
   const [albumName, setAlbumName] = useState("");
   const [genre, setGenre] = useState("");
+  const [coverImg, setCoverImg] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [showErrorMessage, setShowErrorMessage] = useState(false);
@@ -80,6 +81,10 @@ const CustomForm = (props: Props): JSX.Element => {
 
   const handleGenreChange = (event: { target: { value: any } }) => {
     setGenre(event.target.value);
+  };
+
+  const handleCoverImgChange = (event: { target: { value: any } }) => {
+    setCoverImg(event.target.value);
   };
 
   const handleFileChange = (e: any) => {
@@ -98,6 +103,7 @@ const CustomForm = (props: Props): JSX.Element => {
         songName !== "" &&
         albumName !== "" &&
         genre !== "" &&
+        coverImg !== "" &&
         musicFile !== null &&
         userId !== ""
       ) {
@@ -106,12 +112,13 @@ const CustomForm = (props: Props): JSX.Element => {
         formData.append("artist", userId);
         formData.append("albumname", albumName);
         formData.append("genre", genre);
+        formData.append("coverImg", coverImg);
         formData.append("format", "mp3");
         formData.append("musicFile", musicFile);
         console.log([...formData.entries()]);
         // call post api
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_LOCAL_BACKEND_URL}/community/music/upload`,
+          `${process.env.NEXT_PUBLIC_LOCAL_BACKEND_URL}/api/community/music/upload`,
           {
             method: "POST",
             body: formData,
@@ -132,6 +139,7 @@ const CustomForm = (props: Props): JSX.Element => {
           setSongName("");
           setAlbumName("");
           setGenre("");
+          setCoverImg("");
           setMusicFile(null);
           setShowSuccessMessage(true);
           setTimeout(() => {
@@ -147,7 +155,11 @@ const CustomForm = (props: Props): JSX.Element => {
   };
 
   const isError =
-    songName === "" || albumName === "" || genre === "" || musicFile === null;
+    songName === "" ||
+    albumName === "" ||
+    genre === "" ||
+    coverImg === "" ||
+    musicFile === null;
 
   //
 
@@ -163,101 +175,157 @@ const CustomForm = (props: Props): JSX.Element => {
         color: theme.colors.white,
       }}
     >
-      <form onSubmit={handleSubmit}>
+      <form
+        onSubmit={handleSubmit}
+        style={{
+          height: "60vh",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-evenly",
+          // alignItems: "center",
+        }}
+      >
         {/* {music id} */}
-        <FormLabel>Song Name</FormLabel>
-        <Input
-          type="text"
-          value={songName}
-          onChange={handleSongNameChange}
-          placeholder="Enter Song Name"
-          _placeholder={{
-            color: theme.colors.ciTrans15,
-          }}
-          style={{
-            color: theme.colors.white,
-            borderColor: focusedID
-              ? theme.colors.ci
-              : theme.colors.grayBorderBox,
-            borderRadius: theme.borderRadius.md,
-            paddingLeft: theme.space[2],
-            fontSize: "1.2rem",
-          }}
-          onFocus={onFocusID}
-          onBlur={onBlurID}
-        />
-        {isError && (
-          <FormErrorMessage
-            style={{
-              color: theme.colors.dangerBorder,
-            }}
-          >
-            Song Name is required.
-          </FormErrorMessage>
-        )}
+        <Flex justifyContent={"space-evenly"}>
+          <Flex direction={"column"} justifyContent={"center"} width={"45%"}>
+            <FormLabel>Song Name</FormLabel>
+            <Input
+              type="text"
+              value={songName}
+              onChange={handleSongNameChange}
+              placeholder="Enter Song Name"
+              _placeholder={{
+                color: theme.colors.ciTrans15,
+              }}
+              style={{
+                color: theme.colors.white,
+                borderColor: focusedID
+                  ? theme.colors.ci
+                  : theme.colors.grayBorderBox,
+                borderRadius: theme.borderRadius.md,
+                paddingLeft: theme.space[2],
+                fontSize: "1.2rem",
+                width: "100%",
+              }}
+              onFocus={onFocusID}
+              onBlur={onBlurID}
+            />
+            {isError && (
+              <FormErrorMessage
+                style={{
+                  color: theme.colors.dangerBorder,
+                }}
+              >
+                Song Name is required.
+              </FormErrorMessage>
+            )}
+          </Flex>
 
-        {/* {password} */}
-        <FormLabel paddingTop={theme.space[8]}>Album Name</FormLabel>
-        <Input
-          type="text"
-          value={albumName}
-          onChange={handleAlbumNameChange}
-          placeholder="Enter Album Name"
-          _placeholder={{
-            color: theme.colors.ciTrans15,
-          }}
-          style={{
-            color: theme.colors.white,
-            borderColor: focusedID
-              ? theme.colors.ci
-              : theme.colors.grayBorderBox,
-            borderRadius: theme.borderRadius.md,
-            paddingLeft: theme.space[2],
-            fontSize: "1.2rem",
-          }}
-          onFocus={onFocusID}
-          onBlur={onBlurID}
-        />
-        {isError && (
-          <FormErrorMessage
-            style={{
-              color: theme.colors.dangerBorder,
-            }}
-          >
-            Album Name is required.
-          </FormErrorMessage>
-        )}
+          <Flex direction={"column"} justifyContent={"center"} width={"45%"}>
+            {/* {password} */}
+            <FormLabel>Album Name</FormLabel>
+            <Input
+              type="text"
+              value={albumName}
+              onChange={handleAlbumNameChange}
+              placeholder="Enter Album Name"
+              _placeholder={{
+                color: theme.colors.ciTrans15,
+              }}
+              style={{
+                color: theme.colors.white,
+                borderColor: focusedID
+                  ? theme.colors.ci
+                  : theme.colors.grayBorderBox,
+                borderRadius: theme.borderRadius.md,
+                paddingLeft: theme.space[2],
+                fontSize: "1.2rem",
+                width: "100%",
+              }}
+              onFocus={onFocusID}
+              onBlur={onBlurID}
+            />
+            {isError && (
+              <FormErrorMessage
+                style={{
+                  color: theme.colors.dangerBorder,
+                }}
+              >
+                Album Name is required.
+              </FormErrorMessage>
+            )}
+          </Flex>
+        </Flex>
 
-        <FormLabel paddingTop={theme.space[8]}>Genre / Type</FormLabel>
-        <Input
-          type="text"
-          value={genre}
-          onChange={handleGenreChange}
-          placeholder="Enter Genre"
-          _placeholder={{
-            color: theme.colors.ciTrans15,
-          }}
-          style={{
-            color: theme.colors.white,
-            borderColor: focusedID
-              ? theme.colors.ci
-              : theme.colors.grayBorderBox,
-            borderRadius: theme.borderRadius.md,
-            paddingLeft: theme.space[2],
-            fontSize: "1.2rem",
-          }}
-          onFocus={onFocusID}
-          onBlur={onBlurID}
-        />
-        {isError && (
-          <FormErrorMessage
-            style={{
-              color: theme.colors.dangerBorder,
-            }}
-          >
-            Genre type is required.
-          </FormErrorMessage>
-        )}
+        <Flex paddingTop={theme.space[4]} justifyContent={"space-evenly"}>
+          <Flex direction={"column"} justifyContent={"center"} width={"45%"}>
+            <FormLabel>Genre / Type</FormLabel>
+            <Input
+              type="text"
+              value={genre}
+              onChange={handleGenreChange}
+              placeholder="Enter Genre"
+              _placeholder={{
+                color: theme.colors.ciTrans15,
+              }}
+              style={{
+                color: theme.colors.white,
+                borderColor: focusedID
+                  ? theme.colors.ci
+                  : theme.colors.grayBorderBox,
+                borderRadius: theme.borderRadius.md,
+                paddingLeft: theme.space[2],
+                fontSize: "1.2rem",
+                width: "100%",
+              }}
+              onFocus={onFocusID}
+              onBlur={onBlurID}
+            />
+            {isError && (
+              <FormErrorMessage
+                style={{
+                  color: theme.colors.dangerBorder,
+                }}
+              >
+                Genre type is required.
+              </FormErrorMessage>
+            )}
+          </Flex>
+
+          <Flex direction={"column"} justifyContent={"center"} width={"45%"}>
+            <FormLabel>Cover Image</FormLabel>
+            <Input
+              type="text"
+              value={coverImg}
+              onChange={handleCoverImgChange}
+              placeholder="Enter Cover Image URL"
+              _placeholder={{
+                color: theme.colors.ciTrans15,
+              }}
+              style={{
+                color: theme.colors.white,
+                borderColor: focusedID
+                  ? theme.colors.ci
+                  : theme.colors.grayBorderBox,
+                borderRadius: theme.borderRadius.md,
+                paddingLeft: theme.space[2],
+                fontSize: "1.2rem",
+                width: "100%",
+              }}
+              onFocus={onFocusID}
+              onBlur={onBlurID}
+            />
+            {isError && (
+              <FormErrorMessage
+                style={{
+                  color: theme.colors.dangerBorder,
+                }}
+              >
+                Cover Image is required.
+              </FormErrorMessage>
+            )}
+          </Flex>
+        </Flex>
 
         {/* {record music container} */}
         {props.selected === "Record Music" ? (

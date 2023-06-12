@@ -1,5 +1,4 @@
 import React from "react";
-import Link from "next/link";
 import {
   Badge,
   Box,
@@ -7,12 +6,15 @@ import {
   Collapse,
   Flex,
   Image,
+  Spinner,
   Text,
   useTheme,
 } from "@chakra-ui/react";
 import { AiTwotoneStar } from "react-icons/ai";
 import { IoEyeSharp } from "react-icons/io5";
 import { MdGroup } from "react-icons/md";
+import { joinCommunity } from "../../../../pages/api/community-api";
+import { useRouter } from "next/router";
 
 /**
  * Home Page of the Application
@@ -30,8 +32,40 @@ const CommunityGroupTile = (props: {
 }): JSX.Element => {
   const theme = useTheme();
   const [show, setShow] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
+
+  const router = useRouter();
 
   const handleToggle = () => setShow(!show);
+  let userId = "";
+  if (typeof localStorage !== "undefined") {
+    const localstoredUser = localStorage.getItem("userData");
+    if (localstoredUser !== null) {
+      const parsedUser = JSON.parse(localstoredUser);
+      userId = parsedUser.user._id;
+    }
+  }
+
+  const onJoinCommunity = async () => {
+    setIsLoading(true);
+    try {
+      if (props._id && userId) {
+        const data = await joinCommunity({
+          communityId: props._id,
+          userId: userId,
+        });
+        console.log(data);
+        router.push(`/community/${data.community._id}`);
+      }
+
+      // redirect the user to page
+      // setImageURL(data.image);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const styles = {
     heading: {
@@ -155,11 +189,25 @@ const CommunityGroupTile = (props: {
       </Box>
       {/* button box */}
       <Flex>
-        <Link href={"/"}>
-          <Button rightIcon={<MdGroup />} style={styles.joinGroupBtn}>
-            Join Community
-          </Button>
-        </Link>
+        {/* <Link href={"/"}> */}
+        <Button
+          rightIcon={<MdGroup />}
+          style={styles.joinGroupBtn}
+          isLoading={isLoading}
+          onClick={onJoinCommunity}
+          spinner={
+            <Spinner
+              thickness="2px"
+              speed="0.65s"
+              emptyColor={theme.colors.gray}
+              color={theme.colors.ci}
+              size="md"
+            />
+          }
+        >
+          Join Community
+        </Button>
+        {/* </Link> */}
       </Flex>
     </Box>
   );

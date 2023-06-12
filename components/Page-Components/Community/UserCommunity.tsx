@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Link from "next/link";
 import {
   Badge,
   Box,
@@ -7,12 +6,18 @@ import {
   Collapse,
   Flex,
   Image,
+  Spinner,
   Text,
   useTheme,
 } from "@chakra-ui/react";
 import { AiTwotoneStar } from "react-icons/ai";
 import { IoEyeSharp } from "react-icons/io5";
 import { MdGroup } from "react-icons/md";
+import {
+  deleteCommunity,
+  leaveCommunity,
+} from "../../../pages/api/community-api";
+import Link from "next/link";
 
 /**
  * Home Page of the Application
@@ -24,15 +29,17 @@ const UserCommunity = ({
   name,
   createdBy,
   members,
+  nextOwner,
   description,
   imageUrl,
   imageAlt,
 }: any): JSX.Element => {
   const theme = useTheme();
   const [show, setShow] = useState(false);
-  // const [isSureDelete, setSureDelete] = useState(false);
-  // const [isSureLeave, setSureLeave] = useState(false)
+  const [isLoading, setIsLoading] = React.useState(false);
   const handleToggle = () => setShow(!show);
+
+  // console.log("members of comm", nextOwner);
 
   let userId = "";
   if (typeof localStorage !== "undefined") {
@@ -42,6 +49,46 @@ const UserCommunity = ({
       userId = parsedUser.user._id;
     }
   }
+
+  const onLeaveCommunity = async () => {
+    setIsLoading(true);
+    try {
+      if (_id && userId) {
+        const data = await leaveCommunity({
+          communityId: _id,
+          userId: userId,
+        });
+        console.log(data);
+        // router.push(`/community/${data.community._id}`);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const onDeleteCommunity = async () => {
+    setIsLoading(true);
+    try {
+      if (_id && userId) {
+        const data = await deleteCommunity({
+          communityId: _id,
+          userId: userId,
+          user_to_transfer_ownership_id: nextOwner,
+        });
+        console.log(data);
+        // router.push(`/community/${data.community._id}`);
+      }
+
+      // redirect the user to page
+      // setImageURL(data.image);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const styles = {
     heading: {
@@ -187,17 +234,45 @@ const UserCommunity = ({
           </Button>
         </Link>
         {createdBy == userId ? (
-          <Link href={`/community/${_id}`}>
-            <Button rightIcon={<MdGroup />} style={styles.deleteGroupBtn}>
-              Delete
-            </Button>
-          </Link>
+          // <Link href={`/community/${_id}`}>
+          <Button
+            rightIcon={<MdGroup />}
+            style={styles.deleteGroupBtn}
+            isLoading={isLoading}
+            onClick={onDeleteCommunity}
+            spinner={
+              <Spinner
+                thickness="2px"
+                speed="0.65s"
+                emptyColor={theme.colors.gray}
+                color={theme.colors.ci}
+                size="md"
+              />
+            }
+          >
+            Delete
+          </Button>
         ) : (
-          <Link href={`/community/${_id}`}>
-            <Button rightIcon={<MdGroup />} style={styles.leaveGroupBtn}>
-              Leave
-            </Button>
-          </Link>
+          // </Link>
+          // <Link href={`/community/${_id}`}>
+          <Button
+            rightIcon={<MdGroup />}
+            style={styles.leaveGroupBtn}
+            isLoading={isLoading}
+            onClick={onLeaveCommunity}
+            spinner={
+              <Spinner
+                thickness="2px"
+                speed="0.65s"
+                emptyColor={theme.colors.gray}
+                color={theme.colors.ci}
+                size="md"
+              />
+            }
+          >
+            Leave
+          </Button>
+          // </Link>
         )}
       </Flex>
     </Box>

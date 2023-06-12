@@ -1,4 +1,4 @@
-import { Flex, SimpleGrid, useTheme } from "@chakra-ui/react";
+import { Flex, Image, SimpleGrid, Text, useTheme } from "@chakra-ui/react";
 import React, { useState } from "react";
 import Footer from "../../utils/Footer/Footer";
 import TextContainer from "../../utils/Texts/TextContainer";
@@ -34,6 +34,35 @@ const MusicListeningContainer = (): JSX.Element => {
     setUrl(currentUrl);
   };
 
+  if (
+    music?.musicObject?.mostLikedMusic?.length === 0 &&
+    music?.musicObject?.music?.length === 0 &&
+    music?.musicObject?.filteredTotalCommunityMusic?.length === 0 &&
+    music?.musicObject?.musicOfFollowers?.length === 0
+  ) {
+    return (
+      <Flex
+        justifyContent={"center"}
+        alignItems={"center"}
+        height={"70vh"}
+        width={"100%"}
+      >
+        <Text
+          align={"center"}
+          size={theme.fontSizes.xl}
+          color={theme.colors.warning}
+        >
+          No Music Found In The Database, Please Try Again Later.
+        </Text>
+        <Image
+          src={"/credentialsImgs/img2.png"}
+          alt={"No Communities"}
+          width={300}
+          height={300}
+        />
+      </Flex>
+    );
+  }
   return (
     <StyledContainer color={""}>
       <Flex

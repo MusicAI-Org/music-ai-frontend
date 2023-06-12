@@ -29,7 +29,7 @@ const useUser = ({ email }: Props) => {
   };
 
   const { data, error, isValidating, mutate, isLoading } = useSWR(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/getModel`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/getModel`,
     fetcher
   );
 

@@ -12,6 +12,7 @@ import CommunityPage from "../../components/Page-Components/Community/CommunityP
 import { useAuth0 } from "@auth0/auth0-react";
 import Credential from "../credentials";
 import CreateRole from "../create-role";
+import useParticularCommunity from "../../swr/community/useParticularCommunity";
 
 /**
  * Home Page of the Application
@@ -29,6 +30,9 @@ const MusicGroups = (): JSX.Element => {
   }
   const { query } = useRouter();
   console.log(query.id);
+
+  const particularCommunityData = useParticularCommunity({ _id: query.id });
+  console.log("particular comm ", particularCommunityData);
   return (
     <>
       <Head>

@@ -3,8 +3,8 @@ import useSWR from "swr";
 
 const useGlobeData = (_id?: string) => {
   const endpoint = _id
-    ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/music/authMusic/globeAuthData`
-    : `${process.env.NEXT_PUBLIC_BACKEND_URL}/music/basicMusic/allGlobeData`;
+    ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/music/authMusic/globeAuthData`
+    : `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/music/basicMusic/allGlobeData`;
 
   const fetcher = async (...args: [RequestInfo, RequestInit]) => {
     const res = await fetch(args[0], {
