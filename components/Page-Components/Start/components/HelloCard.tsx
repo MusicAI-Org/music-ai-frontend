@@ -22,7 +22,7 @@ const MultiActionAreaCard = () => {
         // avatarName = parsedUser.user.avatarName;
 
         // Connect to the WebSocket server
-        const socket = io("http://localhost:8000/");
+        const socket = io(process.env.NEXT_PUBLIC_BACKEND_URL);
 
         // Notify the server when the user is connected
         socket.emit("userConnected", userId);

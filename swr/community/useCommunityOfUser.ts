@@ -14,7 +14,7 @@ const useCommunityOfUser = ({ _id }: any) => {
   };
 
   const { data, error, isValidating, mutate, isLoading } = useSWR(
-    `${process.env.NEXT_PUBLIC_LOCAL_BACKEND_URL}/api/community/features/data-user/${_id}`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/community/features/data-user/${_id}`,
     fetcher
   );
 

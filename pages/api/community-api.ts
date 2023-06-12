@@ -1,7 +1,7 @@
 // eslint-disable-next-line require-jsdoc
 export async function createCommunity({ name, description, user, url }: any) {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_LOCAL_BACKEND_URL}/api/community/features/create`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/community/features/create`,
     {
       method: "POST",
       headers: {
@@ -22,7 +22,7 @@ export async function createCommunity({ name, description, user, url }: any) {
 // eslint-disable-next-line require-jsdoc
 export async function joinCommunity({ communityId, userId }: any) {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_LOCAL_BACKEND_URL}/api/community/features/join`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/community/features/join`,
     {
       method: "POST",
       headers: {
@@ -41,7 +41,7 @@ export async function joinCommunity({ communityId, userId }: any) {
 // eslint-disable-next-line require-jsdoc
 export async function leaveCommunity({ communityId, userId }: any) {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_LOCAL_BACKEND_URL}/api/community/features/leave`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/community/features/leave`,
     {
       method: "POST",
       headers: {
@@ -65,7 +65,7 @@ export async function deleteCommunity({
   user_to_transfer_ownership_id,
 }: any) {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_LOCAL_BACKEND_URL}/api/community/features/delete`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/community/features/delete`,
     {
       method: "POST",
       headers: {
@@ -85,7 +85,7 @@ export async function deleteCommunity({
 // eslint-disable-next-line require-jsdoc
 export async function addFriends({ user1Id, user2Id }: any) {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_LOCAL_BACKEND_URL}/api/community/people/addFriend`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/community/people/addFriend`,
     {
       method: "POST",
       headers: {

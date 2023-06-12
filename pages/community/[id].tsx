@@ -32,7 +32,7 @@ const MusicGroups = (): JSX.Element => {
   console.log(query.id);
 
   const particularCommunityData = useParticularCommunity({ _id: query.id });
-  console.log("particular comm ", particularCommunityData);
+  // console.log("particular comm ", particularCommunityData);
   return (
     <>
       <Head>
@@ -51,7 +51,9 @@ const MusicGroups = (): JSX.Element => {
                 <Container>
                   {/* <MusicBar /> */}
                   <Helmet />
-                  <CommunityPage />
+                  <CommunityPage
+                    particularCommunityData={particularCommunityData}
+                  />
                 </Container>
               </>
             ) : (

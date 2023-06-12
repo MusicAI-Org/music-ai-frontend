@@ -118,7 +118,7 @@ const CustomForm = (props: Props): JSX.Element => {
         console.log([...formData.entries()]);
         // call post api
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_LOCAL_BACKEND_URL}/api/community/music/upload`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/community/music/upload`,
           {
             method: "POST",
             body: formData,
