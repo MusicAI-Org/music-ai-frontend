@@ -3,26 +3,34 @@ import { Button, Container, Flex, Spinner, useTheme } from "@chakra-ui/react";
 import * as React from "react";
 import Card from "./Card";
 import useFriends from "../../../../../swr/useFriends";
-import { useAuth0 } from "@auth0/auth0-react";
-import useUser from "../../../../../swr/user/useUser";
 import TextContainer from "../../../../utils/Texts/TextContainer";
 import Link from "next/link";
 
 interface Friend {
   _id: string;
+  name: string;
   avatarName: string;
   music: { name: string }[];
   role: string;
   yearOfJoining: string;
   avatarImg: string;
+  address: string;
+  online: boolean;
 }
 
 const FriendsList = () => {
   const theme = useTheme();
-  const { user } = useAuth0();
-  const { user: model } = useUser({ email: user?.email || "" });
+
+  let userId = "";
+  if (typeof localStorage !== "undefined") {
+    const localstoredUser = localStorage.getItem("userData");
+    if (localstoredUser !== null) {
+      const parsedUser = JSON.parse(localstoredUser);
+      userId = parsedUser.user._id;
+    }
+  }
   const { friends, isLoading, error } = useFriends({
-    id: model?.fullUserPopulatedDetails?._id,
+    id: userId,
   });
 
   const style = {
@@ -110,19 +118,25 @@ const FriendsList = () => {
           ?.slice(0, 4)
           .map(function ({
             _id,
+            name,
             avatarName,
             music,
             role,
             yearOfJoining,
             avatarImg,
+            address,
+            online,
           }: Friend) {
             return (
               <Card
                 key={_id}
-                name={avatarName}
-                songName={music?.length === 0 ? role : music[0]?.name}
+                name={name}
+                avatarName={avatarName}
                 yearOfJoining={yearOfJoining}
                 avatarImg={avatarImg}
+                isOnline={"Online"}
+                address={address}
+                online={online}
               />
             );
           })}

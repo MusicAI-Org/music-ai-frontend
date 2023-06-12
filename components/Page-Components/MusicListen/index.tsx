@@ -1,10 +1,10 @@
-import { Flex, useTheme } from "@chakra-ui/react";
-import React from "react";
+import { Flex, SimpleGrid, useTheme } from "@chakra-ui/react";
+import React, { useState } from "react";
 import Footer from "../../utils/Footer/Footer";
 import TextContainer from "../../utils/Texts/TextContainer";
 import { StyledContainer } from "../Global/styles/styles";
-import ContactContainer from "./ContactContainer";
-import MessageBox from "./MessageBox";
+import useMLMusic from "../../../swr/community/useMLMusic";
+import MusicTile from "./components/MusicTile";
 
 /**
  * Home Page of the Application
@@ -12,6 +12,28 @@ import MessageBox from "./MessageBox";
  */
 const MusicListeningContainer = (): JSX.Element => {
   const theme = useTheme();
+
+  let userId = "";
+  if (typeof localStorage !== "undefined") {
+    const localstoredUser = localStorage.getItem("userData");
+    if (localstoredUser !== null) {
+      const parsedUser = JSON.parse(localstoredUser);
+      userId = parsedUser.user._id;
+    }
+  }
+
+  const { music } = useMLMusic({
+    id: userId,
+  });
+  console.log("all music", music?.musicObject);
+
+  const [url, setUrl] = useState("");
+  console.log("url", url);
+
+  const handleStateUpdate = (currentUrl: string) => {
+    setUrl(currentUrl);
+  };
+
   return (
     <StyledContainer color={""}>
       <Flex
@@ -24,21 +46,244 @@ const MusicListeningContainer = (): JSX.Element => {
         paddingLeft={theme.space[9]}
         marginBottom={theme.space[9]}
       >
-        <TextContainer
-          text={"Listen To Your Friends"}
-          size={theme.fontSizes.xl5}
-        />
+        <Flex
+          width={"70%"}
+          height={"10vh"}
+          justifyContent={"center"}
+          alignItems={"center"}
+          position={"absolute"}
+          bottom={"5vh"}
+        >
+          {url.length != 0 && (
+            <audio controls autoPlay>
+              <source src={url} type="audio/mpeg" />
+              Your browser does not support the audio element.
+            </audio>
+          )}
+        </Flex>
+        {music?.musicObject?.mostLikedMusic?.length != 0 && (
+          <TextContainer
+            text={"Hear What You Liked The Most"}
+            size={theme.fontSizes.xl3}
+            color={theme.colors.ci}
+          />
+        )}
         <Flex
           width={"100%"}
           height={"85%"}
           justifyContent={"flex-start"}
           alignItems={"center"}
           marginTop={theme.space[4]}
-          border={`1px solid ${theme.colors.ci}`}
           borderRadius={theme.borderRadius.md}
         >
-          <ContactContainer />
-          <MessageBox />
+          <SimpleGrid
+            columns={[2, null, 3]}
+            spacing="20px"
+            height={"fit-content"}
+            marginTop={theme.space[4]}
+            marginBottom={theme.space[9]}
+          >
+            {music?.musicObject?.mostLikedMusic?.map(
+              (ms: {
+                _id: string;
+                coverImg: string;
+                genre: [];
+                views: number;
+                artist: {
+                  _id: string;
+                  name: string;
+                };
+                musicUrl: string;
+                songname: string;
+                albumname: string;
+                likesCount: number;
+              }) => {
+                return (
+                  <MusicTile
+                    id={ms._id}
+                    key={ms._id}
+                    songname={ms.songname}
+                    genre={ms.genre}
+                    artist={ms.artist.name}
+                    albumname={ms.albumname}
+                    likesCount={ms.likesCount}
+                    views={ms.views}
+                    coverImg={ms.coverImg}
+                    musicUrl={ms.musicUrl}
+                    setMusicUrl={handleStateUpdate}
+                  />
+                );
+              }
+            )}
+          </SimpleGrid>
+        </Flex>
+        {music?.musicObject?.music?.length != 0 && (
+          <TextContainer
+            text={"Listen To Your Friends"}
+            size={theme.fontSizes.xl3}
+            color={theme.colors.ci}
+          />
+        )}
+        <Flex
+          width={"100%"}
+          height={"85%"}
+          justifyContent={"flex-start"}
+          alignItems={"center"}
+          marginTop={theme.space[4]}
+          borderRadius={theme.borderRadius.md}
+        >
+          <SimpleGrid
+            columns={[2, null, 3]}
+            spacing="20px"
+            height={"fit-content"}
+            marginTop={theme.space[4]}
+            marginBottom={theme.space[9]}
+          >
+            {music?.musicObject?.music?.map(
+              (ms: {
+                _id: string;
+                coverImg: string;
+                genre: [];
+                views: number;
+                artist: {
+                  _id: string;
+                  name: string;
+                };
+                musicUrl: string;
+                songname: string;
+                albumname: string;
+                likesCount: number;
+              }) => {
+                return (
+                  <MusicTile
+                    id={ms._id}
+                    key={ms._id}
+                    songname={ms.songname}
+                    genre={ms.genre}
+                    artist={ms.artist.name}
+                    albumname={ms.albumname}
+                    likesCount={ms.likesCount}
+                    views={ms.views}
+                    coverImg={ms.coverImg}
+                    musicUrl={ms.musicUrl}
+                    setMusicUrl={handleStateUpdate}
+                  />
+                );
+              }
+            )}
+          </SimpleGrid>
+        </Flex>
+        {music?.musicObject?.filteredTotalCommunityMusic?.length != 0 && (
+          <TextContainer
+            text={"Hear To What Your Community Is Listening"}
+            size={theme.fontSizes.xl3}
+            color={theme.colors.ci}
+          />
+        )}
+        <Flex
+          width={"100%"}
+          height={"85%"}
+          justifyContent={"flex-start"}
+          alignItems={"center"}
+          marginTop={theme.space[4]}
+          borderRadius={theme.borderRadius.md}
+        >
+          <SimpleGrid
+            columns={[2, null, 3]}
+            spacing="20px"
+            height={"fit-content"}
+            marginTop={theme.space[4]}
+            marginBottom={theme.space[9]}
+          >
+            {music?.musicObject?.filteredTotalCommunityMusic?.map(
+              (ms: {
+                _id: string;
+                coverImg: string;
+                genre: [];
+                views: number;
+                artist: {
+                  _id: string;
+                  name: string;
+                };
+                musicUrl: string;
+                songname: string;
+                albumname: string;
+                likesCount: number;
+              }) => {
+                return (
+                  <MusicTile
+                    id={ms._id}
+                    key={ms._id}
+                    songname={ms.songname}
+                    genre={ms.genre}
+                    artist={ms.artist.name}
+                    albumname={ms.albumname}
+                    likesCount={ms.likesCount}
+                    views={ms.views}
+                    coverImg={ms.coverImg}
+                    musicUrl={ms.musicUrl}
+                    setMusicUrl={handleStateUpdate}
+                  />
+                );
+              }
+            )}
+          </SimpleGrid>
+        </Flex>
+        {music?.musicObject?.musicOfFollowers?.length != 0 && (
+          <TextContainer
+            text={"Join Your Followers"}
+            size={theme.fontSizes.xl3}
+            color={theme.colors.ci}
+          />
+        )}
+        <Flex
+          width={"100%"}
+          height={"85%"}
+          justifyContent={"flex-start"}
+          alignItems={"center"}
+          marginTop={theme.space[4]}
+          borderRadius={theme.borderRadius.md}
+        >
+          <SimpleGrid
+            columns={[2, null, 3]}
+            spacing="20px"
+            height={"fit-content"}
+            marginTop={theme.space[4]}
+            marginBottom={theme.space[9]}
+          >
+            {music?.musicObject?.musicOfFollowers?.map(
+              (ms: {
+                _id: string;
+                coverImg: string;
+                genre: [];
+                views: number;
+                artist: {
+                  _id: string;
+                  name: string;
+                };
+                musicUrl: string;
+                songname: string;
+                albumname: string;
+                likesCount: number;
+              }) => {
+                return (
+                  <MusicTile
+                    id={ms._id}
+                    key={ms._id}
+                    songname={ms.songname}
+                    genre={ms.genre}
+                    artist={ms.artist.name}
+                    albumname={ms.albumname}
+                    likesCount={ms.likesCount}
+                    views={ms.views}
+                    coverImg={ms.coverImg}
+                    musicUrl={ms.musicUrl}
+                    setMusicUrl={handleStateUpdate}
+                  />
+                );
+              }
+            )}
+          </SimpleGrid>
         </Flex>
       </Flex>
       <Footer />

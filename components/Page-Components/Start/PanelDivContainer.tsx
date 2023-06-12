@@ -6,8 +6,6 @@ import SmallText from "../../utils/Texts/SmallText";
 import { Flex } from "@chakra-ui/react";
 import { useTheme } from "@chakra-ui/react";
 import FriendsActivity from "./components/FriendsListContainer/FriendsActivity";
-// import useUser from "../../../swr/useUser";
-// import CreateModel from "./components/CreateModel.tsx";
 
 /**
  * Home Page of the Application
@@ -16,7 +14,6 @@ import FriendsActivity from "./components/FriendsListContainer/FriendsActivity";
 
 const PanelDivContainer = () => {
   const theme = useTheme();
-  // const { user } = useUser({ email: "jain.paarth2608@gmail.com" });
 
   return (
     <Flex

@@ -68,7 +68,12 @@ const NotificationIcon = styled(Icon)`
 const TopBar = () => {
   const { logout, user } = useAuth0();
   const { user: model } = useUser({ email: user?.email || "" });
-  console.log("from top", model?.fullUserPopulatedDetails?.friendRequests);
+  const localstoredUser = localStorage.getItem("userData");
+  let userId = "";
+  if (localstoredUser !== null) {
+    const parsedUser = JSON.parse(localstoredUser);
+    userId = parsedUser.user._id;
+  }
   const [active, setActive] = useState(false);
   const [placeholder, setPlaceholder] = useState("Search and ask chatGPT...");
 
@@ -93,9 +98,9 @@ const TopBar = () => {
   };
 
   const addFriendHandler = async (friendId: string) => {
-    console.log(model?.fullUserPopulatedDetails?._id, friendId);
+    console.log(userId, friendId);
     const data = await addFriends({
-      user1Id: model?.fullUserPopulatedDetails?._id,
+      user1Id: userId,
       user2Id: friendId,
     });
     console.log(data);

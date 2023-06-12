@@ -12,11 +12,6 @@ import EditAddress from "./components/Editables/AddressEdit";
 import EditAvatarName from "./components/Editables/AvatarNameEdit";
 import EditGenre from "./components/Editables/GenreEdit";
 import GenerateProfilePic from "./components/Editables/GenerateProfilePic";
-import { useAuth0 } from "@auth0/auth0-react";
-import useUser from "../../../swr/user/useUser";
-// import {
-//   RecentlyPlayedAndMostPopularDiv,
-// } from "./styles/componentStyles";
 
 /**
  * Home Page of the Application
@@ -34,11 +29,16 @@ const ProfilePage = () => {
   const [bannerColor, setBannerColor] = useState(theme.colors.ci);
   const [profilePicDiffusion, setProfilePicDiffusion] = useState("");
 
-  // fetching the user
-  const { user } = useAuth0();
-
-  const { user: model } = useUser({ email: user?.email || "" });
-  console.log("profile", model?.fullUserPopulatedDetails);
+  let name = "";
+  let dateOfBirth = "";
+  if (typeof localStorage !== "undefined") {
+    const localstoredUser = localStorage.getItem("userData");
+    if (localstoredUser !== null) {
+      const parsedUser = JSON.parse(localstoredUser);
+      name = parsedUser.user.name;
+      dateOfBirth = parsedUser.user.dateOfBirth;
+    }
+  }
 
   const colorChangeHandler = (val: any) => {
     setBannerColor(val);
@@ -121,8 +121,8 @@ const ProfilePage = () => {
               borderRadius={theme.borderRadius.md}
             >
               <GenerateProfilePic setProfilePic={setProfilePicDiffusion} />
-              <EditName name={model?.fullUserPopulatedDetails.name} />
-              <EditDOB dob={model?.fullUserPopulatedDetails?.dateOfBirth} />
+              <EditName name={name} />
+              <EditDOB dob={dateOfBirth} />
               <EditPhoneNumber />
               <EditGenre />
             </Flex>

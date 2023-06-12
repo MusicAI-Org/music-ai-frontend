@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import {
   Button,
@@ -17,8 +17,6 @@ import CommunityGroupTile from "./components/CommunityGroupTile";
 import CreateCommunityModal from "./components/CreateCommunityModal";
 import UserCommunity from "../Community/UserCommunity";
 import useAllCommunity from "../../../swr/community/useAllCommunity";
-import { useAuth0 } from "@auth0/auth0-react";
-import useUser from "../../../swr/user/useUser";
 import useCommunityOfUser from "../../../swr/community/useCommunityOfUser";
 
 /**
@@ -36,17 +34,7 @@ interface UserData {
     imgAlt?: string;
   }[];
 }
-// interface CommunityData {
-//   _id: string;
-//   name: string;
-//   members: Array<string>;
-//   description: string;
-//   imgUrl: string;
-//   imgAlt?: string;
-// }
-// interface MusicGroupsComponentProps {
-//   data: UserData;
-// }
+
 // eslint-disable-next-line react/prop-types
 const MusicGroupsComponent = (): JSX.Element => {
   const theme = useTheme();
@@ -59,10 +47,18 @@ const MusicGroupsComponent = (): JSX.Element => {
   const [showErrorMessage, setShowErrorMessage] = useState(false);
   const [showUserCommunities, setShowUserCommunities] = useState(false);
 
-  const { user } = useAuth0();
-  const { user: model } = useUser({ email: user?.email || "" });
+  let userId = "";
+  if (typeof localStorage !== "undefined") {
+    const localstoredUser = localStorage.getItem("userData");
+    if (localstoredUser !== null) {
+      const parsedUser = JSON.parse(localstoredUser);
+      userId = parsedUser.user._id;
+    }
+  }
+
+  // useCommunityOfUser contains communities in which user is the owner and in which user is not owner but joined
   const { communityData } = useCommunityOfUser({
-    _id: model?.fullUserPopulatedDetails?._id,
+    _id: userId,
   });
   const style = {
     height: "5vh",
@@ -75,7 +71,7 @@ const MusicGroupsComponent = (): JSX.Element => {
     isLoading: isLoadingAllCommunities,
     error: errorAllCommunities,
   } = useAllCommunity({
-    _id: model?.fullUserPopulatedDetails?._id,
+    _id: userId,
   });
 
   // console.log("comm", communities);
@@ -185,6 +181,7 @@ const MusicGroupsComponent = (): JSX.Element => {
                   key={community._id}
                   _id={community._id}
                   name={community.name}
+                  createdBy={community.createdBy._id}
                   members={community.members.length}
                   description={community.description}
                   imageUrl={community.imgUrl}
@@ -193,12 +190,19 @@ const MusicGroupsComponent = (): JSX.Element => {
               ))}
           </SimpleGrid>
           {userData?.communities?.length === 0 && (
-            <Flex justifyContent={"center"} alignItems={"center"}>
-              <TextContainer
+            <Flex
+              justifyContent={"center"}
+              alignItems={"center"}
+              height={"70vh"}
+              width={"100%"}
+            >
+              <Text
                 align={"center"}
-                text={"You are not a member of any community yet."}
                 size={theme.fontSizes.xl}
-              />
+                color={theme.colors.warning}
+              >
+                You are not a member of any community yet.
+              </Text>
               <Image
                 src={"/credentialsImgs/img2.png"}
                 alt={"No Communities"}
@@ -281,7 +285,7 @@ const MusicGroupsComponent = (): JSX.Element => {
                     Your Communities
                   </Button>
                   <CreateCommunityModal
-                    id={model?.fullUserPopulatedDetails?._id || ""}
+                    id={userId || ""}
                     isOpen={isOpen}
                     onOpen={onOpen}
                     onClose={onClose}

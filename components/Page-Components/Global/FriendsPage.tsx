@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import dynamic from "next/dynamic";
 import { Flex, Spinner, useTheme } from "@chakra-ui/react";
 import { StyledContainer } from "../Profile/styles/pageStyles";
-import useUser from "../../../swr/user/useUser";
-import { useAuth0 } from "@auth0/auth0-react";
 import useFriends from "../../../swr/useFriends";
 import TextContainer from "../../utils/Texts/TextContainer";
 import useGlobeData from "../../../swr/useGlobeData";
@@ -22,26 +20,30 @@ const Globe = dynamic(import("react-globe.gl"), { ssr: false });
 
 const FriendsPage = (): JSX.Element => {
   const theme = useTheme();
-  const { user } = useAuth0();
   const [selected, setSelected] = useState(0);
 
-  const { user: model } = useUser({ email: user?.email || "" });
-  console.log("model", model);
+  let userId = "";
+  let location;
+  if (typeof localStorage !== "undefined") {
+    const localstoredUser = localStorage.getItem("userData");
+    if (localstoredUser !== null) {
+      const parsedUser = JSON.parse(localstoredUser);
+      userId = parsedUser.user._id;
+      location = parsedUser.user.location;
+    }
+  }
+
   const { friends, isLoading, error } = useFriends({
-    id: model?.fullUserPopulatedDetails?._id,
+    id: userId,
   });
-  const getGlobeData = useGlobeData(model?.fullUserPopulatedDetails?._id);
+  const getGlobeData = useGlobeData(userId);
   const nearByFetch = useNearByFetch({
-    _id: model?.fullUserPopulatedDetails?._id,
-    location: model?.fullUserPopulatedDetails?.location,
+    userId,
+    location: location,
   });
-  const favouriteMusicians = useFavouriteMusicians(
-    model?.fullUserPopulatedDetails?._id
-  );
-  const genreSpecific = useGenreSpecific(model?.fullUserPopulatedDetails?._id);
-  const friendsOfFriends = useFriendsOfFriends(
-    model?.fullUserPopulatedDetails?._id
-  );
+  const favouriteMusicians = useFavouriteMusicians(userId);
+  const genreSpecific = useGenreSpecific(userId);
+  const friendsOfFriends = useFriendsOfFriends(userId);
 
   if (isLoading) {
     return (
@@ -186,14 +188,15 @@ const FriendsPage = (): JSX.Element => {
                   avatarImg: string;
                   avatarName: string;
                   isFriend: boolean;
+                  online: boolean;
                 }) => (
                   <FriendTile
                     key={user._id}
                     friendId={user._id}
-                    userId={model?.fullUserPopulatedDetails?._id}
+                    userId={userId}
                     name={user.name}
                     avatarName={user.avatarName}
-                    status={"Online"}
+                    status={user.online}
                     location={user.address}
                     img={user.avatarImg}
                     isFriend={false}
@@ -220,14 +223,15 @@ const FriendsPage = (): JSX.Element => {
                   avatarImg: string;
                   avatarName: string;
                   isFriend: boolean;
+                  online: boolean;
                 }) => (
                   <FriendTile
                     key={user._id}
                     friendId={user._id}
-                    userId={model?.fullUserPopulatedDetails?._id}
+                    userId={userId}
                     name={user.name}
                     avatarName={user.avatarName}
-                    status={"Online"}
+                    status={user.online}
                     location={user.address}
                     img={user.avatarImg}
                     isFriend={true}
@@ -254,14 +258,15 @@ const FriendsPage = (): JSX.Element => {
                   avatarImg: string;
                   avatarName: string;
                   isFriend: boolean;
+                  online: boolean;
                 }) => (
                   <FriendTile
                     key={user._id}
                     friendId={user._id}
-                    userId={model?.fullUserPopulatedDetails?._id}
+                    userId={userId}
                     name={user.name}
                     avatarName={user.avatarName}
-                    status={"Online"}
+                    status={user.online}
                     location={user.address}
                     img={user.avatarImg}
                     isFriend={false}
@@ -288,14 +293,15 @@ const FriendsPage = (): JSX.Element => {
                   avatarImg: string;
                   avatarName: string;
                   isFriend: boolean;
+                  online: boolean;
                 }) => (
                   <FriendTile
                     key={user._id}
                     friendId={user._id}
-                    userId={model?.fullUserPopulatedDetails?._id}
+                    userId={userId}
                     name={user.name}
                     avatarName={user.avatarName}
-                    status={"Online"}
+                    status={user.online}
                     location={user.address}
                     img={user.avatarImg}
                     isFriend={false}
@@ -322,14 +328,15 @@ const FriendsPage = (): JSX.Element => {
                   avatarImg: string;
                   avatarName: string;
                   isFriend: boolean;
+                  online: boolean;
                 }) => (
                   <FriendTile
                     key={user._id}
                     friendId={user._id}
-                    userId={model?.fullUserPopulatedDetails?._id}
+                    userId={userId}
                     name={user.name}
                     avatarName={user.avatarName}
-                    status={"Online"}
+                    status={user.online}
                     location={user.address}
                     img={user.avatarImg}
                     isFriend={false}
@@ -356,14 +363,15 @@ const FriendsPage = (): JSX.Element => {
                   avatarImg: string;
                   avatarName: string;
                   isFriend: boolean;
+                  online: boolean;
                 }) => (
                   <FriendTile
                     key={user._id}
                     friendId={user._id}
-                    userId={model?.fullUserPopulatedDetails?._id}
+                    userId={userId}
                     name={user.name}
                     avatarName={user.avatarName}
-                    status={"Online"}
+                    status={user.online}
                     location={user.address}
                     img={user.avatarImg}
                     isFriend={false}

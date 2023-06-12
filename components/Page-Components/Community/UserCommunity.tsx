@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import {
   Badge,
@@ -22,14 +22,26 @@ import { MdGroup } from "react-icons/md";
 const UserCommunity = ({
   _id,
   name,
+  createdBy,
   members,
   description,
   imageUrl,
   imageAlt,
 }: any): JSX.Element => {
   const theme = useTheme();
-  const [show, setShow] = React.useState(false);
+  const [show, setShow] = useState(false);
+  // const [isSureDelete, setSureDelete] = useState(false);
+  // const [isSureLeave, setSureLeave] = useState(false)
   const handleToggle = () => setShow(!show);
+
+  let userId = "";
+  if (typeof localStorage !== "undefined") {
+    const localstoredUser = localStorage.getItem("userData");
+    if (localstoredUser !== null) {
+      const parsedUser = JSON.parse(localstoredUser);
+      userId = parsedUser.user._id;
+    }
+  }
 
   const styles = {
     heading: {
@@ -77,13 +89,21 @@ const UserCommunity = ({
       borderRadius: 0,
       backgroundColor: theme.colors.transparent,
     },
-    leaveGroupBtn: {
+    deleteGroupBtn: {
       height: "7vh",
       width: "100%",
       fontSize: theme.fontSizes.h3,
       color: theme.colors.white,
       borderRadius: 0,
       backgroundColor: theme.colors.dangerBorder,
+    },
+    leaveGroupBtn: {
+      height: "7vh",
+      width: "100%",
+      fontSize: theme.fontSizes.h3,
+      color: theme.colors.white,
+      borderRadius: 0,
+      backgroundColor: theme.colors.warning,
     },
   };
 
@@ -166,11 +186,19 @@ const UserCommunity = ({
             Enter
           </Button>
         </Link>
-        <Link href={`/community/${_id}`}>
-          <Button rightIcon={<MdGroup />} style={styles.leaveGroupBtn}>
-            Delete
-          </Button>
-        </Link>
+        {createdBy == userId ? (
+          <Link href={`/community/${_id}`}>
+            <Button rightIcon={<MdGroup />} style={styles.deleteGroupBtn}>
+              Delete
+            </Button>
+          </Link>
+        ) : (
+          <Link href={`/community/${_id}`}>
+            <Button rightIcon={<MdGroup />} style={styles.leaveGroupBtn}>
+              Leave
+            </Button>
+          </Link>
+        )}
       </Flex>
     </Box>
   );

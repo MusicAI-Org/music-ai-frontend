@@ -4,12 +4,43 @@ import { Box, Button, Image, useTheme } from "@chakra-ui/react";
 import { FaPlay } from "react-icons/fa";
 import Link from "next/link";
 import { useAuth0 } from "@auth0/auth0-react";
-import useUser from "../../../../swr/user/useUser";
+import io from "socket.io-client";
 
 const MultiActionAreaCard = () => {
   const theme = useTheme();
-  const { user } = useAuth0();
-  const { user: model } = useUser({ email: user?.email || "" });
+  const { user, isAuthenticated } = useAuth0();
+
+  // set the id of the user in localstorage
+  React.useEffect(() => {
+    if (isAuthenticated && user) {
+      const localstoredUser = localStorage.getItem("userData");
+      if (localstoredUser !== null) {
+        const parsedUser = JSON.parse(localstoredUser);
+        const userId = parsedUser.user._id;
+
+        // Connect to the WebSocket server
+        const socket = io("http://localhost:8000/");
+
+        // Notify the server when the user is connected
+        socket.emit("userConnected", userId);
+
+        // Clean up the WebSocket connection when the component unmounts
+        socket.on("disconnect", () => {
+          socket.emit("userDisconnected");
+          socket.disconnect(); // Explicitly disconnect the socket
+        });
+
+        return () => {
+          // Clean up the event listener
+          socket.off("disconnect");
+        };
+      }
+    }
+
+    // Add a default return statement here
+    return () => {};
+  }, [isAuthenticated, user]);
+
   const property = {
     imageUrl: "img2.png",
     imageAlt: "Rear view of modern home with pool",
@@ -46,7 +77,7 @@ const MultiActionAreaCard = () => {
 
       <Box p="6" position={"absolute"} top={"10px"} right={"10px"}>
         <Box fontSize={theme.fontSizes.h1} color={theme.colors.white}>
-          Hello, {model?.fullUserPopulatedDetails?.avatarName} !
+          {/* Hello, {model?.fullUserPopulatedDetails?.avatarName} ! */}
         </Box>
         <Box fontSize={theme.fontSizes.h3} color={theme.colors.white}>
           Welcome back to the platform!

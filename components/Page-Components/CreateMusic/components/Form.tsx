@@ -111,7 +111,7 @@ const CustomForm = (props: Props): JSX.Element => {
         console.log([...formData.entries()]);
         // call post api
         const res = await fetch(
-          "https://music-ai-backend.onrender.com/api/community/music/upload",
+          `${process.env.NEXT_PUBLIC_LOCAL_BACKEND_URL}/community/music/upload`,
           {
             method: "POST",
             body: formData,
@@ -128,6 +128,11 @@ const CustomForm = (props: Props): JSX.Element => {
             setShowErrorMessage(false);
           }, 2000);
         } else {
+          // reset all
+          setSongName("");
+          setAlbumName("");
+          setGenre("");
+          setMusicFile(null);
           setShowSuccessMessage(true);
           setTimeout(() => {
             setShowSuccessMessage(false);

@@ -18,7 +18,7 @@ const FriendTile = ({
   userId: string;
   name: string;
   avatarName: string;
-  status: string;
+  status: boolean;
   location: string;
   img: string;
   isFriend: boolean;
@@ -85,8 +85,10 @@ const FriendTile = ({
                   }}
                   onClick={addFriendHandler}
                 />
+              ) : status == true ? (
+                "Online"
               ) : (
-                status
+                "Offline"
               )}
             </Text>
           </Flex>

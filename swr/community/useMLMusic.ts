@@ -1,14 +1,6 @@
 import useSWR from "swr";
 
-const useAllCommunity = ({ _id }: any) => {
-  // const fetcher = (...args: [RequestInfo, RequestInit]) =>
-  //   fetch(...args).then((res) => res.json());
-  // const { data, error, isValidating, mutate, isLoading } = useSWR(
-  //   // `https://music-ai-backend.onrender.com/api/community/features/data`,
-  //   `http://localhost:8000/api/community/features/data`,
-  //   fetcher
-  // );
-
+const useMLMusic = ({ id }: any) => {
   const fetcher = async (url: RequestInfo | URL) => {
     const response = await fetch(url, {
       method: "GET",
@@ -21,7 +13,7 @@ const useAllCommunity = ({ _id }: any) => {
   };
 
   const { data, error, isValidating, mutate, isLoading } = useSWR(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/community/features/data-except-user-comm/${_id}`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/community/music/fetchMusic/${id}`,
     fetcher
   );
   const revalidate = () => {
@@ -30,7 +22,7 @@ const useAllCommunity = ({ _id }: any) => {
   };
 
   return {
-    communities: data,
+    music: data,
     isLoading,
     error,
     isValidating,
@@ -39,4 +31,4 @@ const useAllCommunity = ({ _id }: any) => {
   };
 };
 
-export default useAllCommunity;
+export default useMLMusic;

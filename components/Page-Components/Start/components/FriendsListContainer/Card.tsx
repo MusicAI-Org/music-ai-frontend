@@ -3,32 +3,26 @@ import { Box, Image, Text, Flex, useTheme } from "@chakra-ui/react";
 
 type Props = {
   name?: string;
+  avatarName?: string;
   songName?: string;
   time?: string;
   yearOfJoining?: string;
   avatarImg: string;
+  isOnline: string;
+  address: string;
+  online: boolean;
 };
-const Card = ({ name, songName, yearOfJoining, avatarImg }: Props) => {
+const Card = ({
+  name,
+  avatarName,
+  songName,
+  yearOfJoining,
+  avatarImg,
+  isOnline,
+  address,
+  online,
+}: Props) => {
   const theme = useTheme();
-
-  const styles = {
-    width: "30%",
-    height: "100%",
-    top: "0",
-    right: "0",
-    background: "rgba(255, 255, 255, 0.2)",
-    borderRadius: "16px",
-    boxShadow: " 0 4px 30px rgba(0, 0, 0, 0.1)",
-    backdropFilter: "blur(5px)",
-    "-webkit-backdrop-filter": "blur(5px)",
-    border: "1px solid rgba(255, 255, 255, 0.3)",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    margin: theme.space[2],
-    color: theme.colors.white,
-    fontSize: theme.fontSizes.md,
-  };
   return (
     <Box
       display={"flex"}
@@ -43,8 +37,8 @@ const Card = ({ name, songName, yearOfJoining, avatarImg }: Props) => {
       overflow="hidden"
     >
       <Image
-        width="20%"
-        height="100%"
+        width="50px"
+        height="50px"
         borderRadius={theme.borderRadius.half}
         src={avatarImg || "/playlistImgs/img1.jpg"}
         alt="Woman paying for a purchase"
@@ -59,22 +53,29 @@ const Card = ({ name, songName, yearOfJoining, avatarImg }: Props) => {
         <Flex alignItems="center" justifyContent="space-between" width="100%">
           <Text
             fontWeight="bold"
-            fontSize="lg"
+            fontSize={theme.fontSizes.xl2}
             letterSpacing="wide"
             color={theme.colors.ci}
             width={"70%"}
           >
-            {name}
+            {avatarName}
           </Text>
-          <Text
-            fontSize={theme.fontSizes.sm}
-            color={theme.colors.gray}
-            style={styles}
-          >
-            {yearOfJoining}
+          <Text fontSize={theme.fontSizes.sm} color={theme.colors.ci}>
+            {online == true ? (
+              <Text color={theme.colors.warning}>Online</Text>
+            ) : (
+              "Offline"
+            )}
           </Text>
         </Flex>
-
+        <Text
+          fontSize={theme.fontSizes.md}
+          letterSpacing="wide"
+          color={theme.colors.warning}
+          width={"70%"}
+        >
+          @{name}
+        </Text>
         <Text
           my={1}
           display="block"
@@ -83,7 +84,7 @@ const Card = ({ name, songName, yearOfJoining, avatarImg }: Props) => {
           fontWeight="semibold"
           color={theme.colors.gray}
         >
-          {songName}
+          {address.toLocaleUpperCase()}
         </Text>
       </Flex>
     </Box>

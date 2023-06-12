@@ -13,7 +13,7 @@ const CreateModel = (dat: any) => {
   };
 
   const { data, error, isValidating, mutate, isLoading } = useSWR(
-    `https://music-ai-backend.onrender.com/api/auth/createmodel`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/createmodel`,
     fetcher
   );
 

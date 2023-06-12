@@ -1,11 +1,10 @@
+import React from "react";
 import useSWR from "swr";
 
 const useGlobeData = (_id?: string) => {
   const endpoint = _id
-    ? // ? "https://music-ai-backend.onrender.com/api/music/authMusic/globeAuthData"
-      // : "https://music-ai-backend.onrender.com/api/music/basicMusic/allGlobeData";
-      "https://music-ai-backend.onrender.com/api/music/authMusic/globeAuthData"
-    : "https://music-ai-backend.onrender.com/api/music/basicMusic/allGlobeData";
+    ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/music/authMusic/globeAuthData`
+    : `${process.env.NEXT_PUBLIC_BACKEND_URL}/music/basicMusic/allGlobeData`;
 
   const fetcher = async (...args: [RequestInfo, RequestInit]) => {
     const res = await fetch(args[0], {
@@ -24,8 +23,19 @@ const useGlobeData = (_id?: string) => {
   );
 
   const revalidate = () => {
+    // Manually trigger revalidation using mutate function
     mutate();
   };
+
+  React.useEffect(() => {
+    const intervalId = setInterval(() => {
+      revalidate();
+    }, 5000); // Revalidate every 5 seconds
+
+    return () => {
+      clearInterval(intervalId); // Clear the interval on unmounting
+    };
+  }, []);
 
   return {
     data,

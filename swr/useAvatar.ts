@@ -17,7 +17,7 @@ const useAvatar = (value: Props) => {
   };
 
   const { data, error, isValidating, mutate, isLoading } = useSWR(
-    `https://music-ai-stable-diffusion-api.onrender.com/generate-image/${value.value}`,
+    `${process.env.NEXT_PUBLIC_STABLE_DIFFUSION_API}/${value.value}`,
     fetcher,
     {
       revalidateOnMount: true,

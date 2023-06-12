@@ -29,7 +29,7 @@ const useUser = ({ email }: Props) => {
   };
 
   const { data, error, isValidating, mutate, isLoading } = useSWR(
-    `https://music-ai-backend.onrender.com/api/auth/getModel`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/getModel`,
     fetcher
   );
 

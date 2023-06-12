@@ -11,13 +11,23 @@ import Helmet from "../../components/utils/Helmet";
 import { useAuth0 } from "@auth0/auth0-react";
 import Credential from "../credentials";
 import VideoStream from "../../components/Page-Components/Video";
+import CreateRole from "../create-role";
 
 /**
  * Home Page of the Application
  * @return {JSX.Element}
  */
 const VideoPage = (): JSX.Element => {
-  const { user } = useAuth0();
+  const { user, isAuthenticated } = useAuth0();
+
+  let success = false;
+  if (typeof localStorage !== "undefined") {
+    const localstoredUser = localStorage.getItem("userData");
+    if (localstoredUser !== null) {
+      const parsedUser = JSON.parse(localstoredUser);
+      success = parsedUser.success;
+    }
+  }
   const { query } = useRouter();
   console.log(query);
   return (
@@ -28,15 +38,22 @@ const VideoPage = (): JSX.Element => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <PageContainer>
-        {user ? (
+        {user && isAuthenticated ? (
           <>
-            <HeaderContainer>
-              <Header />
-            </HeaderContainer>
-            <Container>
-              <Helmet />
-              <VideoStream id={query.id} name={query.name} />
-            </Container>
+            {success ? (
+              <>
+                <HeaderContainer>
+                  <Header />
+                </HeaderContainer>
+                <Container>
+                  {/* <MusicBar /> */}
+                  <Helmet />
+                  <VideoStream id={query.id} name={query.name} />
+                </Container>
+              </>
+            ) : (
+              <CreateRole />
+            )}
           </>
         ) : (
           <Credential />

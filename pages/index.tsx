@@ -12,6 +12,7 @@ import Start from "./start";
 import Helmet from "../components/utils/Helmet";
 import { useAuth0 } from "@auth0/auth0-react";
 import Credential from "./credentials";
+import CreateRole from "./create-role";
 // import MusicBar from "../components/Page-Components/Global/components/MusicBar";
 
 // import Start from "./start";
@@ -22,7 +23,16 @@ import Credential from "./credentials";
 
 export default function Index(): JSX.Element {
   const { user, isAuthenticated } = useAuth0();
-  console.log(user);
+
+  let success = false;
+  if (typeof localStorage !== "undefined") {
+    const localstoredUser = localStorage.getItem("userData");
+    if (localstoredUser !== null) {
+      const parsedUser = JSON.parse(localstoredUser);
+      success = parsedUser.success;
+    }
+  }
+
   return (
     <>
       <Head>
@@ -32,14 +42,20 @@ export default function Index(): JSX.Element {
       <PageContainer>
         {user && isAuthenticated ? (
           <>
-            <HeaderContainer>
-              <Header />
-            </HeaderContainer>
-            <Container>
-              {/* <MusicBar /> */}
-              <Helmet />
-              <Start />
-            </Container>
+            {success ? (
+              <>
+                <HeaderContainer>
+                  <Header />
+                </HeaderContainer>
+                <Container>
+                  {/* <MusicBar /> */}
+                  <Helmet />
+                  <Start />
+                </Container>
+              </>
+            ) : (
+              <CreateRole />
+            )}
           </>
         ) : (
           <Credential />

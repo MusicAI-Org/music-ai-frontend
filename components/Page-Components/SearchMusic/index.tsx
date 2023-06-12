@@ -7,8 +7,6 @@ import ViewMoreButton from "./components/ViewMoreButton";
 import YoutubeMusicTile from "./components/YoutubeMusicTile";
 import YoutubeVideosTile from "./components/YoutubeVideosTile";
 import useBasicData from "../../../swr/useBasicData";
-import useUser from "../../../swr/user/useUser";
-import { useAuth0 } from "@auth0/auth0-react";
 import useAuthData from "../../../swr/useAuthData";
 
 /**
@@ -18,12 +16,17 @@ import useAuthData from "../../../swr/useAuthData";
 const SearchMusic = (): JSX.Element => {
   // console.log("hihih", selected);
   const theme = useTheme();
-  const { user } = useAuth0();
-  // console.log(user?.email)
-  const { user: model } = useUser({ email: user?.email || "" });
-  console.log("model", model);
+
+  let userId = "";
+  if (typeof localStorage !== "undefined") {
+    const localstoredUser = localStorage.getItem("userData");
+    if (localstoredUser !== null) {
+      const parsedUser = JSON.parse(localstoredUser);
+      userId = parsedUser.user._id;
+    }
+  }
   const { allTypeGenre } = useAuthData({
-    id: model?.fullUserPopulatedDetails?._id,
+    id: userId,
   });
   console.log("all", allTypeGenre);
   const { data, error, isLoading } = useBasicData();
@@ -179,14 +182,19 @@ const SearchMusic = (): JSX.Element => {
         </SimpleGrid>
         <ViewMoreButton />
 
-        <TextContainer
-          text={"Songs What Your Friends Like!"}
-          size={theme.fontSizes.xl5}
-        />
-        <TextContainer
-          text={"Listen To Your Friends Genre Recommendations"}
-          size={theme.fontSizes.xl}
-        />
+        {allTypeGenre?.musicListBasedOnFriendsGenre?.length !== 0 && (
+          <TextContainer
+            text={"Songs What Your Friends Like!"}
+            size={theme.fontSizes.xl5}
+          />
+        )}
+
+        {allTypeGenre?.musicListBasedOnFriendsGenre?.length !== 0 && (
+          <TextContainer
+            text={"Listen To Your Friends Genre Recommendations"}
+            size={theme.fontSizes.xl}
+          />
+        )}
         <SimpleGrid
           columns={[2, null, 3]}
           spacing="20px"
@@ -227,7 +235,9 @@ const SearchMusic = (): JSX.Element => {
             }
           )}
         </SimpleGrid>
-        <ViewMoreButton />
+        {allTypeGenre?.musicListBasedOnFriendsGenre?.length !== 0 && (
+          <ViewMoreButton />
+        )}
       </Flex>
       <Footer />
     </StyledContainer>

@@ -1,8 +1,8 @@
+import React from "react";
 import useSWR from "swr";
 
 const useFriendsOfFriends = (_id: String) => {
-  const endpoint =
-    "https://music-ai-backend.onrender.com/api/community/people/friendsOfFriends";
+  const endpoint = `${process.env.NEXT_PUBLIC_BACKEND_URL}/community/people/friendsOfFriends`;
 
   const fetcher = async (...args: [RequestInfo, RequestInit]) => {
     const res = await fetch(args[0], {
@@ -21,8 +21,19 @@ const useFriendsOfFriends = (_id: String) => {
   );
 
   const revalidate = () => {
+    // Manually trigger revalidation using mutate function
     mutate();
   };
+
+  React.useEffect(() => {
+    const intervalId = setInterval(() => {
+      revalidate();
+    }, 5000); // Revalidate every 5 seconds
+
+    return () => {
+      clearInterval(intervalId); // Clear the interval on unmounting
+    };
+  }, []);
 
   return {
     data,

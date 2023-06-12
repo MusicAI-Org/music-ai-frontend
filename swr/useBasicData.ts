@@ -5,7 +5,7 @@ const useBasicData = () => {
     fetch(...args).then((res) => res.json());
   const { data, error, isValidating, mutate, isLoading } = useSWR(
     // `https://music-ai-backend.onrender.com/api/music/basicMusic/getBasicMusic`,
-    `https://music-ai-backend.onrender.com/api/music/basicMusic/getBasicMusic`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/music/basicMusic/getBasicMusic`,
     fetcher
   );
 

@@ -134,6 +134,7 @@ const CreateRoleContainer = (): JSX.Element => {
             coordinates: [longitude, latitude],
           },
         });
+        localStorage.setItem("userData", JSON.stringify(data));
         console.log("data ", data);
       } catch (error) {
         console.error(error);
