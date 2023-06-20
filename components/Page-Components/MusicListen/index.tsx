@@ -1,4 +1,11 @@
-import { Flex, Image, SimpleGrid, Text, useTheme } from "@chakra-ui/react";
+import {
+  Flex,
+  Image,
+  SimpleGrid,
+  Spinner,
+  Text,
+  useTheme,
+} from "@chakra-ui/react";
 import React, { useState } from "react";
 import Footer from "../../utils/Footer/Footer";
 import TextContainer from "../../utils/Texts/TextContainer";
@@ -22,7 +29,7 @@ const MusicListeningContainer = (): JSX.Element => {
     }
   }
 
-  const { music } = useMLMusic({
+  const { music, isLoading } = useMLMusic({
     id: userId,
   });
   console.log("all music", music?.musicObject);
@@ -33,6 +40,25 @@ const MusicListeningContainer = (): JSX.Element => {
   const handleStateUpdate = (currentUrl: string) => {
     setUrl(currentUrl);
   };
+
+  if (isLoading) {
+    return (
+      <Flex
+        alignItems="center"
+        justifyContent="center"
+        width={"100%"}
+        height={"100vh"}
+      >
+        <Spinner
+          thickness="2px"
+          speed="0.65s"
+          emptyColor={theme.colors.gray}
+          color={theme.colors.ci}
+          size="md"
+        />
+      </Flex>
+    );
+  }
 
   if (
     music?.musicObject?.mostLikedMusic?.length === 0 &&

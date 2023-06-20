@@ -12,7 +12,7 @@ const FriendTile = ({
   status,
   location,
   img,
-  isFriend,
+  friends,
 }: {
   friendId: string;
   userId: string;
@@ -21,9 +21,11 @@ const FriendTile = ({
   status: boolean;
   location: string;
   img: string;
-  isFriend: boolean;
+  friends: string[];
 }) => {
   const theme = useTheme();
+  // check if userId is there in friends
+  const isFriend = friends?.includes(userId);
 
   // call an api which has body of the id of user and friend
   const addFriendHandler = async () => {

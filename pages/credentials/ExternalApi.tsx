@@ -1,20 +1,33 @@
 import React from "react";
-import { useAuth0 } from "@auth0/auth0-react";
+import { Flex } from "@chakra-ui/react";
+// import { Configuration, OpenAIApi } from "openai";
 
-const ExternalApi = () => {
-  const { user } = useAuth0();
+const Chat = () => {
+  // const openai = new OpenAIApi(
+  //   new Configuration({
+  //     apiKey: process.env.NEXT_PUBLIC_OPENAI_SECRET_KEY,
+  //   })
+  // );
+
+  // const gptResponse = openai.createCompletion({
+  //   model: "text-davinci-003",
+  //   prompt: "Say this is a test",
+  //   max_tokens: 7,
+  //   temperature: 0,
+  //   top_p: 1,
+  //   n: 1,
+  //   stream: false,
+  //   logprobs: null,
+  //   stop: "\n",
+  // });
+
+  // console.log(gptResponse);
 
   return (
-    <div
-      className="container"
-      style={{
-        backgroundColor: "white",
-      }}
-    >
-      <h1>External API</h1>
-      <p>{user}</p>
-    </div>
+    <Flex>
+      <h1>Chat</h1>
+    </Flex>
   );
 };
 
-export default ExternalApi;
+export default Chat;

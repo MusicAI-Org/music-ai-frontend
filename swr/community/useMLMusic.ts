@@ -13,7 +13,7 @@ const useMLMusic = ({ id }: any) => {
   };
 
   const { data, error, isValidating, mutate, isLoading } = useSWR(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/community/music/fetchMusic/${id}`,
+    `${"https://music-ai-backend.onrender.com"}/api/community/music/fetchMusic/${id}`,
     fetcher
   );
   const revalidate = () => {

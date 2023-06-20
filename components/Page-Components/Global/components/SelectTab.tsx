@@ -9,6 +9,12 @@ import { BiFilterAlt } from "react-icons/bi";
 interface Props {
   selected: number;
   setSelected: (selected: number) => void;
+  usersNotFriends: number;
+  usersFriends: number;
+  nearByUsers: number;
+  filteredUsersfavouriteMusicians: number;
+  filteredUsersgenreSpecific: number;
+  friendsOfFriends: number;
 }
 
 const SelectTab = (props: Props): JSX.Element => {
@@ -52,24 +58,36 @@ const SelectTab = (props: Props): JSX.Element => {
           _focus={{ border: `1px solid ${theme.colors.ciDark}` }}
           onChange={(e) => handleOptionChange(Number(e.target.value))}
         >
-          <option value={0} style={styles}>
-            View All
-          </option>
-          <option value={1} style={styles}>
-            View Friends
-          </option>
-          <option value={2} style={styles}>
-            Nearby People
-          </option>
-          <option value={3} style={styles}>
-            Favourite Musicians
-          </option>
-          <option value={4} style={styles}>
-            Genre Specific
-          </option>
-          <option value={5} style={styles}>
-            Friends of Friends
-          </option>
+          {props.usersNotFriends !== 0 && (
+            <option value={0} style={styles}>
+              View All
+            </option>
+          )}
+          {props.usersFriends !== 0 && (
+            <option value={1} style={styles}>
+              View Friends
+            </option>
+          )}
+          {props.nearByUsers !== 0 && (
+            <option value={2} style={styles}>
+              Nearby People
+            </option>
+          )}
+          {props.filteredUsersfavouriteMusicians !== 0 && (
+            <option value={3} style={styles}>
+              Favourite Musicians
+            </option>
+          )}
+          {props.filteredUsersgenreSpecific !== 0 && (
+            <option value={4} style={styles}>
+              Genre Specific
+            </option>
+          )}
+          {props.friendsOfFriends !== 0 && (
+            <option value={5} style={styles}>
+              Friends of Friends
+            </option>
+          )}
         </Select>
       </Flex>
       <Flex

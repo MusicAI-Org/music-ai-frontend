@@ -1,10 +1,11 @@
 main features ==>>
-1. music, playlist, artists and spotify like system
-2. live streaming and recorded videos
-3. forming groups and chats including personal and group chats
-4. create and upload music
-5. reach graphs and liking all over the world
-6. AI chat bot to teach music and google search for yt videos
+1. Main Page => Live shows
+2. Streaming Page3. Fitting community data to the Page and linking the users so that they can see profile of each other
+3. Music Player and like dislike music system
+4. Update, Delete of music
+5. Analysis of the user
+7. Chat bot
+9. Text to music system
 
 
 
@@ -16,19 +17,6 @@ things to be done ===>
 5. socketio for group chat
 6. webrtc for video calling
 
-
-
-fields in the form ===>
-name
-dob
-phoneNumber
-password
-genre
-
-avatarName
-avatarImg
-address
-coordinates
 
 
 

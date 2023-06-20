@@ -3,7 +3,6 @@ import useSWR from "swr";
 
 const useNearByFetch = (dat: any) => {
   const endpoint = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/community/people/nearBy`;
-
   const fetcher = async (...args: [RequestInfo, RequestInit]) => {
     const res = await fetch(args[0], {
       method: "POST",

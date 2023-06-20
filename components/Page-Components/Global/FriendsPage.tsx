@@ -38,12 +38,13 @@ const FriendsPage = (): JSX.Element => {
   });
   const getGlobeData = useGlobeData(userId);
   const nearByFetch = useNearByFetch({
-    userId,
+    _id: userId,
     location: location,
   });
   const favouriteMusicians = useFavouriteMusicians(userId);
   const genreSpecific = useGenreSpecific(userId);
   const friendsOfFriends = useFriendsOfFriends(userId);
+  console.log("neart", nearByFetch);
 
   if (isLoading) {
     return (
@@ -168,7 +169,20 @@ const FriendsPage = (): JSX.Element => {
         height={"100%"}
         overflow={"hidden"}
       >
-        <SelectTab selected={selected} setSelected={setSelected} />
+        <SelectTab
+          selected={selected}
+          setSelected={setSelected}
+          usersNotFriends={getGlobeData?.data?.usersNotFriends?.length}
+          usersFriends={getGlobeData?.data?.usersFriends?.length}
+          nearByUsers={nearByFetch?.data?.nearByUsers?.length}
+          filteredUsersfavouriteMusicians={
+            favouriteMusicians?.data?.filteredUsers?.length
+          }
+          filteredUsersgenreSpecific={
+            genreSpecific?.data?.filteredUsers?.length
+          }
+          friendsOfFriends={friendsOfFriends?.data?.friendsOfFriends?.length}
+        />
 
         {selected == 0 && (
           <Flex
@@ -187,7 +201,7 @@ const FriendsPage = (): JSX.Element => {
                   address: string;
                   avatarImg: string;
                   avatarName: string;
-                  isFriend: boolean;
+                  friends: [];
                   online: boolean;
                 }) => (
                   <FriendTile
@@ -199,7 +213,7 @@ const FriendsPage = (): JSX.Element => {
                     status={user.online}
                     location={user.address}
                     img={user.avatarImg}
-                    isFriend={false}
+                    friends={user.friends}
                   />
                 )
               )}
@@ -222,7 +236,7 @@ const FriendsPage = (): JSX.Element => {
                   address: string;
                   avatarImg: string;
                   avatarName: string;
-                  isFriend: boolean;
+                  friends: [];
                   online: boolean;
                 }) => (
                   <FriendTile
@@ -234,7 +248,7 @@ const FriendsPage = (): JSX.Element => {
                     status={user.online}
                     location={user.address}
                     img={user.avatarImg}
-                    isFriend={true}
+                    friends={user.friends}
                   />
                 )
               )}
@@ -257,7 +271,7 @@ const FriendsPage = (): JSX.Element => {
                   address: string;
                   avatarImg: string;
                   avatarName: string;
-                  isFriend: boolean;
+                  friends: [];
                   online: boolean;
                 }) => (
                   <FriendTile
@@ -269,7 +283,7 @@ const FriendsPage = (): JSX.Element => {
                     status={user.online}
                     location={user.address}
                     img={user.avatarImg}
-                    isFriend={false}
+                    friends={user.friends}
                   />
                 )
               )}
@@ -292,7 +306,7 @@ const FriendsPage = (): JSX.Element => {
                   address: string;
                   avatarImg: string;
                   avatarName: string;
-                  isFriend: boolean;
+                  friends: [];
                   online: boolean;
                 }) => (
                   <FriendTile
@@ -304,7 +318,7 @@ const FriendsPage = (): JSX.Element => {
                     status={user.online}
                     location={user.address}
                     img={user.avatarImg}
-                    isFriend={false}
+                    friends={user.friends}
                   />
                 )
               )}
@@ -327,7 +341,7 @@ const FriendsPage = (): JSX.Element => {
                   address: string;
                   avatarImg: string;
                   avatarName: string;
-                  isFriend: boolean;
+                  friends: [];
                   online: boolean;
                 }) => (
                   <FriendTile
@@ -339,7 +353,7 @@ const FriendsPage = (): JSX.Element => {
                     status={user.online}
                     location={user.address}
                     img={user.avatarImg}
-                    isFriend={false}
+                    friends={user.friends}
                   />
                 )
               )}
@@ -362,7 +376,7 @@ const FriendsPage = (): JSX.Element => {
                   address: string;
                   avatarImg: string;
                   avatarName: string;
-                  isFriend: boolean;
+                  friends: [];
                   online: boolean;
                 }) => (
                   <FriendTile
@@ -374,7 +388,7 @@ const FriendsPage = (): JSX.Element => {
                     status={user.online}
                     location={user.address}
                     img={user.avatarImg}
-                    isFriend={false}
+                    friends={user.friends}
                   />
                 )
               )}

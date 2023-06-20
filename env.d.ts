@@ -7,8 +7,8 @@ declare namespace NodeJS {
     NEXT_PUBLIC_AUTH0_CLIENT_SECRET: string;
     NEXT_PUBLIC_AUTH0_AUDIENCE: string;
     NEXT_PUBLIC_STABLE_DIFFUSION_API: string;
-    NEXT_PUBLIC_OPENAI_KEY: string;
     NEXT_PUBLIC_LOCAL_BACKEND_URL: string;
     NEXT_PUBLIC_BACKEND_URL: string;
+    NEXT_PUBLIC_OPENAI_SECRET_KEY: string;
   }
 }

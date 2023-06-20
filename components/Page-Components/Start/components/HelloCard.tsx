@@ -8,18 +8,18 @@ import io from "socket.io-client";
 
 const MultiActionAreaCard = () => {
   const theme = useTheme();
+  const [avatarName, setAvatarName] = React.useState("");
   const { user, isAuthenticated } = useAuth0();
   console.log("hello", user);
 
-  // set the id of the user in localstorage
-  // let avatarName = "";
   React.useEffect(() => {
     if (isAuthenticated && user) {
       const localstoredUser = localStorage.getItem("userData");
       if (localstoredUser !== null) {
         const parsedUser = JSON.parse(localstoredUser);
         const userId = parsedUser.user._id;
-        // avatarName = parsedUser.user.avatarName;
+        const name = parsedUser.user.avatarName;
+        setAvatarName(name);
 
         // Connect to the WebSocket server
         const socket = io(process.env.NEXT_PUBLIC_BACKEND_URL);
@@ -43,6 +43,8 @@ const MultiActionAreaCard = () => {
     // Add a default return statement here
     return () => {};
   }, [isAuthenticated, user]);
+
+  console.log("avname", avatarName);
 
   const property = {
     imageUrl: "img2.png",
@@ -80,7 +82,7 @@ const MultiActionAreaCard = () => {
 
       <Box p="6" position={"absolute"} top={"10px"} right={"10px"}>
         <Box fontSize={theme.fontSizes.h1} color={theme.colors.white}>
-          Hello, {user?.given_name} !
+          Hello, {avatarName} !
         </Box>
         <Box fontSize={theme.fontSizes.h3} color={theme.colors.white}>
           Welcome back to the platform!

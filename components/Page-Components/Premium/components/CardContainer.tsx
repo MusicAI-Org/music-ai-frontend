@@ -1,6 +1,7 @@
 import React from "react";
-import { Flex, useTheme } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import Card from "./Card";
+import { Schemes } from "../../../dummy-data/PremiumCards";
 
 /**
  * Home Page of the Application
@@ -14,7 +15,6 @@ type Props = {
 };
 
 const CardContainer = (props: Props) => {
-  const theme = useTheme();
   return (
     <Flex
       alignItems={"center"}
@@ -22,9 +22,17 @@ const CardContainer = (props: Props) => {
       height="100%"
       width="100%"
     >
-      <Card height="40vh" width="33%" color={theme.colors.grayBorderToggle} />
-      <Card height="50vh" width="33%" color={theme.colors.ci} />
-      <Card height="40vh" width="33%" color={theme.colors.secondary} />
+      {Schemes.map((scheme) => (
+        <Card
+          key={scheme.id}
+          heading={scheme.heading}
+          cost={scheme.cost}
+          features={scheme.features}
+          height={scheme.height}
+          width={scheme.width}
+          color={scheme.color}
+        />
+      ))}
     </Flex>
   );
 };

@@ -1,16 +1,59 @@
 import { Button, Flex, Input, useTheme } from "@chakra-ui/react";
-import React from "react";
+import React, { useState, useRef } from "react";
 import { TbSend } from "react-icons/tb";
 import Footer from "../../utils/Footer/Footer";
 import { StyledContainer } from "../Global/styles/styles";
+import Message from "./components/Message";
+import { processMessage } from "../../../pages/api/chatGpt";
 
 /**
  * Home Page of the Application
  * @return {JSX.Element}
  */
 const LearnMusic = (): JSX.Element => {
-  // console.log("hihih", selected);
+  const [typing, setTyping] = useState(false);
+  const [messages, setMessages] = useState([
+    {
+      message:
+        "Hello, I am Music Bot. I am here to help you learn music. What would you like to learn?",
+      type: "bot",
+    },
+  ]);
   const theme = useTheme();
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const sendMessage = async () => {
+    if (inputRef.current && inputRef.current.value) {
+      const newMessage = {
+        message: inputRef.current.value,
+        type: "user",
+      };
+
+      const newMessages = [...messages, newMessage];
+      setMessages(newMessages);
+      inputRef.current.value = "";
+
+      setTyping(true);
+      const apiMessages = newMessages.map(
+        (messageObject: { type: string; message: any }) => {
+          let role = "";
+          if (messageObject.type === "bot") {
+            role = "assistant";
+          } else {
+            role = "user";
+          }
+          return {
+            role: role,
+            content: messageObject.message,
+          };
+        }
+      );
+      const data = await processMessage(apiMessages);
+      console.log("data", data);
+      setTyping(false);
+    }
+  };
+
   return (
     <StyledContainer color={""}>
       <Flex
@@ -29,7 +72,6 @@ const LearnMusic = (): JSX.Element => {
           justifyContent={"flex-start"}
           alignItems={"center"}
           direction={"column"}
-          padding={theme.space[4]}
           border={`1px solid ${theme.colors.ci}`}
           overflowY="scroll"
           overflowX="hidden"
@@ -37,6 +79,37 @@ const LearnMusic = (): JSX.Element => {
           color={theme.colors.white}
           position="relative"
         >
+          <Flex
+            height={"88%"}
+            width={"100%"}
+            justifyContent={"flex-start"}
+            alignItems={"flex-start"}
+            direction={"column"}
+            padding={theme.space[4]}
+            // border={`1px solid ${theme.colors.white}`}
+            overflowY={"auto"}
+            position={"relative"}
+          >
+            {typing && (
+              <Flex
+                height={"5vh"}
+                width={"fit-content"}
+                justifyContent={"flex-start"}
+                alignItems={"center"}
+                position={"absolute"}
+                bottom={"3vh"}
+                left={"2vh"}
+                border={`1px solid ${theme.colors.warning}`}
+                padding={"1%"}
+                borderRadius={theme.borderRadius.md}
+              >
+                MusicGPT is typing...
+              </Flex>
+            )}
+            {messages.map((message, i) => {
+              return <Message key={i} model={message} />;
+            })}
+          </Flex>
           <Flex
             height={"10%"}
             width={"80%"}
@@ -50,6 +123,8 @@ const LearnMusic = (): JSX.Element => {
             padding={theme.space[4]}
           >
             <Input
+              ref={inputRef}
+              id="message-input"
               placeholder="Chat with the bot..."
               width="100%"
               height="100%"
@@ -63,11 +138,14 @@ const LearnMusic = (): JSX.Element => {
                 outline: "none",
                 textDecoration: "none",
               }}
+              disabled={typing} // Disable input when typing is true
             />
             <Button
               height="100%"
               width="5%"
               backgroundColor={theme.colors.transparent}
+              onClick={sendMessage}
+              disabled={typing} // Disable button when typing is true
             >
               <TbSend size={20} color={theme.colors.ci} style={{}} />
             </Button>
@@ -78,4 +156,5 @@ const LearnMusic = (): JSX.Element => {
     </StyledContainer>
   );
 };
+
 export default LearnMusic;
