@@ -1,10 +1,11 @@
-import { Box, Flex, Image, Text, useTheme } from "@chakra-ui/react";
+import { Box, Flex, Image, Spinner, Text, useTheme } from "@chakra-ui/react";
 import React, { useState } from "react";
 import Footer from "../../utils/Footer/Footer";
 import TextContainer from "../../utils/Texts/TextContainer";
 import GraphContainer from "./components/GraphContainer";
 import SelectTab from "./components/SelectTab";
 import { StyledContainer } from "./styles/pageStyles";
+import useStats from "../../../swr/useStats";
 
 /**
  * Home Page of the Application
@@ -13,6 +14,55 @@ import { StyledContainer } from "./styles/pageStyles";
 const Analytic = (): JSX.Element => {
   const [selected, setSelected] = useState(0);
   const theme = useTheme();
+
+  let id;
+  if (typeof localStorage !== "undefined") {
+    const localstoredUser = localStorage.getItem("userData");
+    if (localstoredUser !== null) {
+      const parsedUser = JSON.parse(localstoredUser);
+      id = parsedUser.user._id;
+    }
+  }
+  const { statsData, isLoading, error } = useStats({ id });
+  console.log(statsData);
+
+  if (isLoading) {
+    return (
+      <Flex
+        alignItems="center"
+        justifyContent="center"
+        width={"100%"}
+        height={"100vh"}
+      >
+        <Spinner
+          thickness="2px"
+          speed="0.65s"
+          emptyColor={theme.colors.gray}
+          color={theme.colors.ci}
+          size="md"
+        />
+      </Flex>
+    );
+  }
+
+  if (error) {
+    return (
+      <Flex
+        alignItems="center"
+        justifyContent="center"
+        width={"100%"}
+        height={"100vh"}
+      >
+        <TextContainer
+          text={"Error loading data"}
+          color={theme.colors.danger}
+          size="1.2rem"
+          align="center"
+        />
+      </Flex>
+    );
+  }
+
   return (
     <StyledContainer color={""}>
       <Flex
@@ -29,21 +79,81 @@ const Analytic = (): JSX.Element => {
         <Flex
           height={"70vh"}
           width={"100%"}
-          justifyContent={"center"}
+          justifyContent={"space-around"}
           alignItems={"center"}
         >
           <GraphContainer selected={selected} />
           <Flex
+            direction={"column"}
             height={"100%"}
-            width={"50%"}
-            justifyContent={"center"}
+            width={"30%"}
+            justifyContent={"flex-start"}
             alignItems={"flex-start"}
           >
             <TextContainer
-              text={"Stats"}
+              text={"Statistics"}
               align={"center"}
               size={theme.fontSizes.xl4}
             />
+            <Flex
+              width={"100%"}
+              height={"fit-content"}
+              direction={"column"}
+              padding={theme.space[4]}
+              alignItems={"flex-start"}
+              marginTop={theme.space[4]}
+              color={theme.colors.white}
+              justifyContent={"space-evenly"}
+              borderRadius={theme.borderRadius.md}
+              backgroundColor={theme.colors.bgBoxDarker}
+            >
+              <Flex>
+                <Text fontSize={theme.fontSizes.h1}>Rank : </Text>
+                <Text
+                  color={theme.colors.warning}
+                  marginLeft={theme.space[6]}
+                  align={"center"}
+                  fontSize={theme.fontSizes.h1}
+                >
+                  {statsData?.rank} / {statsData?.totalUsers}
+                </Text>
+              </Flex>
+              <Flex>
+                <Text fontSize={theme.fontSizes.h1}>Likes On Content : </Text>
+                <Text
+                  color={theme.colors.warning}
+                  marginLeft={theme.space[6]}
+                  align={"center"}
+                  fontSize={theme.fontSizes.h1}
+                >
+                  {statsData?.likesCount}
+                </Text>
+              </Flex>
+              <Flex>
+                <Text fontSize={theme.fontSizes.h1}>
+                  Dislikes On Content :{" "}
+                </Text>
+                <Text
+                  color={theme.colors.warning}
+                  marginLeft={theme.space[6]}
+                  align={"center"}
+                  fontSize={theme.fontSizes.h1}
+                >
+                  {statsData?.dislikesCount}
+                </Text>
+              </Flex>
+              <Flex>
+                <Text fontSize={theme.fontSizes.h1}>Views On Content : </Text>
+                <Text
+                  color={theme.colors.warning}
+                  marginLeft={theme.space[6]}
+                  align={"center"}
+                  fontSize={theme.fontSizes.h1}
+                >
+                  {statsData?.viewsCount}
+                </Text>
+              </Flex>
+            </Flex>
           </Flex>
         </Flex>
       </Flex>

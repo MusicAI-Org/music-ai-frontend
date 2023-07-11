@@ -12,6 +12,7 @@ import LoginButton from "../../components/utils/Buttons/LoginButton";
 import SignUpButton from "../../components/utils/Buttons/SignUpButton";
 import { useAuth0 } from "@auth0/auth0-react";
 import Index from "..";
+import Head from "next/head";
 /**
  * Home Page of the Application
  * @return {JSX.Element}
@@ -25,6 +26,10 @@ const Credential = (): JSX.Element => {
   };
   return (
     <>
+      <Head>
+        <title>Credentials</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <PageContainer>
         {!user ? (
           <>

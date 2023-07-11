@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Avatar,
   AvatarBadge,
@@ -10,8 +10,11 @@ import {
   WrapItem,
   useTheme,
 } from "@chakra-ui/react";
-import { StyledContainer } from "../Profile/styles/pageStyles";
+import { StyledContainer } from "../Global/styles/styles";
 import TextContainer from "../../utils/Texts/TextContainer";
+import MusicTile from "../MusicListen/components/MusicTile";
+import Footer from "../../utils/Footer/Footer";
+import Link from "next/link";
 // import MusicTile from "../MusicListen/components/MusicTile";
 
 /**
@@ -21,7 +24,14 @@ import TextContainer from "../../utils/Texts/TextContainer";
 
 const CommunityPage = (props: any): JSX.Element => {
   const theme = useTheme();
-  console.log("pp", props.particularCommunityData);
+  const [url, setUrl] = useState("");
+  // console.log("url", url);
+
+  const handleStateUpdate = (currentUrl: string) => {
+    setUrl(currentUrl);
+  };
+
+  console.log("pp", props.particularCommunityData?.communityData?.members);
 
   const dateStr = props.particularCommunityData?.communityData?.createdAt;
   const date = new Date(dateStr);
@@ -45,6 +55,22 @@ const CommunityPage = (props: any): JSX.Element => {
         overflow={"hidden"}
         paddingTop={theme.space[4]}
       >
+        <Flex
+          width={"70%"}
+          height={"10vh"}
+          justifyContent={"center"}
+          alignItems={"center"}
+          position={"absolute"}
+          bottom={"5vh"}
+          display={"none"}
+        >
+          {url?.length != 0 && (
+            <audio controls autoPlay>
+              <source src={url} type="audio/mpeg" />
+              Your browser does not support the audio element.
+            </audio>
+          )}
+        </Flex>
         <Flex
           alignItems={"flex-start"}
           direction={"column"}
@@ -86,7 +112,7 @@ const CommunityPage = (props: any): JSX.Element => {
               justifyContent={"flex-start"}
               width={"100%"}
             >
-              <Text fontSize={theme.fontSizes.xl2}>
+              <Text fontSize={theme.fontSizes.xl2} color={theme.colors.white}>
                 <span
                   style={{
                     color: theme.colors.warning,
@@ -102,7 +128,7 @@ const CommunityPage = (props: any): JSX.Element => {
               justifyContent={"flex-start"}
               width={"100%"}
             >
-              <Text fontSize={theme.fontSizes.xl2}>
+              <Text fontSize={theme.fontSizes.xl2} color={theme.colors.white}>
                 <span
                   style={{
                     color: theme.colors.warning,
@@ -129,7 +155,7 @@ const CommunityPage = (props: any): JSX.Element => {
               justifyContent={"flex-start"}
               width={"100%"}
             >
-              <Text fontSize={theme.fontSizes.xl2}>
+              <Text fontSize={theme.fontSizes.xl2} color={theme.colors.white}>
                 <span
                   style={{
                     color: theme.colors.warning,
@@ -146,7 +172,7 @@ const CommunityPage = (props: any): JSX.Element => {
               width={"100%"}
               paddingBottom={"2vh"}
             >
-              <Text fontSize={theme.fontSizes.xl2}>
+              <Text fontSize={theme.fontSizes.xl2} color={theme.colors.white}>
                 <span
                   style={{
                     color: theme.colors.warning,
@@ -159,11 +185,12 @@ const CommunityPage = (props: any): JSX.Element => {
             </Flex>
             <Flex alignItems={"flex-start"} justifyContent={"flex-start"}>
               {props.particularCommunityData?.communityData?.members?.map(
-                (member: any) => {
-                  return (
-                    <Wrap key={member._id} marginRight={"1vh"}>
-                      <WrapItem>
+                (member: any) => (
+                  <Wrap key={member._id} marginRight={"1vh"}>
+                    <WrapItem>
+                      <Link href={`/view-profile/${member._id}`} passHref>
                         <Avatar
+                          as="a"
                           name={member.avatarName}
                           src={member.avatarImg}
                           borderRadius={theme.borderRadius.half}
@@ -177,10 +204,10 @@ const CommunityPage = (props: any): JSX.Element => {
                             borderRadius={theme.borderRadius.half}
                           />
                         </Avatar>
-                      </WrapItem>
-                    </Wrap>
-                  );
-                }
+                      </Link>
+                    </WrapItem>
+                  </Wrap>
+                )
               )}
             </Flex>
           </Flex>
@@ -190,24 +217,35 @@ const CommunityPage = (props: any): JSX.Element => {
           justifyContent={"flex-start"}
           width={"60%"}
           height={"100%"}
+          direction={"column"}
         >
+          <Text
+            fontSize={theme.fontSizes.xl2}
+            color={theme.colors.ci}
+            marginTop={theme.space[4]}
+            marginLeft={theme.space[4]}
+          >
+            Explore The Music Of Your Community!
+          </Text>
           <Flex
             width={"100%"}
             height={"85%"}
             justifyContent={"flex-start"}
-            alignItems={"center"}
-            marginTop={theme.space[4]}
+            alignItems={"flex-start"}
+            padding={theme.space[5]}
             borderRadius={theme.borderRadius.md}
+            overflowY={"scroll"}
           >
             <SimpleGrid
-              columns={[2, null, 3]}
+              columns={[4, null, 2]}
               spacing="20px"
               height={"fit-content"}
               marginTop={theme.space[4]}
               marginBottom={theme.space[9]}
             >
-              {/* {props.particularCommunityData?.communityData?.members?.map(
+              {props.particularCommunityData?.communityData?.members?.map(
                 (member: {
+                  avatarName: string;
                   _id: string;
                   music: [
                     {
@@ -223,49 +261,48 @@ const CommunityPage = (props: any): JSX.Element => {
                       songname: string;
                       albumname: string;
                       likesCount: number;
+                      likes: [string];
+                      dislikes: [string];
                     }
                   ];
-                }) => {
-                  {
-                    member?.music?.map(
-                      (ms: {
-                        _id: string;
-                        coverImg: string;
-                        genre: [];
-                        views: number;
-                        artist: {
-                          _id: string;
-                          name: string;
-                        };
-                        musicUrl: string;
-                        songname: string;
-                        albumname: string;
-                        likesCount: number;
-                      }) => {
-                        return (
-                          <MusicTile
-                            id={ms._id}
-                            key={ms._id}
-                            songname={ms.songname}
-                            genre={ms.genre}
-                            artist={ms.artist.name}
-                            albumname={ms.albumname}
-                            likesCount={ms.likesCount}
-                            views={ms.views}
-                            coverImg={ms.coverImg}
-                            musicUrl={ms.musicUrl}
-                            setMusicUrl={""}
-                          />
-                        );
-                      }
-                    );
-                  }
-                }
-              )} */}
+                }) =>
+                  member.music.map(
+                    (ms: {
+                      _id: string;
+                      coverImg: string;
+                      genre: [];
+                      views: number;
+                      musicUrl: string;
+                      songname: string;
+                      albumname: string;
+                      likesCount: number;
+                      likes: [string];
+                      dislikes: [string];
+                    }) => (
+                      <MusicTile
+                        id={ms._id}
+                        key={ms._id}
+                        songname={ms.songname}
+                        genre={ms.genre}
+                        artist={member.avatarName}
+                        albumname={ms.albumname}
+                        likesCount={ms.likesCount}
+                        views={ms.views}
+                        coverImg={ms.coverImg}
+                        musicUrl={ms.musicUrl}
+                        setMusicUrl={handleStateUpdate}
+                        artistId={member._id} // Change to the appropriate property
+                        likes={ms.likes}
+                        dislikes={ms.dislikes}
+                      />
+                    )
+                  )
+              )}
             </SimpleGrid>
           </Flex>
         </Flex>
       </Flex>
+      <Footer />
     </StyledContainer>
   );
 };

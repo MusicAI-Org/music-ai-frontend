@@ -1,10 +1,7 @@
 main features ==>>
 1. Main Page => Live shows
-2. Streaming Page3. Fitting community data to the Page and linking the users so that they can see profile of each other
-3. Music Player and like dislike music system
-4. Update, Delete of music
+2. Streaming Page
 5. Analysis of the user
-7. Chat bot
 9. Text to music system
 
 

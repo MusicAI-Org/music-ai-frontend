@@ -10,7 +10,6 @@ import {
   Text,
   useTheme,
 } from "@chakra-ui/react";
-import { AiTwotoneStar } from "react-icons/ai";
 import { IoEyeSharp } from "react-icons/io5";
 import { MdGroup } from "react-icons/md";
 import { joinCommunity } from "../../../../pages/api/community-api";
@@ -156,12 +155,12 @@ const CommunityGroupTile = (props: {
             padding={theme.space[3]}
           >
             <IoEyeSharp style={styles.lastIcons} />
-            <Text style={styles.text}>234</Text>
+            <Text style={styles.text}>{props.members}</Text>
           </Flex>
-          <Flex style={styles.stars}>
+          {/* <Flex style={styles.stars}>
             {4}
             <AiTwotoneStar color={theme.colors.white} />
-          </Flex>
+          </Flex> */}
         </Box>
         {/* description */}
         <Flex

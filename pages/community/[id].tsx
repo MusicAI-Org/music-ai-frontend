@@ -37,7 +37,7 @@ const MusicGroups = (): JSX.Element => {
     <>
       <Head>
         {/* community name here */}
-        <title>Join Communities</title>
+        <title>{particularCommunityData?.communityData?.name}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <PageContainer>

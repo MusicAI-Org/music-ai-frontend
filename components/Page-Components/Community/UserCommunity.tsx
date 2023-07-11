@@ -10,7 +10,6 @@ import {
   Text,
   useTheme,
 } from "@chakra-ui/react";
-import { AiTwotoneStar } from "react-icons/ai";
 import { IoEyeSharp } from "react-icons/io5";
 import { MdGroup } from "react-icons/md";
 import {
@@ -197,10 +196,10 @@ const UserCommunity = ({
             <IoEyeSharp style={styles.lastIcons} />
             <Text style={styles.text}>{members}</Text>
           </Flex>
-          <Flex style={styles.stars}>
+          {/* <Flex style={styles.stars}>
             {4}
             <AiTwotoneStar color={theme.colors.white} />
-          </Flex>
+          </Flex> */}
         </Box>
         {/* description */}
         <Flex
@@ -238,8 +237,8 @@ const UserCommunity = ({
           <Button
             rightIcon={<MdGroup />}
             style={styles.deleteGroupBtn}
-            isLoading={isLoading}
             onClick={onDeleteCommunity}
+            isLoading={isLoading}
             spinner={
               <Spinner
                 thickness="2px"

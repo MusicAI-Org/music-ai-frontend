@@ -26,7 +26,7 @@ const FriendsList = () => {
     const localstoredUser = localStorage.getItem("userData");
     if (localstoredUser !== null) {
       const parsedUser = JSON.parse(localstoredUser);
-      userId = parsedUser.user._id;
+      userId = parsedUser.user?._id;
     }
   }
   const { friends, isLoading, error } = useFriends({
@@ -116,26 +116,14 @@ const FriendsList = () => {
       {friends?.friends?.length !== 0 &&
         friends?.friends
           ?.slice(0, 4)
-          .map(function ({
-            _id,
-            name,
-            avatarName,
-            music,
-            role,
-            yearOfJoining,
-            avatarImg,
-            address,
-            online,
-          }: Friend) {
+          .map(function ({ _id, name, avatarName, avatarImg, online }: Friend) {
             return (
               <Card
                 key={_id}
+                _id={_id}
                 name={name}
                 avatarName={avatarName}
-                yearOfJoining={yearOfJoining}
                 avatarImg={avatarImg}
-                isOnline={"Online"}
-                address={address}
                 online={online}
               />
             );

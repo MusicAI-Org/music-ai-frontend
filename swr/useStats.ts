@@ -1,7 +1,7 @@
 import React from "react";
 import useSWR from "swr";
 
-const useMLMusic = ({ id }: any) => {
+const useStats = ({ id }: any) => {
   const fetcher = async (url: RequestInfo | URL) => {
     const response = await fetch(url, {
       method: "GET",
@@ -14,7 +14,7 @@ const useMLMusic = ({ id }: any) => {
   };
 
   const { data, error, isValidating, mutate, isLoading } = useSWR(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/community/music/fetchMusic/${id}`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/community/stats/${id}`,
     fetcher
   );
   const revalidate = () => {
@@ -33,7 +33,7 @@ const useMLMusic = ({ id }: any) => {
   }, []);
 
   return {
-    music: data,
+    statsData: data,
     isLoading,
     error,
     isValidating,
@@ -42,4 +42,4 @@ const useMLMusic = ({ id }: any) => {
   };
 };
 
-export default useMLMusic;
+export default useStats;

@@ -2,12 +2,13 @@
 import * as React from "react";
 import { Box, Text } from "@chakra-ui/react";
 import { useTheme } from "@chakra-ui/react";
-import { useAuth0 } from "@auth0/auth0-react";
 
-const AvatarName = () => {
+type Props = {
+  name?: string;
+  role?: string;
+};
+const AvatarName = (props: Props) => {
   const theme = useTheme();
-  const { user } = useAuth0();
-  console.log(user);
   return (
     <Box
       maxW="sm"
@@ -19,11 +20,11 @@ const AvatarName = () => {
       position={"relative"}
       border="none"
     >
-      <Text fontSize="1.3rem" color={theme.colors.white}>
-        {user?.nickname}
+      <Text fontSize="1.7rem" color={theme.colors.white}>
+        {props.name}
       </Text>
-      <Text fontSize="1rem" color={theme.colors.gray}>
-        Novice
+      <Text fontSize="1.3rem" color={theme.colors.warning}>
+        #{props.role}
       </Text>
     </Box>
   );

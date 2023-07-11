@@ -1,6 +1,6 @@
 /* eslint-disable valid-jsdoc */
 /* eslint-disable require-jsdoc */
-import React from "react";
+import React, { useEffect } from "react";
 import Head from "next/head";
 import {
   Container,
@@ -13,16 +13,22 @@ import Helmet from "../components/utils/Helmet";
 import { useAuth0 } from "@auth0/auth0-react";
 import Credential from "./credentials";
 import CreateRole from "./create-role";
-// import MusicBar from "../components/Page-Components/Global/components/MusicBar";
+import useUser from "../swr/user/useUser";
 
-// import Start from "./start";
-/**
- * Home Page of the Application
- * @return {JSX.Element}
- */
+const AuthenticatedContent = () => {
+  const { user } = useAuth0();
+  const { user: model, isLoading, error } = useUser({
+    email: user?.email || "",
+  });
+  // console.log("mmooo", model);
 
-export default function Index(): JSX.Element {
-  const { user, isAuthenticated } = useAuth0();
+  useEffect(() => {
+    if (!isLoading && !error && model) {
+      // Save the user data in local storage
+      const userData = model;
+      localStorage.setItem("userData", JSON.stringify(userData));
+    }
+  }, [isLoading, error, model]);
 
   let success = false;
   if (typeof localStorage !== "undefined") {
@@ -33,6 +39,26 @@ export default function Index(): JSX.Element {
     }
   }
 
+  if (success) {
+    return (
+      <>
+        <HeaderContainer>
+          <Header />
+        </HeaderContainer>
+        <Container>
+          <Helmet />
+          <Start />
+        </Container>
+      </>
+    );
+  } else {
+    return <CreateRole />;
+  }
+};
+
+export default function Index(): JSX.Element {
+  const { user } = useAuth0();
+  console.log("isis", user);
   return (
     <>
       <Head>
@@ -40,26 +66,7 @@ export default function Index(): JSX.Element {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <PageContainer>
-        {user && isAuthenticated ? (
-          <>
-            {success ? (
-              <>
-                <HeaderContainer>
-                  <Header />
-                </HeaderContainer>
-                <Container>
-                  {/* <MusicBar /> */}
-                  <Helmet />
-                  <Start />
-                </Container>
-              </>
-            ) : (
-              <CreateRole />
-            )}
-          </>
-        ) : (
-          <Credential />
-        )}
+        {user ? <AuthenticatedContent /> : <Credential />}
       </PageContainer>
     </>
   );

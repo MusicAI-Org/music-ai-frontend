@@ -4,7 +4,7 @@ import { TbSend } from "react-icons/tb";
 import Footer from "../../utils/Footer/Footer";
 import { StyledContainer } from "../Global/styles/styles";
 import Message from "./components/Message";
-import { processMessage } from "../../../pages/api/chatGpt";
+import { processMessage } from "../../../pages/api/useGoogleCustomSearch";
 
 /**
  * Home Page of the Application
@@ -34,22 +34,22 @@ const LearnMusic = (): JSX.Element => {
       inputRef.current.value = "";
 
       setTyping(true);
-      const apiMessages = newMessages.map(
-        (messageObject: { type: string; message: any }) => {
-          let role = "";
-          if (messageObject.type === "bot") {
-            role = "assistant";
-          } else {
-            role = "user";
-          }
-          return {
-            role: role,
-            content: messageObject.message,
-          };
-        }
-      );
-      const data = await processMessage(apiMessages);
+      const data = await processMessage(newMessage.message);
       console.log("data", data);
+
+      if (Array.isArray(data.result) && data.result.length > 0) {
+        const botMessages = data.result.map(
+          (item: { snippet: any; title: any; link: any }) => ({
+            message: item.snippet,
+            type: "bot",
+            title: item.title,
+            link: item.link,
+          })
+        );
+        const updatedMessages = [...newMessages, ...botMessages];
+        setMessages(updatedMessages);
+      }
+
       setTyping(false);
     }
   };

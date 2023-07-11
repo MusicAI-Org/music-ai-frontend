@@ -1,5 +1,5 @@
 import { FiHome } from "react-icons/fi";
-import { BiCast } from "react-icons/bi";
+import { BiMessageEdit } from "react-icons/bi";
 import { MdGroups } from "react-icons/md";
 import { ImMusic } from "react-icons/im";
 import { FaRobot, FaGlobe } from "react-icons/fa";
@@ -21,11 +21,11 @@ export const NavLinks = [
   {
     id: "2",
     navSize: "small",
-    icon: BiCast,
-    title: "Streaming",
-    description: "Watch Live Stream and Live Music",
+    icon: BiMessageEdit,
+    title: "Music To Text",
+    description: "Convert your thoughts to Music",
     active: false,
-    route: "/streaming",
+    route: "/text-to-music",
   },
   {
     id: "3",

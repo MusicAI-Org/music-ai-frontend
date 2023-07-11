@@ -1,5 +1,4 @@
 import React from "react";
-import Analytic from "../../components/Page-Components/Analytics";
 import {
   Container,
   HeaderContainer,
@@ -16,7 +15,7 @@ import Head from "next/head";
  * @return {JSX.Element}
  */
 // dummy text for testing here
-const Analytics = (): JSX.Element => {
+const Test = (): JSX.Element => {
   const { user, isAuthenticated } = useAuth0();
 
   let success = false;
@@ -31,7 +30,7 @@ const Analytics = (): JSX.Element => {
     <>
       <Head>
         {/* community name here */}
-        <title>Analytics</title>
+        <title>Testing</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <PageContainer>
@@ -43,9 +42,7 @@ const Analytics = (): JSX.Element => {
                   <Header />
                 </HeaderContainer>
                 <Container>
-                  {/* <MusicBar /> */}
                   <Helmet />
-                  <Analytic />
                 </Container>
               </>
             ) : (
@@ -59,4 +56,4 @@ const Analytics = (): JSX.Element => {
     </>
   );
 };
-export default Analytics;
+export default Test;

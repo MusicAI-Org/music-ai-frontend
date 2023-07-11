@@ -1,23 +1,25 @@
 import React from "react";
+import Head from "next/head";
+import { useRouter } from "next/router";
 import {
   Container,
   HeaderContainer,
   PageContainer,
 } from "../../components/Page-Components/Global/styles/styles";
-import StreamingPage from "../../components/Page-Components/Streaming/StreamingPage";
 import Header from "../../components/utils/Header";
 import Helmet from "../../components/utils/Helmet";
-import Head from "next/head";
 import { useAuth0 } from "@auth0/auth0-react";
 import Credential from "../credentials";
 import CreateRole from "../create-role";
+import useRandomUser from "../../swr/user/useRandomUser";
+import ViewProfileUtil from "../../components/Page-Components/ViewProfile";
+
 /**
  * Home Page of the Application
  * @return {JSX.Element}
  */
-const Stream = (): JSX.Element => {
+const ViewProfile = (): JSX.Element => {
   const { user, isAuthenticated } = useAuth0();
-
   let success = false;
   if (typeof localStorage !== "undefined") {
     const localstoredUser = localStorage.getItem("userData");
@@ -26,10 +28,17 @@ const Stream = (): JSX.Element => {
       success = parsedUser.success;
     }
   }
+  const { query } = useRouter();
+  console.log(query.id);
+
+  const particularUser = useRandomUser({ id: query.id });
+  console.log("particular user ", particularUser);
+  const avatarName = particularUser?.data?.randomUser?.avatarName;
   return (
     <>
       <Head>
-        <title>Now Streaming</title>
+        {/* community name here */}
+        <title>{avatarName}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <PageContainer>
@@ -41,9 +50,13 @@ const Stream = (): JSX.Element => {
                   <Header />
                 </HeaderContainer>
                 <Container>
-                  {/* <MusicBar /> */}
                   <Helmet />
-                  <StreamingPage />
+                  <ViewProfileUtil
+                    particularUser={particularUser?.data?.randomUser}
+                    // isFollowing={particularUser?.data?.randomUser?.followers.includes(
+                    //   _id
+                    // )}
+                  />
                 </Container>
               </>
             ) : (
@@ -57,4 +70,4 @@ const Stream = (): JSX.Element => {
     </>
   );
 };
-export default Stream;
+export default ViewProfile;

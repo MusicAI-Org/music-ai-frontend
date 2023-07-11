@@ -34,9 +34,14 @@ const PremiumDiv = (props: Props) => {
           width="70%"
         >
           <Text
-            fontSize={theme.fontSizes.xl5}
+            fontSize={[
+              theme.fontSizes.xl2,
+              theme.fontSizes.xl3,
+              theme.fontSizes.xl4,
+              theme.fontSizes.xl5,
+            ]}
             color={theme.colors.white}
-            width={"28%"}
+            width={["100%", "68%", "58%", "48%", "25%"]}
           >
             <span
               style={{
@@ -48,9 +53,13 @@ const PremiumDiv = (props: Props) => {
             Plans
           </Text>
           <Text
-            fontSize={theme.fontSizes.xl}
+            fontSize={[
+              theme.fontSizes.md,
+              theme.fontSizes.lg,
+              theme.fontSizes.xl,
+            ]}
             color={theme.colors.gray}
-            width={"38%"}
+            width={["100%", "63%", "53%", "43%", "28%"]}
             textAlign="center"
           >
             Choose a plan that works best for you and your team.

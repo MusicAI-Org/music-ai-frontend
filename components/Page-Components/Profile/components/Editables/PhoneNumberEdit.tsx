@@ -1,5 +1,5 @@
 /* eslint-disable react/no-children-prop */
-import React from "react";
+import React, { useState } from "react";
 import {
   Button,
   ButtonGroup,
@@ -7,6 +7,7 @@ import {
   EditableInput,
   EditablePreview,
   Flex,
+  Spinner,
   FormLabel,
   Input,
   useEditableControls,
@@ -14,9 +15,24 @@ import {
 import { TiTick } from "react-icons/ti";
 import { AiOutlineRollback } from "react-icons/ai";
 import { useTheme } from "@chakra-ui/react";
+import { editModel } from "../../../../../pages/api/user-api";
 
-const EditPhoneNumber = () => {
+type Props = {
+  phoneNumber?: string;
+};
+interface UserData {
+  user: {
+    phoneNumber: string;
+  };
+}
+const EditPhoneNumber = (props: Props) => {
   const theme = useTheme();
+  const [phoneNumber, setPhoneNumber] = useState(props.phoneNumber);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleNumberChange = (value: any) => {
+    setPhoneNumber(value);
+  };
   /* Here's a custom control */
   const EditableControls = () => {
     const {
@@ -42,9 +58,66 @@ const EditPhoneNumber = () => {
       },
     };
 
+    let userId = "";
+    if (typeof localStorage !== "undefined") {
+      const localstoredUser = localStorage.getItem("userData");
+      if (localstoredUser !== null) {
+        const parsedUser = JSON.parse(localstoredUser);
+        userId = parsedUser.user._id;
+      }
+    }
+
+    const handleChange = async () => {
+      try {
+        setIsLoading(true);
+        const res = await editModel({ _id: userId, phoneNumber });
+        console.log("res", res);
+        if (res.success) {
+          // Retrieve the existing user data from local storage
+          let userData: UserData = {
+            user: {
+              phoneNumber: "",
+            },
+          };
+          if (typeof localStorage !== "undefined") {
+            const localstoredUser = localStorage.getItem("userData");
+            if (localstoredUser !== null) {
+              userData = JSON.parse(localstoredUser);
+            }
+          }
+          userData.user.phoneNumber = res.user.phoneNumber;
+          // Save the updated user data back to local storage
+          if (typeof localStorage !== "undefined") {
+            localStorage.setItem("userData", JSON.stringify(userData));
+          }
+          // Update the name state to reflect the updated name
+          setPhoneNumber((prevNumber) => (prevNumber = res.user.phoneNumber));
+          // console.log(isEditing);
+        }
+      } catch (e) {
+        // Handle error
+      } finally {
+        // Perform any cleanup or additional actions
+        setIsLoading(false);
+      }
+    };
+
     return isEditing ? (
       <ButtonGroup justifyContent="center" size="sm" height="100%" width="20%">
-        <Button {...getSubmitButtonProps()} style={styles.button}>
+        <Button
+          {...getSubmitButtonProps({ onClick: handleChange })}
+          style={styles.button}
+          isLoading={isLoading}
+          spinner={
+            <Spinner
+              thickness="2px"
+              speed="0.65s"
+              emptyColor={theme.colors.gray}
+              color={theme.colors.ci}
+              size="md"
+            />
+          }
+        >
           <TiTick size={30} />
         </Button>
         <Button {...getCancelButtonProps()} style={styles.button}>
@@ -71,9 +144,10 @@ const EditPhoneNumber = () => {
       <FormLabel color={theme.colors.ci}>PHONE NUMBER</FormLabel>
       <Editable
         textAlign="center"
-        defaultValue="+91-99973*****"
         fontSize="2xl"
         isPreviewFocusable={false}
+        value={phoneNumber}
+        onChange={handleNumberChange}
         style={{
           display: "flex",
           height: "50%",

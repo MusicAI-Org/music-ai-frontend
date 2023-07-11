@@ -1,5 +1,5 @@
 import React from "react";
-import { Flex } from "@chakra-ui/react";
+import { Flex, useMediaQuery } from "@chakra-ui/react";
 import Card from "./Card";
 import { Schemes } from "../../../dummy-data/PremiumCards";
 
@@ -15,12 +15,14 @@ type Props = {
 };
 
 const CardContainer = (props: Props) => {
+  const [isSmallerThan768] = useMediaQuery("(max-width: 768px)");
   return (
     <Flex
       alignItems={"center"}
       justifyContent={"space-between"}
       height="100%"
       width="100%"
+      direction={isSmallerThan768 ? "column" : "row"}
     >
       {Schemes.map((scheme) => (
         <Card

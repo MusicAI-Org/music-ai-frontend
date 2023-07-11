@@ -100,7 +100,7 @@ const SearchMusic = (): JSX.Element => {
       >
         <TextContainer text={"Youtube Music"} size={theme.fontSizes.xl5} />
         <SimpleGrid
-          columns={[2, null, 3]}
+          columns={[1, 2, 3]}
           spacing="20px"
           height={"fit-content"}
           marginTop={theme.space[4]}
@@ -143,7 +143,7 @@ const SearchMusic = (): JSX.Element => {
           size={theme.fontSizes.xl}
         />
         <SimpleGrid
-          columns={[2, null, 3]}
+          columns={[1, 2, 3]}
           spacing="20px"
           height={"fit-content"}
           marginTop={theme.space[4]}
@@ -196,7 +196,7 @@ const SearchMusic = (): JSX.Element => {
           />
         )}
         <SimpleGrid
-          columns={[2, null, 3]}
+          columns={[1, 2, 3]}
           spacing="20px"
           height={"fit-content"}
           marginTop={theme.space[4]}

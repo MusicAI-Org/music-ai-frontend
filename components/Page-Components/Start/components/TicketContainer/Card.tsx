@@ -42,6 +42,7 @@ const Card = ({ id, src, name, songName, time }: Props) => {
           backgroundColor={theme.colors.bgBoxLighter}
           padding={"2%"}
           borderRadius={theme.borderRadius.sm}
+          color={theme.colors.white}
         >
           {name}
         </Text>

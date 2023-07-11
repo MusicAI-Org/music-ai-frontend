@@ -74,8 +74,6 @@ const MusicGroupsComponent = (): JSX.Element => {
     _id: userId,
   });
 
-  // console.log("comm", communities);
-
   if (isLoadingAllCommunities) {
     return (
       <Flex
@@ -115,8 +113,6 @@ const MusicGroupsComponent = (): JSX.Element => {
   const handleGenerate = async () => {
     setIsLoading(true);
     try {
-      // const _id = "63e69e20084d5200111c5e1d";
-      // console.log("mmm", communityData);
       setUserData(communityData);
       setShowUserCommunities(true);
     } catch (error) {

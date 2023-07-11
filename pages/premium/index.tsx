@@ -30,7 +30,7 @@ const Premium = (): JSX.Element => {
   return (
     <>
       <Head>
-        <title>Music.AI Premium</title>
+        <title>Premium</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 

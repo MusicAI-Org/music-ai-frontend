@@ -6,6 +6,7 @@ import {
   EditableInput,
   EditablePreview,
   Flex,
+  Spinner,
   FormLabel,
   Input,
   useEditableControls,
@@ -13,6 +14,7 @@ import {
 import { TiTick } from "react-icons/ti";
 import { AiOutlineRollback } from "react-icons/ai";
 import { useTheme } from "@chakra-ui/react";
+import { editModel } from "../../../../../pages/api/user-api";
 
 interface Props {
   name: string;
@@ -21,9 +23,11 @@ interface Props {
 const EditName = (props: Props) => {
   const theme = useTheme();
   const [name, setName] = useState(props.name);
+  const [isLoading, setIsLoading] = useState(false);
   const handleNameChange = (value: any) => {
     setName(value);
   };
+  console.log(name);
   /* Here's a custom control */
   const EditableControls = () => {
     const {
@@ -49,9 +53,65 @@ const EditName = (props: Props) => {
       },
     };
 
+    let userId = "";
+    if (typeof localStorage !== "undefined") {
+      const localstoredUser = localStorage.getItem("userData");
+      if (localstoredUser !== null) {
+        const parsedUser = JSON.parse(localstoredUser);
+        userId = parsedUser.user._id;
+      }
+    }
+
+    const handleChange = async () => {
+      try {
+        setIsLoading(true);
+        const res = await editModel({ _id: userId, name });
+        console.log("res", res);
+        if (res.success) {
+          // Retrieve the existing user data from local storage
+          let userData: { user: { name: string } } = { user: { name: "" } };
+
+          if (typeof localStorage !== "undefined") {
+            const localstoredUser = localStorage.getItem("userData");
+            if (localstoredUser !== null) {
+              userData = JSON.parse(localstoredUser);
+            }
+          }
+          // Update the name field in the retrieved user data
+          userData.user.name = res.user.name;
+          // Save the updated user data back to local storage
+          if (typeof localStorage !== "undefined") {
+            localStorage.setItem("userData", JSON.stringify(userData));
+          }
+          // Update the name state to reflect the updated name
+          setName((prevName) => (prevName = res.user.name));
+          console.log(isEditing);
+        }
+      } catch (e) {
+        // Handle error
+      } finally {
+        // Perform any cleanup or additional actions
+        setIsLoading(false);
+      }
+    };
+
     return isEditing ? (
       <ButtonGroup justifyContent="center" size="sm" height="100%" width="20%">
-        <Button {...getSubmitButtonProps()} style={styles.button}>
+        <Button
+          // onClick={handleChange}
+          {...getSubmitButtonProps({ onClick: handleChange })}
+          style={styles.button}
+          isLoading={isLoading}
+          spinner={
+            <Spinner
+              thickness="2px"
+              speed="0.65s"
+              emptyColor={theme.colors.gray}
+              color={theme.colors.ci}
+              size="md"
+            />
+          }
+        >
           <TiTick size={30} />
         </Button>
         <Button {...getCancelButtonProps()} style={styles.button}>
@@ -66,7 +126,6 @@ const EditName = (props: Props) => {
       </Flex>
     );
   };
-
   return (
     <Flex
       flexDirection={"column"}
@@ -78,10 +137,10 @@ const EditName = (props: Props) => {
       <FormLabel color={theme.colors.ci}>NAME</FormLabel>
       <Editable
         textAlign="center"
-        defaultValue={name}
+        // defaultValue={name}
         fontSize="xl"
         isPreviewFocusable={false}
-        // value={name}
+        value={name}
         onChange={handleNameChange}
         style={{
           display: "flex",

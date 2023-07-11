@@ -6,32 +6,21 @@ import {
   Box,
   BoxProps,
   forwardRef,
-  Input,
+  // Input,
   useTheme,
 } from "@chakra-ui/react";
-import { useState } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
 
 const AvatarImage = (props: any) => {
   const theme = useTheme();
-  const { user } = useAuth0();
   const style = {
-    cursor: "pointer",
     backgroundColor: theme.colors.ci,
     borderRadius: theme.borderRadius.half,
   };
-
-  const [bgImg, setBgImg] = useState(user?.picture);
-
-  const bgImgHandler = (e: any) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setBgImg(e.target?.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
+  const style1 = {
+    backgroundColor: theme.colors.ci,
+    borderRadius: theme.borderRadius.half,
+    bottom: "1vh",
+    right: "1vh",
   };
 
   const PreviewImage = forwardRef<BoxProps, typeof Box>((props, ref) => {
@@ -71,33 +60,15 @@ const AvatarImage = (props: any) => {
       <Avatar
         name="Paarth Jain"
         style={{
-          width: "5rem",
-          height: "5rem",
+          width: "7rem",
+          height: "7rem",
           borderRadius: theme.borderRadius.half,
           padding: theme.space[6],
           cursor: "pointer",
         }}
       >
-        <PreviewImage
-          style={style}
-          backgroundImage={props.profilePic == "" ? bgImg : props.profilePic}
-        />
-        <Input
-          type="file"
-          position="absolute"
-          top="0"
-          left="0"
-          opacity="0"
-          aria-hidden="true"
-          accept="image/*"
-          width="5rem"
-          height="5rem"
-          padding={theme.space[6]}
-          cursor="pointer"
-          borderRadius={theme.borderRadius.half}
-          onChange={bgImgHandler}
-        />
-        <AvatarBadge boxSize="1.25em" style={style} />
+        <PreviewImage style={style} backgroundImage={props.avatarImg} />
+        <AvatarBadge boxSize="1.4em" style={style1} position="absolute" />
       </Avatar>
     </Box>
   );

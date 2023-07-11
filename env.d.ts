@@ -10,5 +10,6 @@ declare namespace NodeJS {
     NEXT_PUBLIC_LOCAL_BACKEND_URL: string;
     NEXT_PUBLIC_BACKEND_URL: string;
     NEXT_PUBLIC_OPENAI_SECRET_KEY: string;
+    NEXT_PUBLIC_CUSTOM_SEARCH_ENGINE: string;
   }
 }

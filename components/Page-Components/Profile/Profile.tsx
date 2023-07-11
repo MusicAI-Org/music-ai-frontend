@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Button, Divider, Flex, FormLabel, useTheme } from "@chakra-ui/react";
+import {
+  Button,
+  Divider,
+  Flex,
+  FormLabel,
+  Spinner,
+  useTheme,
+} from "@chakra-ui/react";
 import { StyledContainer } from "./styles/pageStyles";
 import AvatarImage from "./components/AvatarImage";
 import AvatarName from "./components/AvatarName";
@@ -12,6 +19,9 @@ import EditAddress from "./components/Editables/AddressEdit";
 import EditAvatarName from "./components/Editables/AvatarNameEdit";
 import EditGenre from "./components/Editables/GenreEdit";
 import GenerateProfilePic from "./components/Editables/GenerateProfilePic";
+import { deleteModel, disableModel } from "../../../pages/api/user-api";
+import { useAuth0 } from "@auth0/auth0-react";
+import { useRouter } from "next/router";
 
 /**
  * Home Page of the Application
@@ -25,24 +35,97 @@ import GenerateProfilePic from "./components/Editables/GenerateProfilePic";
 // };
 
 const ProfilePage = () => {
+  const { user } = useAuth0();
   const theme = useTheme();
+  const router = useRouter();
   const [bannerColor, setBannerColor] = useState(theme.colors.ci);
   const [profilePicDiffusion, setProfilePicDiffusion] = useState("");
+  const [isLoadingDeleteUtil, setIsLoadingDeleteUtil] = useState(false);
+  const [isLoadingDisableUtil, setIsLoadingDisableUtil] = useState(false);
 
   let name = "";
+  let role = "";
+  let genre = [];
+  let address = "";
+  let avatarName = "";
+  let phoneNumber = "";
   let dateOfBirth = "";
+  let isDisabled = false;
   if (typeof localStorage !== "undefined") {
     const localstoredUser = localStorage.getItem("userData");
     if (localstoredUser !== null) {
       const parsedUser = JSON.parse(localstoredUser);
       name = parsedUser.user.name;
+      role = parsedUser.user.role;
+      genre = parsedUser.user.genre;
+      address = parsedUser.user.address;
+      avatarName = parsedUser.user.avatarName;
+      phoneNumber = parsedUser.user.phoneNumber;
       dateOfBirth = parsedUser.user.dateOfBirth;
+      isDisabled = parsedUser.user.isDisabled;
     }
   }
 
   const colorChangeHandler = (val: any) => {
     setBannerColor(val);
     console.log(val);
+  };
+
+  const handleDeleteAccount = async () => {
+    // Retrieve the user data from local storage
+    try {
+      setIsLoadingDeleteUtil(true);
+      const localStoredUser = localStorage.getItem("userData");
+      if (localStoredUser !== null) {
+        const parsedUser = JSON.parse(localStoredUser);
+        const { _id } = parsedUser.user;
+
+        const removeUser = await deleteModel({ _id, email: user?.email });
+        if (removeUser) {
+          localStorage.removeItem("userData");
+        } else {
+          console.log("Error deleting user");
+        }
+        router.push("/");
+      }
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setIsLoadingDeleteUtil(false);
+    }
+  };
+
+  const handleDisableAccount = async () => {
+    // Retrieve the user data from local storage
+    try {
+      setIsLoadingDisableUtil(true);
+      const localStoredUser = localStorage.getItem("userData");
+      if (localStoredUser !== null) {
+        const parsedUser = JSON.parse(localStoredUser);
+        const { _id } = parsedUser.user;
+
+        const disableUser = await disableModel({ _id, email: user?.email });
+        const userData = {
+          user: {
+            ...parsedUser.user,
+            isDisabled: disableUser.data.isDisabled,
+          },
+        };
+        console.log("disableUser", disableUser);
+        if (disableUser) {
+          // userData.user.isDisabled = disableUser.data.isDisabled;
+          if (typeof localStorage !== "undefined") {
+            localStorage.setItem("userData", JSON.stringify(userData));
+          }
+        } else {
+          console.log("Error disabling user");
+        }
+      }
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setIsLoadingDisableUtil(false);
+    }
   };
 
   return (
@@ -97,7 +180,7 @@ const ProfilePage = () => {
                 <AvatarImage profilePic={profilePicDiffusion} />
 
                 {/* Name div */}
-                <AvatarName />
+                <AvatarName role={role} name={name} />
               </Flex>
               {/* Edit Button div */}
               <Flex
@@ -123,8 +206,8 @@ const ProfilePage = () => {
               <GenerateProfilePic setProfilePic={setProfilePicDiffusion} />
               <EditName name={name} />
               <EditDOB dob={dateOfBirth} />
-              <EditPhoneNumber />
-              <EditGenre />
+              <EditPhoneNumber phoneNumber={phoneNumber} />
+              <EditGenre genre={genre} />
             </Flex>
           </Flex>
         </Flex>
@@ -147,34 +230,6 @@ const ProfilePage = () => {
           borderRadius={theme.borderRadius.md}
           overflow="hidden"
         >
-          <Flex height={"20%"} width={"100%"} flexDirection={"column"}>
-            <FormLabel color={theme.colors.gray}>
-              PASSWORD AND AUTHENTICATION
-            </FormLabel>
-            <Button
-              colorScheme={theme.colors.ci}
-              style={{
-                background: theme.colors.ciDark,
-                color: theme.colors.white,
-                borderRadius: theme.borderRadius.sm,
-                border: "none",
-                padding: theme.space[2],
-                margin: `${theme.space[6]} 0`,
-                width: "30%",
-              }}
-            >
-              CHANGE PASSWORD
-            </Button>
-          </Flex>
-
-          <Divider
-            style={{
-              width: "100%",
-              height: "1px",
-              background: theme.colors.bgBoxLighter,
-            }}
-          />
-
           <Flex
             height={"20%"}
             width={"100%"}
@@ -183,7 +238,7 @@ const ProfilePage = () => {
             justifyContent="space-between"
             borderRadius={theme.borderRadius.md}
           >
-            <EditAvatarName />
+            <EditAvatarName avatarName={avatarName} />
           </Flex>
           <Divider
             style={{
@@ -200,7 +255,7 @@ const ProfilePage = () => {
             justifyContent="space-between"
             borderRadius={theme.borderRadius.md}
           >
-            <EditAddress />
+            <EditAddress address={address} />
           </Flex>
           <Divider
             style={{
@@ -216,8 +271,8 @@ const ProfilePage = () => {
             width={"100%"}
             height={"30%"}
           >
-            <FormLabel color={theme.colors.gray}>ACCOUNT REMOVAL</FormLabel>
-            <FormLabel color={theme.colors.gray} fontSize={theme.fontSizes.sm}>
+            <FormLabel color={theme.colors.ci}>ACCOUNT REMOVAL</FormLabel>
+            <FormLabel color={theme.colors.gray} fontSize={theme.fontSizes.md}>
               Disabling your account means you can recover it any time after
               taking this action
             </FormLabel>
@@ -226,20 +281,60 @@ const ProfilePage = () => {
               justifyContent={"flex-start"}
               width={"100%"}
             >
-              <Button
-                colorScheme={theme.colors.ci}
-                style={{
-                  background: theme.colors.danger,
-                  color: theme.colors.white,
-                  borderRadius: theme.borderRadius.sm,
-                  border: "none",
-                  padding: theme.space[2],
-                  margin: `${theme.space[6]} 0`,
-                  width: "30%",
-                }}
-              >
-                DISABLE ACCOUNT
-              </Button>
+              {!isDisabled && (
+                <Button
+                  colorScheme={theme.colors.ci}
+                  style={{
+                    background: theme.colors.danger,
+                    color: theme.colors.white,
+                    borderRadius: theme.borderRadius.sm,
+                    border: "none",
+                    padding: theme.space[2],
+                    margin: `${theme.space[6]} 0`,
+                    width: "30%",
+                  }}
+                  onClick={handleDisableAccount}
+                  isLoading={isLoadingDisableUtil}
+                  spinner={
+                    <Spinner
+                      thickness="2px"
+                      speed="0.65s"
+                      emptyColor={theme.colors.gray}
+                      color={theme.colors.dangerBg}
+                      size="md"
+                    />
+                  }
+                >
+                  DISABLE ACCOUNT
+                </Button>
+              )}
+              {isDisabled && (
+                <Button
+                  colorScheme={theme.colors.ci}
+                  style={{
+                    background: theme.colors.warning,
+                    color: theme.colors.white,
+                    borderRadius: theme.borderRadius.sm,
+                    border: "none",
+                    padding: theme.space[2],
+                    margin: `${theme.space[6]} 0`,
+                    width: "30%",
+                  }}
+                  onClick={handleDisableAccount}
+                  isLoading={isLoadingDisableUtil}
+                  spinner={
+                    <Spinner
+                      thickness="2px"
+                      speed="0.65s"
+                      emptyColor={theme.colors.gray}
+                      color={theme.colors.dangerBg}
+                      size="md"
+                    />
+                  }
+                >
+                  ENABLE ACCOUNT
+                </Button>
+              )}
               <Button
                 colorScheme={theme.colors.ci}
                 style={{
@@ -251,6 +346,17 @@ const ProfilePage = () => {
                   margin: `${theme.space[6]} 0 ${theme.space[6]} ${theme.space[4]}`,
                   width: "30%",
                 }}
+                onClick={handleDeleteAccount}
+                isLoading={isLoadingDeleteUtil}
+                spinner={
+                  <Spinner
+                    thickness="2px"
+                    speed="0.65s"
+                    emptyColor={theme.colors.gray}
+                    color={theme.colors.dangerBg}
+                    size="md"
+                  />
+                }
               >
                 DELETE ACCOUNT
               </Button>

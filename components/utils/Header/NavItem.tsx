@@ -10,6 +10,7 @@ import {
   MenuButton,
   MenuList,
   useTheme,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import NavHoverBox from "./NavHoverBox";
 import { useRouter } from "next/router";
@@ -17,6 +18,7 @@ import { useRouter } from "next/router";
 const NavItem = ({ icon, title, description, active, navSize, route }: any) => {
   const theme = useTheme();
   const router = useRouter();
+  const [isSmallerThan768] = useMediaQuery("(max-width: 768px)");
   return (
     <Link href={route}>
       <Flex w="100%" mt="0.7rem">
@@ -28,14 +30,14 @@ const NavItem = ({ icon, title, description, active, navSize, route }: any) => {
             color={
               router.pathname === route ? theme.colors.ci : theme.colors.white
             }
-            p={3}
+            p={2}
             borderRadius={8}
             _hover={{
               textDecor: "none",
               backgroundColor: theme.colors.grayBorderBox,
             }}
             w={"100%"}
-            h={"7vh"}
+            h={isSmallerThan768 ? "5vh" : "7vh"}
           >
             <MenuButton w="100%" h="100%">
               <Flex
