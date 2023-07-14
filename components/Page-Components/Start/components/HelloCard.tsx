@@ -89,9 +89,9 @@ const MultiActionAreaCard = () => {
         </Box>
       </Box>
       <Box position={"absolute"} bottom={"10px"} right={"10px"}>
-        <Link href={"/streaming"}>
+        <Link href={"/text-to-music"}>
           <Button rightIcon={<FaPlay />} style={style}>
-            Watch Stream
+            Create AI Music
           </Button>
         </Link>
       </Box>

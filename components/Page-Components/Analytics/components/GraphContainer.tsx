@@ -11,6 +11,15 @@ import PieGraph from "./Graphs/PieGraph";
 
 interface Props {
   selected: number;
+  statsData: {
+    allUsersData: [Object];
+    dislikesCount: number;
+    likesCount: number;
+    rank: number;
+    role: string;
+    totalUsers: number;
+    viewsCount: number;
+  };
 }
 
 const GraphContainer = (props: Props): JSX.Element => {
@@ -24,9 +33,9 @@ const GraphContainer = (props: Props): JSX.Element => {
       alignItems={"center"}
       direction={"column"}
     >
-      {props.selected === 0 && <BarGraph />}
-      {props.selected === 1 && <ScatterGraph />}
-      {props.selected === 2 && <PieGraph />}
+      {props.selected === 0 && <BarGraph statsData={props.statsData} />}
+      {props.selected === 1 && <ScatterGraph statsData={props.statsData} />}
+      {props.selected === 2 && <PieGraph statsData={props.statsData} />}
     </Flex>
   );
 };

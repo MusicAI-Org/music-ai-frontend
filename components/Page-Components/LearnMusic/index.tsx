@@ -1,4 +1,4 @@
-import { Button, Flex, Input, useTheme } from "@chakra-ui/react";
+import { Button, Flex, Input, useMediaQuery, useTheme } from "@chakra-ui/react";
 import React, { useState, useRef } from "react";
 import { TbSend } from "react-icons/tb";
 import Footer from "../../utils/Footer/Footer";
@@ -21,6 +21,7 @@ const LearnMusic = (): JSX.Element => {
   ]);
   const theme = useTheme();
   const inputRef = useRef<HTMLInputElement>(null);
+  const [isSmallerThan968] = useMediaQuery("(max-width: 968px)");
 
   const sendMessage = async () => {
     if (inputRef.current && inputRef.current.value) {
@@ -68,7 +69,7 @@ const LearnMusic = (): JSX.Element => {
       >
         <Flex
           height={"85vh"}
-          width={"80%"}
+          width={"100%"}
           justifyContent={"flex-start"}
           alignItems={"center"}
           direction={"column"}
@@ -134,7 +135,9 @@ const LearnMusic = (): JSX.Element => {
                 border: "none",
               }}
               style={{
-                fontSize: theme.fontSizes.h2,
+                fontSize: !isSmallerThan968
+                  ? theme.fontSizes.h2
+                  : theme.fontSizes.h3,
                 outline: "none",
                 textDecoration: "none",
               }}
@@ -142,7 +145,7 @@ const LearnMusic = (): JSX.Element => {
             />
             <Button
               height="100%"
-              width="5%"
+              width={!isSmallerThan968 ? "5%" : "20%"}
               backgroundColor={theme.colors.transparent}
               onClick={sendMessage}
               disabled={typing} // Disable button when typing is true

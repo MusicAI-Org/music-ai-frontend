@@ -1,4 +1,4 @@
-import { Button, Text, useTheme } from "@chakra-ui/react";
+import { Button, Text, useTheme, useMediaQuery, Link } from "@chakra-ui/react";
 import React from "react";
 
 /**
@@ -7,15 +7,26 @@ import React from "react";
  */
 const ViewMoreButton = (): JSX.Element => {
   const theme = useTheme();
+  const [isSmallerThan1068] = useMediaQuery("(max-width: 1068px)");
   return (
-    <Button
-      height="100%"
-      width="10%"
-      padding={theme.space[4]}
-      backgroundColor={theme.colors.transparent}
+    <Link
+      href="https://youtube.com"
+      target="_blank"
+      rel="noopener noreferrer nofollow"
+      style={{
+        textDecoration: "none",
+        width: !isSmallerThan1068 ? "10%" : "50%",
+      }}
     >
-      <Text>View More</Text>
-    </Button>
+      <Button
+        height="100%"
+        padding={theme.space[4]}
+        backgroundColor={theme.colors.transparent}
+        marginBottom={theme.space[5]}
+      >
+        <Text>View More</Text>
+      </Button>
+    </Link>
   );
 };
 export default ViewMoreButton;

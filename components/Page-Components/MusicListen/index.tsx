@@ -5,6 +5,7 @@ import {
   SimpleGrid,
   Spinner,
   Text,
+  useMediaQuery,
   useTheme,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
@@ -22,6 +23,7 @@ import useUserMusic from "../../../swr/community/useUserMusic";
 const MusicListeningContainer = (): JSX.Element => {
   const [showUserMusic, setShowUserMusic] = useState(false);
   const theme = useTheme();
+  const [isSmallerThan768] = useMediaQuery(`(max-width:768px)`);
   const style = {
     height: "5vh",
     fontSize: theme.fontSizes.h4,
@@ -142,7 +144,7 @@ const MusicListeningContainer = (): JSX.Element => {
   return (
     <StyledContainer color={""}>
       <Flex
-        height={"90vh"}
+        height={"fit-content"}
         width={"100%"}
         justifyContent={"flex-start"}
         alignItems={"center"}
@@ -158,7 +160,11 @@ const MusicListeningContainer = (): JSX.Element => {
                 {music?.musicObject?.mostLikedMusic?.length != 0 && (
                   <TextContainer
                     text={"Hear What You Liked The Most!"}
-                    size={theme.fontSizes.xl3}
+                    size={
+                      !isSmallerThan768
+                        ? theme.fontSizes.xl3
+                        : theme.fontSizes.xl
+                    }
                     color={theme.colors.ci}
                   />
                 )}
@@ -168,7 +174,11 @@ const MusicListeningContainer = (): JSX.Element => {
                 {musicOfUser?.musics?.length != 0 && (
                   <TextContainer
                     text={"Listen To What You Have Created!"}
-                    size={theme.fontSizes.xl3}
+                    size={
+                      !isSmallerThan768
+                        ? theme.fontSizes.xl3
+                        : theme.fontSizes.xl
+                    }
                     color={theme.colors.ci}
                   />
                 )}
@@ -258,7 +268,7 @@ const MusicListeningContainer = (): JSX.Element => {
               height={"85%"}
               justifyContent={"flex-start"}
               alignItems={"center"}
-              marginTop={theme.space[4]}
+              marginTop={!isSmallerThan768 ? theme.space[4] : theme.space[9]}
               borderRadius={theme.borderRadius.md}
             >
               <SimpleGrid
@@ -310,7 +320,9 @@ const MusicListeningContainer = (): JSX.Element => {
             {music?.musicObject?.music?.length != 0 && (
               <TextContainer
                 text={"Listen To Your Friends!"}
-                size={theme.fontSizes.xl3}
+                size={
+                  !isSmallerThan768 ? theme.fontSizes.xl3 : theme.fontSizes.xl
+                }
                 color={theme.colors.ci}
               />
             )}
@@ -371,7 +383,9 @@ const MusicListeningContainer = (): JSX.Element => {
             {music?.musicObject?.filteredTotalCommunityMusic?.length != 0 && (
               <TextContainer
                 text={"Hear To What Your Community Is Listening!"}
-                size={theme.fontSizes.xl3}
+                size={
+                  !isSmallerThan768 ? theme.fontSizes.xl3 : theme.fontSizes.xl
+                }
                 color={theme.colors.ci}
               />
             )}
@@ -432,7 +446,9 @@ const MusicListeningContainer = (): JSX.Element => {
             {music?.musicObject?.musicOfFollowers?.length != 0 && (
               <TextContainer
                 text={"Join Your Followers!"}
-                size={theme.fontSizes.xl3}
+                size={
+                  !isSmallerThan768 ? theme.fontSizes.xl3 : theme.fontSizes.xl
+                }
                 color={theme.colors.ci}
               />
             )}

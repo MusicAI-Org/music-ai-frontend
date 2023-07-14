@@ -82,7 +82,7 @@ const Analytic = (): JSX.Element => {
           justifyContent={"space-around"}
           alignItems={"center"}
         >
-          <GraphContainer selected={selected} />
+          <GraphContainer selected={selected} statsData={statsData} />
           <Flex
             direction={"column"}
             height={"100%"}

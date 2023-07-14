@@ -109,7 +109,7 @@ const TopBar = () => {
     },
   ]);
   const [showModal, setShowModal] = useState(false);
-  const [showLoader, setShowLoader] = useState(false);
+  // const [showLoader, setShowLoader] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const modalHandler = () => {
@@ -125,11 +125,11 @@ const TopBar = () => {
   const sendMessage = async () => {
     console.log("hi from send");
     if (inputRef.current && inputRef.current.value) {
-      setShowLoader(true);
+      // setShowLoader(true);
+      setShowModal(true);
       const data = await processMessage(inputRef.current.value);
 
-      setShowLoader(false);
-      setShowModal(true);
+      // setShowLoader(false);
 
       if (Array.isArray(data.result) && data.result.length > 0) {
         const botMessages = data.result.map(
@@ -154,10 +154,10 @@ const TopBar = () => {
   };
   const modalHandlerSmallScreen = async () => {
     if (inputRef.current && inputRef.current.value) {
-      setShowLoader(true);
+      // setShowLoader(true);
       const data = await processMessage(inputRef.current.value);
 
-      setShowLoader(false);
+      // setShowLoader(false);
       if (Array.isArray(data.result) && data.result.length > 0) {
         const botMessages = data.result.map(
           (item: { snippet: any; title: any; link: any }) => ({
@@ -253,40 +253,9 @@ const TopBar = () => {
             onClick={openModalSmall}
           />
         )}
-        {showLoader ? (
+        {showModal && (
           <Flex
-            style={{
-              position: "absolute",
-              zIndex: 1999999999999,
-              // right: "0px",
-              top: "11vh",
-              height: "50vh",
-              width: "50%",
-              borderRadius: theme.borderRadius.md,
-              color: theme.colors.white,
-              backgroundColor: theme.colors.bgBox,
-              border: "none",
-              padding: "1vh",
-              overflowY: "scroll",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Spinner
-              thickness="2px"
-              speed="0.65s"
-              emptyColor={theme.colors.gray}
-              color={theme.colors.ci}
-              size="md"
-            />
-          </Flex>
-        ) : (
-          <></>
-        )}
-        {showModal && (!isSmallerThan768 ? messages.length > 1 : true) ? (
-          <Flex
-            height={!isSmallerThan768 ? "50vh" : "80vh"}
+            height="50vh"
             width="100%"
             alignItems="center"
             justifyContent="center"
@@ -305,138 +274,163 @@ const TopBar = () => {
               borderRadius={theme.borderRadius.md}
               top="50vh"
             >
-              <Accordion
-                style={{
-                  width: "100%",
-                  borderRadius: theme.borderRadius.md,
-                  color: theme.colors.white,
-                  backgroundColor: theme.colors.bgBox,
-                  border: "none",
-                  padding: "1vh",
-                  // overflowY: "scroll",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  alignSelf: "center",
-                  position: "relative",
-                }}
-              >
-                {isSmallerThan768 && (
-                  <Flex
-                    height="10vh"
-                    alignItems="center"
-                    justifyContent="space-evenly"
-                    width="100%"
-                  >
-                    <Input
-                      ref={inputRef}
-                      placeholder={placeholder}
-                      _placeholder={{
-                        color: theme.colors.grayBorderBox,
-                      }}
-                      style={{
-                        fontSize: theme.fontSizes.input,
-                        width: "70%",
-                        border: `1px solid ${theme.colors.ci}`,
-                        borderRadius: theme.borderRadius.md,
-                        padding: theme.space[3],
-                      }}
-                      outline="none"
-                      border="none"
-                      color={theme.colors.white}
-                    />
-                    <TbSend
-                      size={20}
-                      color={theme.colors.ci}
-                      style={{
-                        cursor: "pointer",
-                      }}
-                      onClick={modalHandlerSmallScreen}
-                    />
-                  </Flex>
-                )}
-                <AiOutlineClose
+              {(isSmallerThan768 == false ? messages.length > 1 : true) ? (
+                <Accordion
                   style={{
-                    position: "absolute",
-                    right: "1vh",
-                    top: "0.5vh",
-                    height: "3vh",
-                    width: "3vh",
+                    width: "100%",
                     borderRadius: theme.borderRadius.md,
-                    color: theme.colors.ci,
+                    color: theme.colors.white,
                     backgroundColor: theme.colors.bgBox,
-                    cursor: "pointer",
+                    border: "none",
+                    padding: "1vh",
+                    // overflowY: "scroll",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    alignSelf: "center",
+                    position: "relative",
                   }}
-                  onClick={modalHandler}
-                />
-                <Flex
-                  width="100%"
-                  height="80vh"
-                  direction="column"
-                  alignItems="center"
-                  justifyContent="space-between"
-                  overflowY={"scroll"}
                 >
-                  {messages?.map(
-                    (message: {
-                      message: string;
-                      title: string;
-                      link: string;
-                    }) => (
-                      <AccordionItem
-                        key={message.title}
-                        style={{
-                          border: "none",
-                          borderBottom: `1px solid ${theme.colors.grayDarker}`,
-                          padding: "1vh",
-                          marginTop: "2vh",
-                          width: "100%",
+                  {isSmallerThan768 && (
+                    <Flex
+                      height="10vh"
+                      alignItems="center"
+                      justifyContent="space-evenly"
+                      width="100%"
+                    >
+                      <Input
+                        ref={inputRef}
+                        placeholder={placeholder}
+                        _placeholder={{
+                          color: theme.colors.grayBorderBox,
                         }}
-                        onClick={handler}
-                      >
-                        <h2>
-                          <AccordionButton>
-                            <Box
-                              as="span"
-                              flex="1"
-                              textAlign="left"
-                              style={{
-                                color: theme.colors.warning,
-                                fontSize: theme.fontSizes.xl,
-                              }}
-                            >
-                              <Link
-                                // href={linkRef}
-                                target="_blank"
-                                href={message.link}
-                                style={{}}
-                              >
-                                {message.title}
-                              </Link>
-                            </Box>
-                            <AccordionIcon />
-                          </AccordionButton>
-                        </h2>
-                        <AccordionPanel
-                          pb={4}
-                          style={{
-                            background: theme.colors.bgBox,
-                            color: theme.colors.white,
-                          }}
-                        >
-                          {message.message}
-                        </AccordionPanel>
-                      </AccordionItem>
-                    )
+                        style={{
+                          fontSize: theme.fontSizes.input,
+                          width: "70%",
+                          border: `1px solid ${theme.colors.ci}`,
+                          borderRadius: theme.borderRadius.md,
+                          padding: theme.space[3],
+                        }}
+                        outline="none"
+                        border="none"
+                        color={theme.colors.white}
+                      />
+                      <TbSend
+                        size={20}
+                        color={theme.colors.ci}
+                        style={{
+                          cursor: "pointer",
+                        }}
+                        onClick={modalHandlerSmallScreen}
+                      />
+                    </Flex>
                   )}
+                  <AiOutlineClose
+                    style={{
+                      position: "absolute",
+                      right: "1vh",
+                      top: "0.5vh",
+                      height: "3vh",
+                      width: "3vh",
+                      borderRadius: theme.borderRadius.md,
+                      color: theme.colors.ci,
+                      backgroundColor: theme.colors.bgBox,
+                      cursor: "pointer",
+                    }}
+                    onClick={modalHandler}
+                  />
+                  <Flex
+                    width="100%"
+                    height="80vh"
+                    direction="column"
+                    alignItems="center"
+                    justifyContent="space-between"
+                    overflowY={"scroll"}
+                  >
+                    {messages?.map(
+                      (message: {
+                        message: string;
+                        title: string;
+                        link: string;
+                      }) => (
+                        <AccordionItem
+                          key={message.title}
+                          style={{
+                            border: "none",
+                            borderBottom: `1px solid ${theme.colors.grayDarker}`,
+                            padding: "1vh",
+                            marginTop: "2vh",
+                            width: "100%",
+                          }}
+                          onClick={handler}
+                        >
+                          <h2>
+                            <AccordionButton>
+                              <Box
+                                as="span"
+                                flex="1"
+                                textAlign="left"
+                                style={{
+                                  color: theme.colors.warning,
+                                  fontSize: theme.fontSizes.xl,
+                                }}
+                              >
+                                <Link
+                                  // href={linkRef}
+                                  target="_blank"
+                                  href={message.link}
+                                  style={{}}
+                                >
+                                  {message.title}
+                                </Link>
+                              </Box>
+                              <AccordionIcon />
+                            </AccordionButton>
+                          </h2>
+                          <AccordionPanel
+                            pb={4}
+                            style={{
+                              background: theme.colors.bgBox,
+                              color: theme.colors.white,
+                            }}
+                          >
+                            {message.message}
+                          </AccordionPanel>
+                        </AccordionItem>
+                      )
+                    )}
+                  </Flex>
+                  {/* </Flex> */}
+                </Accordion>
+              ) : (
+                <Flex
+                  style={{
+                    width: "100%",
+                    borderRadius: theme.borderRadius.md,
+                    color: theme.colors.white,
+                    backgroundColor: theme.colors.bgBox,
+                    border: "none",
+                    padding: "1vh",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    alignSelf: "center",
+                    position: "relative",
+                  }}
+                >
+                  <Spinner
+                    thickness="2px"
+                    speed="0.65s"
+                    emptyColor={theme.colors.gray}
+                    color={theme.colors.ci}
+                    size="md"
+                  />
                 </Flex>
-                {/* </Flex> */}
-              </Accordion>
+              )}
             </Flex>
           </Flex>
-        ) : (
-          ""
         )}
       </Flex>
 
@@ -453,10 +447,11 @@ const TopBar = () => {
         <Link href={"/profile"}>
           <Flex
             overflow="hidden"
-            width={"25%"}
+            width={"100%"}
             height="50px"
             alignItems="center"
             justifyContent="center"
+            borderRadius={theme.borderRadius.md}
           >
             <Avatar
               name={user?.given_name}

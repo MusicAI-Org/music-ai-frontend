@@ -38,11 +38,11 @@ const YoutubeVideosTile = ({
   const hours = Math.floor(minutes / 60);
   const days = Math.floor(hours / 24);
 
-  console.log(
-    `${days} days, ${hours % 24} hours, ${minutes % 60} minutes, ${
-      seconds % 60
-    } seconds ago`
-  );
+  // console.log(
+  //   `${days} days, ${hours % 24} hours, ${minutes % 60} minutes, ${
+  //     seconds % 60
+  //   } seconds ago`
+  // );
 
   return (
     <Link

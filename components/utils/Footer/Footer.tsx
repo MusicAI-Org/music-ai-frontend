@@ -2,7 +2,7 @@
 /* eslint-disable require-jsdoc */
 import React from "react";
 import styled from "styled-components";
-import { Flex, useTheme } from "@chakra-ui/react";
+import { Flex, useTheme, useMediaQuery } from "@chakra-ui/react";
 import {
   FaTwitter,
   FaDiscord,
@@ -26,6 +26,8 @@ const Container = styled.div`
 `;
 const Footer = () => {
   const theme = useTheme();
+  const [isSmallerThan1068] = useMediaQuery("(max-width: 1068px)");
+  const [isSmallerThan568] = useMediaQuery("(max-width: 568px)");
 
   const iconStyles = {
     color: theme.colors.gray[500],
@@ -48,7 +50,7 @@ const Footer = () => {
         height={"80%"}
       >
         <Flex
-          width={"50%"}
+          width={"100%"}
           height={"100%"}
           direction="column"
           alignItems={"flex-start"}
@@ -59,29 +61,40 @@ const Footer = () => {
             width="100%"
             height="50%"
             alignItems={"center"}
-            justifyContent={"flex-start"}
-            marginBottom={theme.space[5]}
+            justifyContent={!isSmallerThan1068 ? "flex-start" : "space-evenly"}
+            marginBottom={!isSmallerThan1068 ? theme.space[5] : 0}
+            flexWrap={"wrap"}
           >
-            <FaTwitter size={30} style={iconStyles} />
-            <FaDiscord size={30} style={iconStyles} />
-            <FaGithub size={30} style={iconStyles} />
-            <FaInstagram size={30} style={iconStyles} />
-            <FaLinkedin size={30} style={iconStyles} />
-            <FaFacebookF size={30} style={iconStyles} />
+            <FaTwitter size={!isSmallerThan568 ? 30 : 22} style={iconStyles} />
+            <FaDiscord size={!isSmallerThan568 ? 30 : 22} style={iconStyles} />
+            <FaGithub size={!isSmallerThan568 ? 30 : 22} style={iconStyles} />
+            <FaInstagram
+              size={!isSmallerThan568 ? 30 : 22}
+              style={iconStyles}
+            />
+            <FaLinkedin size={!isSmallerThan568 ? 30 : 22} style={iconStyles} />
+            <FaFacebookF
+              size={!isSmallerThan568 ? 30 : 22}
+              style={iconStyles}
+            />
           </Flex>
           <Flex
             width="100%"
-            height="50%"
-            direction={"column"}
+            height={!isSmallerThan1068 ? "50%" : "70%"}
+            direction={!isSmallerThan1068 ? "column" : "row"}
             alignItems={"flex-start"}
-            justifyContent={"center"}
+            justifyContent={!isSmallerThan1068 ? "center" : "space-evenly"}
             padding={theme.space[8]}
+            flexWrap={"wrap"}
+            textAlign={"center"}
           >
             <Link href="/about">
               <Flex
                 fontSize={theme.fontSizes.xl}
                 style={{
                   cursor: "pointer",
+                  color: theme.colors.warning,
+                  padding: theme.space[2],
                 }}
               >
                 About Us
@@ -92,6 +105,8 @@ const Footer = () => {
                 fontSize={theme.fontSizes.xl}
                 style={{
                   cursor: "pointer",
+                  color: theme.colors.warning,
+                  padding: theme.space[2],
                 }}
               >
                 Analytics
@@ -105,6 +120,8 @@ const Footer = () => {
                 fontSize={theme.fontSizes.xl}
                 style={{
                   cursor: "pointer",
+                  color: theme.colors.warning,
+                  padding: theme.space[2],
                 }}
               >
                 Docs
@@ -112,7 +129,7 @@ const Footer = () => {
             </Link>
           </Flex>
         </Flex>
-        <Flex width={"50%"} height={"100%"}></Flex>
+        {/* <Flex width={"50%"} height={"100%"}></Flex> */}
       </Flex>
 
       <Flex
@@ -121,9 +138,17 @@ const Footer = () => {
         width={"100%"}
         height={"20%"}
         color={theme.colors.gray}
+        fontSize={theme.fontSizes.sm}
       >
-        <AiOutlineCopyright size={24} /> 2022 Music.AI &nbsp;&nbsp;&nbsp;
-        <ColoredLine color={theme.colors.ciDark} />
+        {!isSmallerThan568 && (
+          <>
+            <AiOutlineCopyright size={24} /> 2022 Music.AI &nbsp;&nbsp;&nbsp;
+            <ColoredLine
+              color={theme.colors.ciDark}
+              width={!isSmallerThan1068 ? "60%" : "40%"}
+            />
+          </>
+        )}
         &nbsp;&nbsp;&nbsp; Developed By{" "}
         <Link
           href="https://its-paarth7.vercel.app/"

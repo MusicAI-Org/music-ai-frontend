@@ -71,7 +71,19 @@ const calculateRank = (user: {
   );
 };
 
-const BarGraph = (): JSX.Element => {
+interface Props {
+  statsData: {
+    allUsersData: [Object];
+    dislikesCount: number;
+    likesCount: number;
+    rank: number;
+    role: string;
+    totalUsers: number;
+    viewsCount: number;
+  };
+}
+
+const BarGraph = (props: Props): JSX.Element => {
   const rankedData = data.map((user, index, array) => ({
     ...user,
     rank: calculateRank(user),

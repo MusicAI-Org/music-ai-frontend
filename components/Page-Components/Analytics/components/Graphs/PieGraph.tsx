@@ -62,7 +62,18 @@ const calculateRank = (user: {
   );
 };
 
-const PieGraph = () => {
+interface Props {
+  statsData: {
+    allUsersData: [Object];
+    dislikesCount: number;
+    likesCount: number;
+    rank: number;
+    role: string;
+    totalUsers: number;
+    viewsCount: number;
+  };
+}
+const PieGraph = (props: Props) => {
   const rankedData = data.map((user, index) => {
     const startIndex = Math.max(0, index - 2);
     const endIndex = Math.min(data.length - 1, index + 2);

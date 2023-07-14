@@ -1,4 +1,10 @@
-import { Flex, SimpleGrid, Spinner, useTheme } from "@chakra-ui/react";
+import {
+  Flex,
+  SimpleGrid,
+  Spinner,
+  useTheme,
+  useMediaQuery,
+} from "@chakra-ui/react";
 import React from "react";
 import Footer from "../../utils/Footer/Footer";
 import TextContainer from "../../utils/Texts/TextContainer";
@@ -14,8 +20,8 @@ import useAuthData from "../../../swr/useAuthData";
  * @return {JSX.Element}
  */
 const SearchMusic = (): JSX.Element => {
-  // console.log("hihih", selected);
   const theme = useTheme();
+  const [isSmallerThan768] = useMediaQuery("(max-width: 768px)");
 
   let userId = "";
   if (typeof localStorage !== "undefined") {
@@ -98,13 +104,15 @@ const SearchMusic = (): JSX.Element => {
         paddingLeft={theme.space[9]}
         marginBottom={theme.space[9]}
       >
-        <TextContainer text={"Youtube Music"} size={theme.fontSizes.xl5} />
+        <TextContainer
+          text={"Youtube Music"}
+          size={!isSmallerThan768 ? theme.fontSizes.xl5 : theme.fontSizes.xl3}
+        />
         <SimpleGrid
-          columns={[1, 2, 3]}
           spacing="20px"
-          height={"fit-content"}
-          marginTop={theme.space[4]}
+          marginTop={theme.space[5]}
           marginBottom={theme.space[9]}
+          minChildWidth={"300px"}
         >
           {data?.topArtistsData?.slice(0, 9).map(
             (pop: {
@@ -136,18 +144,17 @@ const SearchMusic = (): JSX.Element => {
 
         <TextContainer
           text={"Songs What You Like!"}
-          size={theme.fontSizes.xl5}
+          size={!isSmallerThan768 ? theme.fontSizes.xl5 : theme.fontSizes.xl3}
         />
         <TextContainer
           text={"Based On Your Genre Recommendations"}
           size={theme.fontSizes.xl}
         />
         <SimpleGrid
-          columns={[1, 2, 3]}
           spacing="20px"
-          height={"fit-content"}
-          marginTop={theme.space[4]}
+          marginTop={theme.space[5]}
           marginBottom={theme.space[9]}
+          minChildWidth={"300px"}
         >
           {allTypeGenre?.musicListBasedOnGenre?.map((arrayOfMusic: any) => {
             return arrayOfMusic?.map(
@@ -185,7 +192,7 @@ const SearchMusic = (): JSX.Element => {
         {allTypeGenre?.musicListBasedOnFriendsGenre?.length !== 0 && (
           <TextContainer
             text={"Songs What Your Friends Like!"}
-            size={theme.fontSizes.xl5}
+            size={!isSmallerThan768 ? theme.fontSizes.xl5 : theme.fontSizes.xl3}
           />
         )}
 
@@ -196,11 +203,10 @@ const SearchMusic = (): JSX.Element => {
           />
         )}
         <SimpleGrid
-          columns={[1, 2, 3]}
           spacing="20px"
-          height={"fit-content"}
-          marginTop={theme.space[4]}
+          marginTop={theme.space[5]}
           marginBottom={theme.space[9]}
+          minChildWidth={"300px"}
         >
           {allTypeGenre?.musicListBasedOnFriendsGenre?.map(
             (arrayOfMusic: any) => {
