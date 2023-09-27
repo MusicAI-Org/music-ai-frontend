@@ -5,7 +5,7 @@ export async function processMessage(chatMessages: string) {
     query: chatMessages,
   };
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_CUSTOM_SEARCH_ENGINE}chatbot_query`,
+    `https://music-ai-search-engine.onrender.com/chatbot_query`,
     {
       method: "POST",
       headers: {
