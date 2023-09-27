@@ -14,6 +14,7 @@ export async function processMessage(chatMessages: string) {
       body: JSON.stringify(apiRequestBody),
     }
   );
+  console.log(response);
   const responseData = await response.json();
   console.log("chatgpt", responseData);
   return responseData;
