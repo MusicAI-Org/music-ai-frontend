@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { FC } from "react";
 import { AppProps } from "next/app";
 import Head from "next/head";
+import { Analytics } from "@vercel/analytics/react";
 import { Auth0Provider } from "@auth0/auth0-react";
 import { ChakraThemeProvider } from "../theme/chakra";
 
@@ -38,6 +39,7 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
       <ChakraThemeProvider>
         <ThemeProvider>
           <Component {...pageProps} />
+          <Analytics mode={"production"} />
         </ThemeProvider>
       </ChakraThemeProvider>
     </Auth0Provider>
